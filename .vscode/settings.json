@@ -45,6 +45,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "list": "cpp",
-        "cstdarg": "cpp"
+        "cstdarg": "cpp",
+        "bitset": "cpp",
+        "ctime": "cpp"
     }
 }
