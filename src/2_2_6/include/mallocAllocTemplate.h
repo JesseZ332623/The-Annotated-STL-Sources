@@ -178,4 +178,5 @@ void * __Malloc_Alloc_Template<inst>::oomRealloc(void *__ptr, std::size_t __n)
 /*具体化这个模板类，使用 mallocAlloc 来代替 __Malloc_Alloc_Template<0>*/
 typedef __Malloc_Alloc_Template<0> mallocAlloc;
 
+
 #endif // __MALLOC_ALLOC_TEMPLATE_H_
