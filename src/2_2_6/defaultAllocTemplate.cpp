@@ -26,9 +26,7 @@ void * __DefaultAllocTemplate<Threads, Inst>::allcate(std::size_t __n)
         return refillPointer;
     }
 
-    /*
-        调整 free-list，将链表指针指向已经拨出的节点之后
-    */
+    /*调整 free-list，将链表指针指向已经拨出的节点之后*/
     *myFreeList = result->freeListLink;
 
     /*拨出节点，为客端所用*/
