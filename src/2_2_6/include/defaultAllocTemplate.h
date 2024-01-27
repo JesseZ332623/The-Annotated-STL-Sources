@@ -104,7 +104,7 @@ class __DefaultAllocTemplate
          * @brief 空间配置函数 allcate，传入需要配置的空间大小，
          * 根据是否大于 128 bytes 来决定分配器的使用。
          * 
-         * @brief 1. 大于 128 bytes，直接调用一级分配器，具体实现在 ./mallocAllocTemplate.h
+         * @brief 1. 大于 128 bytes，直接调用一级分配器，使用 malloc 分配内存，具体实现在 ./mallocAllocTemplate.h
          * 
          * @brief 2. 小于 128 bytes，检查对应的 free-list，
          *           若链表内由可用的区块，就直接从表中拨出，若没有可用区块，就将区块大小上调至 8 倍数边界，
@@ -114,9 +114,77 @@ class __DefaultAllocTemplate
          * 
          * @return      分配完成后内存块的首地址
         */
-        static void * allcate(std::size_t __n);
+        static void * allcate(std::size_t __n)
+        {
+            Obj * volatile myFreeList;
+            Obj * result;
 
-        static void deallocate(void * __ptr, std::size_t __n);
+            /*若分配的内存大于 128 bytes，就直接调用第一级分配器*/
+            if (__n > (std::size_t)__MAX_BYTES) { return (mallocAlloc::allocate(__n)); }
+
+            /*根据需要分配的内存大小，寻找 16 个 free-list 中合适的一个*/
+            myFreeList = (freeList + freeListIndex(__n));
+
+            result = *myFreeList;
+
+            /*若没找到可用的 free-list*/
+            if (result == nullptr) 
+            { 
+                /*准备重新填充自由链表*/
+                void * refillPointer = reFill(roundUp(__n));
+
+                return refillPointer;
+            }
+
+            /*调整 free-list，将链表指针指向已经拨出的节点之后*/
+            *myFreeList = result->freeListLink;
+
+            /*拨出节点，为客端所用*/
+            return result;
+        }
+
+        /**
+         * @brief 空间释放函数 deallocate，传入需要释放的空间大小，
+         * 根据是否大于 128 bytes 来决定调用哪一级分配器。
+         * 
+         * @brief 1. 大于 128 bytes，直接调用一级分配器，将这块内存 free，具体实现在 ./mallocAllocTemplate.h
+         * 
+         * @brief 2. 小于 128 bytes，调用第二级分配器，找出要对应的 free-list，并将其回收。
+         * 
+         * @param __ptr     要释放的内存块起始地址
+         * @param __n       要释放的内存块大小
+        */
+        static void deallocate(void * __ptr, std::size_t __n)
+        {
+            /*获取要释放的内存的地址，存于 tempNodePointer 中*/
+            Obj * tempNodePointer = (Obj *)__ptr;
+
+            Obj * volatile * myFreeList;
+            
+            /*若要释放的内存块大于 128 bytes，调用第一级配置器*/
+            if (__n > (std::size_t)__MAX_BYTES)
+            {
+                mallocAlloc::deallocate(__ptr, __n);
+            }
+
+            /*
+                寻找合适的链表
+                调用 freeListIndex() 计算合适的下标，然后从链表数组 freeList 中偏移，
+                将结果保存在 myFreeList 中。
+            */
+            myFreeList = freeList + freeListIndex(__n);
+
+            /*
+                将客端的内存归还给这个链表
+
+                1. 将要释放内存节点的指针指向当前链表的表头。
+                   此时指针 tempNodePointer 对应的节点就成了该链表新的头节点。
+
+                2. 最后将原链表头节点的指针指向新加入的节点（头插法），完成内存的回收。
+            */
+            tempNodePointer->freeListLink = *myFreeList;
+            *myFreeList = tempNodePointer;
+        }
 
         static void * reallocate(void * __ptr, std::size_t oldSize, std::size_t newSize);
 };
@@ -133,6 +201,5 @@ std::size_t __DefaultAllocTemplate<Threads, Inst>::heapSize = 0;
 template <bool Threads, int Inst>
 typename __DefaultAllocTemplate<Threads, Inst>::Obj * volatile
 __DefaultAllocTemplate<Threads, Inst>::freeList[__NFPREELISTS] = {nullptr};
-
 
 #endif // __DEFAULT_ALLOC_TEMPLATE_H_
