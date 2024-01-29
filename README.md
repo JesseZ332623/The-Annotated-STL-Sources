@@ -1,4 +1,4 @@
-# 侯捷《STL 源码分析》学习笔记，源代码，目前已经学习至：2.2.7 空间配置函数 alloc()
+# 侯捷《STL 源码分析》学习笔记，目前已经学习至：2.2.9 重新填充 free-lists
 
 Author: [JesseZ332623](https://github.com/JesseZ332623)
 
