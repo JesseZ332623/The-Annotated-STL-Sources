@@ -66,3 +66,9 @@ void * __DefaultAllocTemplate<Threads, Inst>::reFill(std::size_t __n)
 
     return result;
 }
+
+template <bool Threads, int Inst>
+void * __DefaultAllocTemplate<Threads, Inst>::chunkAlloc(std::size_t __size, int & __nodeCount)
+{
+
+}
