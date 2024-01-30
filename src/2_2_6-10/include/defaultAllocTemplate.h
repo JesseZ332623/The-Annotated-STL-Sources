@@ -102,7 +102,7 @@ class __DefaultAllocTemplate
         */
         static void * reFill(std::size_t __n);
 
-        static void * chunkAlloc(std::size_t __size, int &nobJs);
+        static void * chunkAlloc(std::size_t __size, int & __nodeCount);
 
         static char * startFreeList;
         static char * endFreeList;
