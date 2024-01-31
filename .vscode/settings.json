@@ -47,6 +47,9 @@
         "list": "cpp",
         "cstdarg": "cpp",
         "bitset": "cpp",
-        "ctime": "cpp"
-    }
+        "ctime": "cpp",
+        "cstring": "cpp"
+    },
+    "files.autoSave": "onFocusChange",
+    "C_Cpp.errorSquiggles": "enabled"
 }
