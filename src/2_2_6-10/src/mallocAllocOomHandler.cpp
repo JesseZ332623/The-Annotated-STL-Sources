@@ -1,6 +1,6 @@
 #include "./include/mallocAllocOomHandler.h"
 
-static void ReleaseMemory()
+void ReleaseMemory()
 {
     HANDLE hProcess = GetCurrentProcess();
     PMEMORY_BASIC_INFORMATION pmem = nullptr;
@@ -17,7 +17,7 @@ static void ReleaseMemory()
     }
 }
 
-static void myAllocHandler()
+void myAllocHandler()
 {
     void * result = VirtualAlloc(nullptr, BIG_MEMORY, MEM_COMMIT, PAGE_READWRITE);
 

@@ -8,7 +8,7 @@
 
 #define BIG_MEMORY 1024 * 1024 * 100
 
-static void ReleaseMemory();
-static void myAllocHandler();
+void ReleaseMemory();
+void myAllocHandler();
 
 #endif // _MALLOC_ALLOC_OOM_HANDLER_H_
