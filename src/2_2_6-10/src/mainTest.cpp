@@ -1,4 +1,3 @@
-//#include "./include/defaultAllocTemplate.h"
 #include "./include/myAllocator.h"
 #include <cstdio>
 #include <bitset>
