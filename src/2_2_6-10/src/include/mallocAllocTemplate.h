@@ -1,7 +1,9 @@
 #ifndef __MALLOC_ALLOC_TEMPLATE_H_
 #define __MALLOC_ALLOC_TEMPLATE_H_
 
-// 第一级配置器 __MALLOC_ALLOC_TEMPLATE_H_ 刨析
+#include "./mallocAllocOomHandler.h"
+
+// 第一级配置器 __MALLOC_ALLOC_TEMPLATE_H_
 
 // 第一级配置器不抛 bad_alloc 异常
 #if false
@@ -110,10 +112,10 @@ class __Malloc_Alloc_Template
 };
 
 /*
-    初始化 oomHandler 为空，等待用户设置
+    初始化 oomHandler 为自己设计的在 Windows 平台下内部不足的一个简单处理例程。
 */
 template <int inst>
-void (*__Malloc_Alloc_Template<inst>::__mallocAllocOomHandler)() = nullptr;
+void (*__Malloc_Alloc_Template<inst>::__mallocAllocOomHandler)() = myAllocHandler;
 
 /**
     @brief oomMalloc函数:
