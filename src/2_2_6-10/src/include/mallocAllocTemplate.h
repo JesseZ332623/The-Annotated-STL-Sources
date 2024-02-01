@@ -21,7 +21,10 @@
 
 namespace SGIAllocator
 {
-    template <int inst>
+    /**
+     * @tparam Inst 用于后面的实例化
+    */
+    template <int Inst>
     class __Malloc_Alloc_Template
     {
         private:
@@ -116,8 +119,8 @@ namespace SGIAllocator
     /*
         初始化 oomHandler 为自己设计的在 Windows 平台下内部不足的一个简单处理例程。
     */
-    template <int inst>
-    void (*__Malloc_Alloc_Template<inst>::__mallocAllocOomHandler)() = myAllocHandler;
+    template <int Inst>
+    void (*__Malloc_Alloc_Template<Inst>::__mallocAllocOomHandler)() = myAllocHandler;
 
     /**
         @brief oomMalloc函数:
@@ -131,8 +134,8 @@ namespace SGIAllocator
         如果 __mallocAllocOomHandler 不为空，就调用该函数，让它来尝试释放或获取更多内存，接着再次尝试 malloc 分配内存。
         如果分配成功，返回结果。如果还是失败，就会在 while 循环里再次重试。
     */
-    template <int inst>
-    void * __Malloc_Alloc_Template<inst>::oomMalloc(std::size_t __n)
+    template <int Inst>
+    void * __Malloc_Alloc_Template<Inst>::oomMalloc(std::size_t __n)
     {
         void (* myAllocHandler) ();
         void * result;
@@ -160,8 +163,8 @@ namespace SGIAllocator
     /**
      * @brief 和 oomMalloc 函数类似，只是用于重新分配内存
     */
-    template <int inst>
-    void * __Malloc_Alloc_Template<inst>::oomRealloc(void *__ptr, std::size_t __n)
+    template <int Inst>
+    void * __Malloc_Alloc_Template<Inst>::oomRealloc(void *__ptr, std::size_t __n)
     {
         void (* myAllocHandler) ();
         void * result;
