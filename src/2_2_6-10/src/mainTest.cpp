@@ -3,6 +3,7 @@
 #include <bitset>
 #include <string>
 #include <vector>
+#include <set>
 #include <algorithm>
 
 /**
@@ -33,10 +34,11 @@ std::string decToBinary(const dataType __number)
 int main(int argc, char const *argv[])
 {
     using SimpleAllocate::SimpleAllocator;
+    std::srand((unsigned int)time(nullptr));
 
     std::vector<int, MyAllocator<int>> mydata = {1, 2, 3, 4, 5};
 
-    for (const int number : mydata) { printf("%d ", number); }
+    for (const int number : mydata) { printf("%d ", number); } puts("");
 
-    return 0;
+    return EXIT_SUCCESS;
 }
