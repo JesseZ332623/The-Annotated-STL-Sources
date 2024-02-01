@@ -2,6 +2,7 @@
 #define _MY_ALLOCATOR_H_
 
 #include "./simpleAlloc.h"
+#include "./bits/stl_list.h"
 
 /**
  * @brief               利用 placement new 实现初始化（构建）已分配内存的功能
@@ -135,5 +136,7 @@ public:
 
     ~MyAllocator() = default;
 };
+
+//typedef MyAllocator<std::string> stringAlloc;
 
 #endif // _MY_ALLOCATOR_H_
