@@ -123,16 +123,18 @@ namespace SGIAllocator
     void (*__Malloc_Alloc_Template<Inst>::__mallocAllocOomHandler)() = myAllocHandler;
 
     /**
-        @brief oomMalloc函数:
+        @brief oomMalloc函数: 它在内存分配失败时会被调用，以试图获取更多内存。
 
-        它在内存分配失败时会被调用，以试图获取更多内存。
+        @brief - 一开始它会保存当前的 `__mallocAllocOomHandler` 函数到 `myAllocHandler`。
 
-        一开始它会保存当前的 __mallocAllocOomHandler 函数到 myAllocHandler。
+        @brief - 然后检查 `__mallocAllocOomHandler` 是否为空。如果为空，直接抛出异常。
 
-        然后检查 __mallocAllocOomHandler 是否为空。如果为空，直接抛出异常。
-
-        如果 __mallocAllocOomHandler 不为空，就调用该函数，让它来尝试释放或获取更多内存，接着再次尝试 malloc 分配内存。
+        @brief - 若 `__mallocAllocOomHandler` 不为空，就调用该函数，让它来尝试释放或获取更多内存，接着再次尝试使用 `malloc` 分配内存。
         如果分配成功，返回结果。如果还是失败，就会在 while 循环里再次重试。
+
+        @param __n   要分配内存的大小
+
+        @return      返回分配完成后内存块的首地址
     */
     template <int Inst>
     void * __Malloc_Alloc_Template<Inst>::oomMalloc(std::size_t __n)
@@ -185,6 +187,5 @@ namespace SGIAllocator
 
 /*具体化这个模板类，使用 mallocAlloc 来代替 __Malloc_Alloc_Template<0>*/
 typedef SGIAllocator::__Malloc_Alloc_Template<0> mallocAlloc;
-
 
 #endif // __MALLOC_ALLOC_TEMPLATE_H_
