@@ -30,7 +30,7 @@ enum {__NFPREELISTS = __MAX_BYTES / __ALIGN};   // free-list 数量
 
 /**
  * @tparam Threads  用于多线程，当前不讨论这种情况
- * @tparam Inst     可能用于后面的具体化，但是目前完全没排上用场
+ * @tparam Inst     用于后面的具体化
 */
 template <bool Threads, int Inst>
 class __DefaultAllocTemplate
