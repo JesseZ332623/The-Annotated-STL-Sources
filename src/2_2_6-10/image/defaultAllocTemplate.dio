@@ -1,9 +1,792 @@
 <mxfile host="65bd71144e">
     <diagram id="yO9AaxlLm08etzhc_nFT" name="第 1 页">
-        <mxGraphModel dx="1747" dy="1185" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="900" background="none" math="0" shadow="0">
+        <mxGraphModel dx="7500" dy="3621" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="900" background="none" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;font style=&quot;font-size: 72px;&quot;&gt;&lt;font style=&quot;&quot; face=&quot;Georgia&quot;&gt;SGI&lt;/font&gt; 第二级分配器 &lt;font style=&quot;&quot; face=&quot;Georgia&quot;&gt;__Default_Alloc_Template&lt;/font&gt; 图解&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-1210" y="-680" width="1090" height="270.48" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;div style=&quot;line-height: 19px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;/**&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@brief&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 该函数将内存对齐至 8 的倍数&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@param&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__bytes&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; 传入的字节数&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@return&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;对齐后的字节数&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;*/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;font size=&quot;3&quot; style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;roundUp&lt;/span&gt;(&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;__bytes&lt;/span&gt;) &lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;font size=&quot;3&quot; style=&quot;&quot;&gt;&lt;div style=&quot;line-height: 19px;&quot;&gt;&lt;div style=&quot;&quot;&gt;{ &lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; /*&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 这条语句拆解分析如下:&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 1. ((__bytes) + __ALIGN - 1) &amp;nbsp; &amp;nbsp;在原始字节数的基础上加上 7，目的是为了离对齐边界更近一些&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 2. ~(__ALIGN - 1) &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 取反 0x00000007 的所有位 为 0xFFFFFFF8&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 3. 最后将 （1）的值和（2）的值进行与运算，得到比这个数对齐后的字节数（如 119 对齐到 120，98 对齐到 104）&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; */&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;span style=&quot;color: #c586c0;&quot;&gt;return&lt;/span&gt; ((&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__bytes&lt;/span&gt;) &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #4fc1ff;&quot;&gt;__ALIGN&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;-&lt;/span&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;1&lt;/span&gt;) &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;~&lt;/span&gt;(&lt;span style=&quot;color: #4fc1ff;&quot;&gt;__ALIGN&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;-&lt;/span&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;1&lt;/span&gt;); &lt;/div&gt;&lt;div style=&quot;&quot;&gt;}&lt;/div&gt;&lt;/div&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1210" y="-40" width="940" height="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;fillColor=#bac8d3;strokeColor=#23445d;" vertex="1" parent="1">
+                    <mxGeometry x="-197" y="15" width="310" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;5&amp;nbsp; bytes&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-197" y="-30" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="填充至（8 的倍数）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="105" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="113" y="185" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;fillColor=#bac8d3;strokeColor=#23445d;" vertex="1" parent="1">
+                    <mxGeometry x="-197" y="185" width="310" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;8&amp;nbsp; bytes&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-200" y="145" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-1116" y="418.5" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;rotation=90;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-1076" y="428.5" width="40" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;rotation=90;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-1110" y="428.5" width="40" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="" style="ellipse;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="-1144.5" y="390" width="137" height="97" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="&lt;div style=&quot;background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;union&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Obj&lt;/span&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #6a9955;&quot;&gt;// free-list 节点的构成&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;{&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;union&lt;/span&gt; &lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt; &lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;freeListLink&lt;/span&gt;&lt;font color=&quot;#cccccc&quot;&gt;;&lt;/font&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 指向下一个节点的指针&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;char&lt;/span&gt; &lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;clientData&lt;/span&gt;&lt;font color=&quot;#cccccc&quot;&gt;[&lt;/font&gt;&lt;span style=&quot;color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font color=&quot;#cccccc&quot;&gt;];&lt;/font&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 指向一个实际区块的指针&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;};&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-860.5" y="390" width="461" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1177.0000000000002" y="517" as="sourcePoint"/>
+                        <mxPoint x="-1127.0000000000002" y="467" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1100" y="544" as="sourcePoint"/>
+                        <mxPoint x="-1085" y="446" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="30" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=16;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-967.0000000000002" y="530" as="sourcePoint"/>
+                        <mxPoint x="-1050" y="453.0000000000002" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1210" y="516" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#569cd6&quot;&gt;(&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#569cd6&quot;&gt;)&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(156, 220, 254);&quot;&gt;freeListLink&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1158" y="558" width="160" height="21" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(86, 156, 214);&quot;&gt;char&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(156, 220, 254);&quot;&gt;clientData&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;[&lt;/font&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31); color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;];&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-979" y="530" width="175" height="21" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;/*&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 16 个持有不同大小内存的自由链表，&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 考虑到多线程环境，使用 volatile 关键字避免编译器做出不正确的优化。&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;*/&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt; &lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;volatile&lt;/span&gt; &lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;freeList&lt;/span&gt;[&lt;span style=&quot;color: rgb(79, 193, 255);&quot;&gt;__NFPREELISTS&lt;/span&gt;];&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1200.25" y="650" width="598" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="81" value="&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;在 SGI 的分配器实现中，针对分配较小内存（通常是小于 128 字节）会带来很多内存碎片造成额外开销的问题，&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;设计了有别于第一级配置器的第二级配置器，它通常会申请一大块内存池，并维护与之对应的 free-list。&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;若下次还有相同的内存需求，直接从自由链表中划出，如果使用者释放内存块，就重新回收到自由链表中。&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;此外，为了方便管理，第二级配置器会主动将任何小额的内存需求量上调至 8 的倍数（比如 要申请 30 字节，就对齐到 32 字节），&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;并维护 16 个 free-list，分别对应 8，16，24，32，40，48，56，64，72，80，88，96，104，112，120，128 字节的小额区块。&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 28px;&quot;&gt;&lt;font style=&quot;font-size: 28px;&quot; face=&quot;Georgia&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;由于使用联合体（union）的原因，维护链表不会因为需要额外的指针而浪费内存。&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1243.56" y="-427" width="1680" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" value="&lt;div style=&quot;background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;/**&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@brief&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 通过传入的字节数，计算需要调用哪一个大小的链表（下标从 0 开始）&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; * &lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@param&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__bytes&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; 传入的字节数&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; * &lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@return&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;返回需要调用第几号链表&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp;*/&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #4ec9b0;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;freeListIndex&lt;/span&gt;(&lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #4ec9b0;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__bytes&lt;/span&gt;) &lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;font size=&quot;3&quot;&gt;{&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; /*&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 这条语句分析拆解如下：&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 1. (((__bytes) + __ALIGN - 1) &amp;nbsp; &amp;nbsp; &amp;nbsp; 将传入的字节数和 7 相加，使其更接近对齐后的内存&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 2. ... / __ALIGN &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;计算（1）得出的数据是 8 的 n 倍（小数点会被截断）&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 3. ... - 1 &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;由于下标从 0 开始，因此需要 - 1&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204);&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; &amp;nbsp; */&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt;&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(197, 134, 192);&quot;&gt;return&lt;/span&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt; (((&lt;/font&gt;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;__bytes&lt;/span&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt;) &lt;/font&gt;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: rgb(79, 193, 255);&quot;&gt;__ALIGN&lt;/span&gt; &lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;-&lt;/span&gt; &lt;span style=&quot;color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt;) &lt;/font&gt;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;/&lt;/span&gt; &lt;span style=&quot;color: rgb(79, 193, 255);&quot;&gt;__ALIGN&lt;/span&gt; &lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;-&lt;/span&gt; &lt;span style=&quot;color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt;); &lt;/font&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#cccccc&quot;&gt;}&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="-40" width="780" height="330" as="geometry"/>
+                </mxCell>
+                <mxCell id="121" value="&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;(((&lt;/font&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(156, 220, 254);&quot;&gt;__bytes&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;+&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(79, 193, 255);&quot;&gt;__ALIGN&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;-&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;/&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(79, 193, 255);&quot;&gt;__ALIGN&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;-&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31); color: rgb(181, 206, 168);&quot;&gt;1&lt;/span&gt;&lt;font style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: medium; text-align: left; background-color: rgb(31, 31, 31);&quot; color=&quot;#cccccc&quot;&gt;);&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="320" width="390" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="124" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;exitX=0.281;exitY=1.138;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="121">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="330" y="390" as="sourcePoint"/>
+                        <mxPoint x="373.6899999999996" y="418.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="127" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;exitX=0.277;exitY=1.041;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="121">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="239.59000000000015" y="374.1399999999999" as="sourcePoint"/>
+                        <mxPoint x="516.4399999999996" y="418.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="130" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="220" y="350" as="sourcePoint"/>
+                        <mxPoint x="434.1899999999996" y="418.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="131" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; line-height: 19px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;/**&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@brief&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; 当 allcate() 发现 free-list 中没有可用区块时，就调用 reFill()，准备为链表重新填充空间。&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; * &lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@brief&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; - 新的空间将来自 Memory Pool（由 chunkAlloc() 调用）。默认获取 20 个大小为 __n 的节点。&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; * &lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@param&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__n&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; 要分配的单个节点的大小，默认 __n 已经经过对齐。&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; * &lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; * &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@return&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; 一个指向了大小为 __n 的内存的指针，通常拿给客端去调用。&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&lt;font size=&quot;3&quot;&gt;*/&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font size=&quot;3&quot;&gt;&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;reFill&lt;/span&gt;(&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;__n&lt;/span&gt;);&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="1130" width="830" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="132" value="&lt;b&gt;详见&amp;nbsp; ./reFillFunction.dio&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="331.81999999999994" y="1371.62" width="236.12" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="133" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div style=&quot;line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;/**&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;* &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@brief&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 从内存池中取出空间给 free-list 使用&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;* &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@param&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;单个节点的大小&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;* &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@param&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; 要从内存池中拿出的总节点数&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;* &lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;@return&lt;/span&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;返回以链表形式组织的内存，交由一个通用指针管理&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp;*/&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;static&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #dcdcaa;&quot;&gt;chunkAlloc&lt;/span&gt;(&lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #569cd6;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;, &lt;span style=&quot;color: #569cd6;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #569cd6;&quot;&gt;char&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;result&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #569cd6;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;;&lt;span style=&quot;color: #6a9955;&quot;&gt; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;// 需要为 free-list 分配的总字节数&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #569cd6;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;remainingBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; endFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;-&lt;/span&gt; startFreeList;&lt;span style=&quot;color: #6a9955;&quot;&gt; // Memory Pool 的剩余空间&lt;/span&gt;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; // 若剩余空间充足（Memory Pool 的剩余空间 &amp;gt;= 需要为 free-list 分配的总字节数）&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;remainingBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /*&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 将 result 指向链表的第一个节点，&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 再将 startFreeList 偏移到下一个节点，最后返回第一个节点的指针给 reFill()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; */&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;result&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; startFreeList;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;result&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; // 若剩余空间不能完全满足需求量，但足够供应 1 个或以上的区块（Memory Pool 的剩余空间 &amp;gt;= 单个节点的大小）&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;else&lt;/span&gt; &lt;span style=&quot;color: #c586c0;&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;remainingBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 改变 __nodeCount 的值（Memory Pool 的剩余空间 / 单个节点的大小）&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;remainingBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;/&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 重新计算需要分配的总字节数&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; /*&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 将 result 指向链表的第一个节点，&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 再将 startFreeList 偏移到下一个节点，最后返回第一个节点的指针给 reFill()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; */&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;result&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; startFreeList;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;result&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; // 内存池的剩余空间连一个区块的大小都无法提供&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;else&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 需要往内存池中填充的字节数 = 2 * 需要为 free-list 分配的总字节数 + (堆空间大小 / 2 ^ 4 再对齐至 8 的倍数)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #4ec9b0;&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: #569cd6;&quot;&gt;size_t&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;bytesToGet&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;2&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;totalBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;roundUp&lt;/span&gt;(heapSize &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;4&lt;/span&gt;);&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 让内存池中的零头空间还有利用价值&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;if&lt;/span&gt; (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;remainingBytes&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;0&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 寻找合适的 free-list&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Obj &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;volatile&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; freeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;freeListIndex&lt;/span&gt;(remainingBytes);&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 调整 free-list 将内存池中残存的空间编入&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; ((Obj &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;)startFreeList)-&amp;gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;freeListLink&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; (Obj &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;)startFreeList;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 配置 heap 空间，来补充内存池&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; (&lt;span style=&quot;color: #569cd6;&quot;&gt;char&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;)&lt;span style=&quot;color: #dcdcaa;&quot;&gt;malloc&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;bytesToGet&lt;/span&gt;);&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;if&lt;/span&gt; (startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;==&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #569cd6;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Obj &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;volatile&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList, &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;ptr;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;for&lt;/span&gt; (&lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;&amp;lt;=&lt;/span&gt; __MAX_BYTES; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+=&lt;/span&gt; __ALIGN)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; myFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; freeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;freeListIndex&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; ptr &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;if&lt;/span&gt; (ptr &lt;span style=&quot;color: #d4d4d4;&quot;&gt;!=&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;myFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;ptr&lt;/span&gt;-&amp;gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;freeListLink&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; (&lt;span style=&quot;color: #569cd6;&quot;&gt;char&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;)ptr;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; endFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;i&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;chunkAlloc&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; endFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; (&lt;span style=&quot;color: #569cd6;&quot;&gt;char&lt;/span&gt; &lt;span style=&quot;color: #d4d4d4;&quot;&gt;*&lt;/span&gt;)&lt;span style=&quot;color: #4ec9b0;&quot;&gt;mallocAlloc&lt;/span&gt;::&lt;span style=&quot;color: #dcdcaa;&quot;&gt;allocate&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;bytesToGet&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; heapSize &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+=&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;bytesToGet&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; endFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;=&lt;/span&gt; startFreeList &lt;span style=&quot;color: #d4d4d4;&quot;&gt;+&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe;&quot;&gt;bytesToGet&lt;/span&gt;;&lt;/div&gt;&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: #c586c0;&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa;&quot;&gt;chunkAlloc&lt;/span&gt;(&lt;span style=&quot;color: #9cdcfe;&quot;&gt;__size&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe;&quot;&gt;__nodeCount&lt;/span&gt;);&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; }&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="3610" y="-427" width="850" height="1770" as="geometry"/>
+                </mxCell>
+                <mxCell id="187" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1169.62" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="188" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1099.62" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="189" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1029.62" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="190" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-749.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="191" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-469.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="192" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-889.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="193" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-539.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="194" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-819.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="195" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-329.1199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="196" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-679.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="197" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-399.1199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="198" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-259.1199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="199" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-609.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="200" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-959.6199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="201" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-119.11999999999989" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="202" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-189.1199999999999" y="820" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="203" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#569cd6&quot;&gt;(&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#569cd6&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(31, 31, 31); color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left;&quot;&gt;freeList&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1337.06" y="928" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="204" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1200" y="930" as="sourcePoint"/>
+                        <mxPoint x="-1170" y="880" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="205" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;8 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1077.12" y="1070" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="206" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-1077.12" y="1180" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="207" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" source="187" target="205">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1139.62" y="940" as="sourcePoint"/>
+                        <mxPoint x="-1089.62" y="890" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="208" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1042.4200000000005" y="1130" as="sourcePoint"/>
+                        <mxPoint x="-1042.4200000000005" y="1180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="209" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1042.4200000000005" y="1240" as="sourcePoint"/>
+                        <mxPoint x="-1042.4200000000005" y="1290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="210" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-1082.12" y="1390" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="211" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="-1062.12" y="1290" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="212" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1042.5499999999997" y="1340" as="sourcePoint"/>
+                        <mxPoint x="-1042.5499999999997" y="1390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="213" value="0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-1157.06" y="790" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="215" value="1&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%220%22%20style%3D%22text%3Bhtml%3D1%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3Bsketch%3D1%3BhachureGap%3D4%3Bjiggle%3D2%3BcurveFitting%3D1%3BfontFamily%3DTahoma%3BfontSize%3D18%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22-1157.06%22%20y%3D%22790%22%20width%3D%2235%22%20height%3D%2220%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-1082.12" y="788.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="216" value="2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-1012.1199999999999" y="790" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="217" value="3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-942.1199999999999" y="788.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="219" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="188" target="220">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-1040" y="960" as="sourcePoint"/>
+                        <mxPoint x="-930" y="1060" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="220" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-959.6199999999999" y="1071" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="221" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="-960.6199999999999" y="1180" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="222" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-925.9200000000005" y="1240" as="sourcePoint"/>
+                        <mxPoint x="-925.9200000000005" y="1290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="223" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="-965.6199999999999" y="1390" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="224" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="-945.6199999999999" y="1290" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="225" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-926.0499999999997" y="1340" as="sourcePoint"/>
+                        <mxPoint x="-926.0499999999997" y="1390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="226" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-926.2100000000005" y="1131" as="sourcePoint"/>
+                        <mxPoint x="-926.2100000000005" y="1181" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="265" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="343.9400000000001" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="266" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="413.9400000000001" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="267" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="483.9400000000001" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="268" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="763.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="269" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1043.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="270" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="623.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="271" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="973.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="272" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="693.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="273" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1184.44" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="274" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="833.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="275" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1114.44" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="276" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1254.44" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="277" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="903.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="278" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="553.94" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="279" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1394.44" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="280" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="1324.44" y="458" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="281" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#569cd6&quot;&gt;(&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#569cd6&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(31, 31, 31); color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left;&quot;&gt;freeList&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="123.56" y="609" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="282" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;exitX=0.609;exitY=0.002;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="253.5599999999991" y="608.0799999999999" as="sourcePoint"/>
+                        <mxPoint x="343.56" y="518" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="283" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;8 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="436.4400000000001" y="708" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="284" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="436.4400000000001" y="818" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="285" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" source="265" target="283">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="373.9400000000001" y="578" as="sourcePoint"/>
+                        <mxPoint x="423.9400000000001" y="528" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="286" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="471.1399999999995" y="768" as="sourcePoint"/>
+                        <mxPoint x="471.1399999999995" y="818" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="287" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="471.1399999999995" y="878" as="sourcePoint"/>
+                        <mxPoint x="471.1399999999995" y="928" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="288" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="431.4400000000001" y="1018" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="289" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="451.4400000000001" y="928" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="290" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="471.0100000000003" y="968" as="sourcePoint"/>
+                        <mxPoint x="471.0100000000003" y="1018" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="291" value="0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="356.50000000000006" y="428" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="292" value="1&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%220%22%20style%3D%22text%3Bhtml%3D1%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3Bsketch%3D1%3BhachureGap%3D4%3Bjiggle%3D2%3BcurveFitting%3D1%3BfontFamily%3DTahoma%3BfontSize%3D18%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22-1157.06%22%20y%3D%22790%22%20width%3D%2235%22%20height%3D%2220%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="431.4400000000001" y="426.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="293" value="2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="501.4400000000001" y="428" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="294" value="3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="571.44" y="426.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="295" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="266" target="296">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="473.56" y="598" as="sourcePoint"/>
+                        <mxPoint x="583.56" y="698" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="296" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="553.94" y="709" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="297" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="552.94" y="818" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="298" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="587.6399999999994" y="878" as="sourcePoint"/>
+                        <mxPoint x="587.6399999999994" y="928" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="299" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="547.94" y="1018" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="300" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="567.94" y="928" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="301" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="587.5100000000002" y="968" as="sourcePoint"/>
+                        <mxPoint x="587.5100000000002" y="1018" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="302" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="587.3499999999995" y="769" as="sourcePoint"/>
+                        <mxPoint x="587.3499999999995" y="819" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="303" value="................" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-749.62" y="783.5" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="304" value="15" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="-110" y="784" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="316" value="................" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="819.9999999999999" y="419.5" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="318" value="15" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="1399.44" y="421.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="359" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2359.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="360" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2429.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="361" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2499.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="362" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2779.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="363" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3059.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="364" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2639.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="365" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2989.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="366" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2709.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="367" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3200.44" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="368" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2849.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="369" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3130.44" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="370" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3270.44" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="371" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2919.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="372" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2569.94" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="373" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3410.44" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="374" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3340.44" y="-258.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="375" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font style=&quot;&quot; color=&quot;#569cd6&quot;&gt;(&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;Obj&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;*&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#569cd6&quot;&gt;)&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(31, 31, 31); color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; text-align: left;&quot;&gt;freeList&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2139.56" y="-107.5" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="376" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;exitX=0.609;exitY=0.002;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2269.5599999999986" y="-108.42000000000007" as="sourcePoint"/>
+                        <mxPoint x="2359.56" y="-198.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="377" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;8 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2280" y="-15" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="378" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;8 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2305" y="115" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="379" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;edgeStyle=orthogonalEdgeStyle;curved=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="359" target="378">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2389.94" y="-138.5" as="sourcePoint"/>
+                        <mxPoint x="2340" y="5" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="2395" y="-95"/>
+                            <mxPoint x="2430" y="-95"/>
+                            <mxPoint x="2430" y="5"/>
+                            <mxPoint x="2375" y="5"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="381" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2339.6999999999994" y="175" as="sourcePoint"/>
+                        <mxPoint x="2339.6999999999994" y="225" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="382" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2300" y="325" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="383" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="2320" y="225" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="384" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2339.57" y="275" as="sourcePoint"/>
+                        <mxPoint x="2339.57" y="325" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="385" value="0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="2372.5" y="-288.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="386" value="1&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%220%22%20style%3D%22text%3Bhtml%3D1%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3Bsketch%3D1%3BhachureGap%3D4%3Bjiggle%3D2%3BcurveFitting%3D1%3BfontFamily%3DTahoma%3BfontSize%3D18%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22-1157.06%22%20y%3D%22790%22%20width%3D%2235%22%20height%3D%2220%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="2447.44" y="-290" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="387" value="2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="2517.44" y="-288.5" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="388" value="3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="2587.44" y="-290" width="35" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="389" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="360" target="391">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2489.56" y="-118.5" as="sourcePoint"/>
+                        <mxPoint x="2599.56" y="-18.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="390" value="&lt;span style=&quot;color: rgb(240, 240, 240); font-family: &amp;quot;Comic Sans MS&amp;quot;; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(24, 20, 29); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2610" y="-5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="391" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2568.94" y="101.5" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="392" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;rounded=1;" edge="1" parent="1" source="391">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2604.3199999999993" y="172" as="sourcePoint"/>
+                        <mxPoint x="2604.3199999999993" y="222" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="393" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2950" y="245" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="394" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;fontFamily=Comic Sans MS;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" vertex="1" parent="1">
+                    <mxGeometry x="2820" y="235" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="395" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;exitX=1;exitY=0.5;exitDx=0;exitDy=0;rounded=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="399" target="400">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2639.94" y="251.5" as="sourcePoint"/>
+                        <mxPoint x="2712.43" y="261.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="397" value="................" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="2779.9399999999996" y="-295" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="398" value="15" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;" vertex="1" parent="1">
+                    <mxGeometry x="3419.56" y="-294.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="399" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2567.94" y="225" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="400" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="2720" y="225" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="401" value="" style="endArrow=classic;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;exitX=1;exitY=0.5;exitDx=0;exitDy=0;rounded=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2867.9400000000005" y="264.47" as="sourcePoint"/>
+                        <mxPoint x="2950" y="264.47" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="403" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;curved=1;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="404" target="408">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="3020" y="435" as="sourcePoint"/>
+                        <mxPoint x="3073.9399999999987" y="555" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="404" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;startFreeList&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;" vertex="1" parent="1">
+                    <mxGeometry x="2913.94" y="415" width="116.06" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="405" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;endFreeList&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#55cccc;" vertex="1" parent="1">
+                    <mxGeometry x="2895.94" y="1035" width="106" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="407" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#55cccc;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="405" target="408">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2060" y="935" as="sourcePoint"/>
+                        <mxPoint x="2100" y="965" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="408" value="" style="rounded=0;whiteSpace=wrap;html=1;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;rotation=90;fillColor=#b1ddf0;strokeColor=#10739e;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="2985" y="550" width="639" height="370" as="geometry"/>
+                </mxCell>
+                <mxCell id="409" value="&lt;font color=&quot;#e3e7e8&quot;&gt;Memory&lt;br&gt;Pool&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#55cccc;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="3185.66" y="670" width="239.56" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="410" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2680" y="2.5" as="sourcePoint"/>
+                        <mxPoint x="2790" y="-37.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="411" value="&lt;span style=&quot;color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;result&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;" vertex="1" parent="1">
+                    <mxGeometry x="2779.94" y="-70.5" width="80" height="33" as="geometry"/>
+                </mxCell>
+                <mxCell id="412" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;第一块拿去给客端&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;rotation=-20;" vertex="1" parent="1">
+                    <mxGeometry x="2638.94" y="-67.5" width="181.51" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="413" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;curved=1;exitX=-0.035;exitY=0.594;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="377">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2061.0599999999995" y="78" as="sourcePoint"/>
+                        <mxPoint x="2170" y="-5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="414" value="&lt;span style=&quot;color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;result&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;" vertex="1" parent="1">
+                    <mxGeometry x="2100" y="-37.5" width="80" height="33" as="geometry"/>
+                </mxCell>
+                <mxCell id="415" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;第一块拿去给客端&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#e3e7e8;rotation=15;" vertex="1" parent="1">
+                    <mxGeometry x="2138.05" y="-36" width="181.51" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="428" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;" edge="1" parent="1" source="417" target="418">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="417" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3124.4399999999996" y="424" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="429" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;" edge="1" parent="1" source="418" target="421">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="418" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3123.9399999999996" y="525" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="419" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3123.9399999999996" y="860" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="431" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;" edge="1" parent="1" source="420" target="419">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="420" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3123.9399999999996" y="740" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="430" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;" edge="1" parent="1" source="421" target="420">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="421" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;16 bytes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Comic Sans MS;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="3123.9399999999996" y="645" width="70" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="434" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="3124.44" y="915" as="sourcePoint"/>
+                        <mxPoint x="3030" y="945" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="435" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2960" y="925" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="437" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=12;fontColor=#e3e7e8;curved=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="400" target="417">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2950" y="365" as="sourcePoint"/>
+                        <mxPoint x="2910" y="305" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="438" value="" style="rounded=0;whiteSpace=wrap;html=1;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;rotation=90;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="1878.44" y="340" width="151.56" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="439" value="&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#e3e7e8&quot;&gt;MemoryPool&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#55cccc;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="1880.38" y="490" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="440" value="" style="ellipse;whiteSpace=wrap;html=1;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="1740.38" y="390" width="440" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="445" value="" style="endArrow=none;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2140.38" y="690" as="sourcePoint"/>
+                        <mxPoint x="1770.38" y="350" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="448" value="" style="endArrow=none;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1720.38" y="680" as="sourcePoint"/>
+                        <mxPoint x="2150.38" y="350" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="449" value="" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Georgia;fontSize=20;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2409.94" y="927.48" width="440" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="452" value="" style="endArrow=classic;html=1;hachureGap=4;fontFamily=Georgia;fontSize=20;sketch=1;curveFitting=1;jiggle=2;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="453">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2389.94" y="927.48" as="sourcePoint"/>
+                        <mxPoint x="2409.94" y="897.48" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="453" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Cookie&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;hachureGap=4;fontFamily=Georgia;fontSize=20;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2331.5" y="875" width="50" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="454" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;hachureGap=4;fontFamily=Georgia;fontSize=16;rotation=-90;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2617.55" y="765" width="24.78" height="435.14" as="geometry"/>
+                </mxCell>
+                <mxCell id="455" value="" style="rounded=0;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Georgia;fontSize=20;fillColor=#fad7ac;strokeColor=#b46504;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="2369.94" y="927.48" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="456" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="449" target="404">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2408.5" y="935" as="sourcePoint"/>
+                        <mxPoint x="2405.38" y="530" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="2410" y="815"/>
+                            <mxPoint x="2328" y="815"/>
+                            <mxPoint x="2328" y="530"/>
+                            <mxPoint x="2914" y="530"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="457" value="&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;// 配置 heap 空间，来补充内存池&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;startFreeList&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;=&lt;/span&gt;&amp;nbsp;(&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;char&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;*&lt;/span&gt;)&lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;malloc&lt;/span&gt;(&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;bytesToGet&lt;/span&gt;)&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;" vertex="1" parent="1">
+                    <mxGeometry x="2460" y="875" width="330" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="458" value="&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#feefef&quot;&gt;size&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(156, 220, 254); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt; = bytesToGet&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;" vertex="1" parent="1">
+                    <mxGeometry x="2550" y="1005" width="180" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="459" value="&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;/*&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;&amp;nbsp; &amp;nbsp;需要往内存池中填充的字节数 =&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;&amp;nbsp; &amp;nbsp;2 * 需要为 free-list 分配的总字节数 + (堆空间大小 / 2 ^ 4 再对齐至 8 的倍数)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;*/&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; text-align: left; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;std&lt;/span&gt;::&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;size_t&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;bytesToGet&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;=&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(181, 206, 168);&quot;&gt;2&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;*&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;totalBytes&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;+&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;roundUp&lt;/span&gt;(heapSize&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(181, 206, 168);&quot;&gt;4&lt;/span&gt;);&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#FEEFEF;" vertex="1" parent="1">
+                    <mxGeometry x="2290" y="1065" width="580" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="460" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;curved=1;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="461">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1676.06" y="461" as="sourcePoint"/>
+                        <mxPoint x="1775.56" y="441.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="461" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #9cdcfe;&quot;&gt;startFreeList&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;" vertex="1" parent="1">
+                    <mxGeometry x="1570" y="441" width="116.06" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="462" value="&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;&lt;span style=&quot;color: rgb(106, 153, 85);&quot;&gt;// 配置 heap 空间，来补充内存池&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;(&lt;span style=&quot;color: rgb(86, 156, 214);&quot;&gt;char&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(212, 212, 212);&quot;&gt;*&lt;/span&gt;)&lt;span style=&quot;color: rgb(220, 220, 170);&quot;&gt;malloc&lt;/span&gt;(&lt;span style=&quot;color: rgb(156, 220, 254);&quot;&gt;bytesToGet&lt;/span&gt;)&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;" vertex="1" parent="1">
+                    <mxGeometry x="1450.38" y="820" width="230" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="463" value="" style="rounded=0;whiteSpace=wrap;html=1;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;rotation=90;fillColor=#a20025;strokeColor=#6F0000;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="1876.52" y="745" width="151.56" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="464" value="&lt;font color=&quot;#e3e7e8&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;System Heap&lt;/span&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;fontColor=#55cccc;fontStyle=2" vertex="1" parent="1">
+                    <mxGeometry x="1878.46" y="895" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="465" value="" style="ellipse;whiteSpace=wrap;html=1;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="1732.2999999999997" y="795" width="440" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="466" value="" style="endArrow=none;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2138.46" y="1095" as="sourcePoint"/>
+                        <mxPoint x="1768.46" y="755" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="467" value="" style="endArrow=none;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#e3e7e8;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1718.46" y="1085" as="sourcePoint"/>
+                        <mxPoint x="2148.46" y="755" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="468" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=48;curved=1;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.078;exitY=0.243;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="465" target="462">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1579.9999999999995" y="766" as="sourcePoint"/>
+                        <mxPoint x="1669.5000000000005" y="751.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="469" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#FEEFEF;curved=1;exitX=0;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="462">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1390" y="930" as="sourcePoint"/>
+                        <mxPoint x="1390" y="880" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="470" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="1360" y="880" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="471" value="并且" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#FEEFEF;" vertex="1" parent="1">
+                    <mxGeometry x="1910.38" y="715" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="472" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;/*&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;&amp;nbsp; &amp;nbsp; 调用第一级配置器，利用它的 OOM 处理例程试图拿到更多的内存。&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #6a9955;&quot;&gt;*/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;startFreeList&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;(&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(86, 156, 214);&quot;&gt;char&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(212, 212, 212);&quot;&gt;*&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(78, 201, 176);&quot;&gt;mallocAlloc&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;::&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(220, 220, 170);&quot;&gt;allocate&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31); color: rgb(156, 220, 254);&quot;&gt;bytesToGet&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; background-color: rgb(31, 31, 31);&quot;&gt;);&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#FEEFEF;" vertex="1" parent="1">
+                    <mxGeometry x="1368.88" y="1130" width="452" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="473" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#FEEFEF;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="2620" y="1065" as="sourcePoint"/>
+                        <mxPoint x="2650" y="1035" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="474" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#33cc4c;exitX=0.029;exitY=1.025;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" source="472">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1440" y="1390" as="sourcePoint"/>
+                        <mxPoint x="1580" y="1400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="475" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;span style=&quot;color: #569cd6;&quot;&gt;nullptr&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="1547.75" y="1390" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="476" value="" style="endArrow=classic;html=1;rounded=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#33cc4c;curved=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1620" y="1410" as="sourcePoint"/>
+                        <mxPoint x="1840" y="1370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="477" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(31, 31, 31); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;border-color: rgb(0, 0, 0); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(31, 31, 31); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; color: rgb(86, 156, 214);&quot;&gt;__THROW_BAD_ALLOC_&lt;/span&gt;&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Consolas, 微软雅黑, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(31, 31, 31); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;hachureGap=4;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=20;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                    <mxGeometry x="1820.88" y="1340" width="170" height="24.62" as="geometry"/>
+                </mxCell>
+                <mxCell id="478" value="&lt;font color=&quot;#cc0000&quot; style=&quot;font-size: 12px;&quot;&gt;如果这种调用都失败了&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Tahoma;fontSize=18;fontColor=#33cc4c;rotation=-10;" vertex="1" parent="1">
+                    <mxGeometry x="1627.75" y="1360" width="210" height="30" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
