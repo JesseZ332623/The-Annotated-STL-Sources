@@ -48,7 +48,12 @@
         "cstdarg": "cpp",
         "bitset": "cpp",
         "ctime": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "cerrno": "cpp",
+        "climits": "cpp",
+        "set": "cpp",
+        "ios": "cpp",
+        "queue": "cpp"
     },
     "files.autoSave": "onFocusChange",
     "C_Cpp.errorSquiggles": "enabled"
