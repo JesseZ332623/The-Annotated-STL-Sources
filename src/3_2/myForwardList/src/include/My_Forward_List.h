@@ -6,146 +6,81 @@
 #include <iostream>
 #include <algorithm>
 
+/**
+ * @brief 一个自制的单项链表模板类
+ * 
+ * @tparam Type     每一个 MyListItem 所承载数据的类型
+*/
 template <typename Type>
 class MyForwardList : public ListIterator<MyListItem<Type>>
 {
     public:
-        using Item = MyListItem<Type> *;
-        using ListIter = ListIterator<MyListItem<Type>>;
-    private:
-        MyListItem<Type> *__end;
-        MyListItem<Type> *__front;
+        /*将某个 MyListItem<Type> 类 起个别名为 Item，代表一个链表节点*/
+        using Item = MyListItem<Type>;
 
-        std::size_t __size;
+        /*将指向某个 MyListItem<Type> 类（链表节点）的指针起别名为 ItemPointer */
+        using ItemPointer = MyListItem<Type> *;
+
+        /*将 MyListItem<Type> 类型的链表迭代器起别名为 ListIter*/
+        using ListIter = ListIterator<MyListItem<Type>>;
+
+        /*给 std::size_t 起个别名，这个类型用于统计链表节点数*/
+        using SizeType = std::size_t;
+    private:
+        ItemPointer __end;          // 指向链表头节点的指针
+        ItemPointer __front;        // 指向链表尾节点的指针
+
+        SizeType nodeNumber;        // 链表节点数
+
+        void insertBetween(Type __value, ListIter __beforeIter, ListIter __targetIter);
+
+        void deleteBetween(ListIter __beforeIter, ListIter __targetIter);
 
     public:
-        MyForwardList() : ListIter(__front), __end(nullptr), __front(nullptr), __size(0) {}
+        /*默认构建函数，用于初始化链表和它的迭代器*/
+        MyForwardList() : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
 
-        void insertFront(Type __value);
-        void insertEnd(Type __value);
+        void insertFront(const Type __value);     // 从头部插入
+        void insertEnd(const Type __value);       // 从尾部插入
 
-        void deleteFront(void);
-        void deleteEnd(void);
+        bool deleteFront(void);             // 从头部删除
+        bool deleteEnd(void);               // 从头部删除
 
-        ListIter begin() const { return ListIter(__front); }
-        ListIter end() const { return ListIter(__end); }
+        /**
+         * @brief 往 __targetIter 所指向节点的前一个节点插入新节点
+         * 
+         * @param __value   要插入链表的值，会在函数内构造成 MyListItem<Type>
+         * @param __targetIter  目标节点迭代器，会在目标节点之前插入
+         * 
+         * @return 是否插入成功，比如 __targetIter 所指向节点不存在表中时返回 false
+        */
+        bool insert(Type __value, const ListIter __targetIter);
+        
+        /**
+         * @brief 删除 节点内容为 __target 的节点
+         *
+         * @param __targetIter  目标节点
+         * 
+         * @return 是否删除成功，比如 __targetIter 所指向节点不存在表中时返回 false
+        */
+        bool erase(const ListIter __targetIter);                   
 
-        std::size_t size() const { return __size; }
+        ListIter begin() const { return ListIter(__front); }                // 返回头节点的迭代器
+        ListIter end() const { return ListIter(__end->next()); }            // 返回尾节点后面一个节点的迭代器
 
-        friend std::ostream &operator<<(std::ostream &__os, MyForwardList<Type> &__forwardList)
-        {
-            __os << "Node Size = " << __forwardList.size() << '\n';
+        std::size_t size() const { return nodeNumber; }         // 返回当前链表节点数
 
-            std::for_each(__forwardList.begin(), __forwardList.end(), 
-                          [&__os](const MyListItem<Type> & __listItem) { __os << __listItem.getValue() << '\t'; }
-                        );
-
-            return __os;
-        }
+        /**
+         * @brief 类友元函数，用于输出整张链表的数据到文件或标准输出。
+         * 
+         * @param __os          std::ostream 类的引用
+         * @param __forwardList 单项链表类的引用
+         * 
+         * @return std::ostream 类的引用
+        */
+        friend std::ostream &operator<< <>(std::ostream & __os, const MyForwardList<Type> & __forwardList);
 
         ~MyForwardList();
 };
-
-template <typename Type>
-void MyForwardList<Type>::insertFront(Type __value)
-{
-    MyListItem<Type> *newNode = new MyListItem<Type>(__value, __front);
-
-    if (__front == nullptr)
-    {
-        __front = newNode;
-        __end = newNode;
-    }
-    else
-    {
-        __front = newNode;
-    }
-
-    __size++;
-}
-
-template <typename Type>
-void MyForwardList<Type>::insertEnd(Type __value)
-{
-    MyListItem<Type> *newItem = new MyListItem<Type>(__value, nullptr);
-
-    if (__front == nullptr)
-    {
-        __front = newItem;
-        __end = newItem;
-    }
-    else
-    {
-        __end->setNext(newItem);
-        __end = newItem;
-    }
-
-    __size++;
-}
-
-template <typename Type>
-void MyForwardList<Type>::deleteFront(void)
-{
-    if (__front == nullptr) { return; }
-    else if (__front == __end) 
-    {
-        delete __front;
-        __front = __end = nullptr;
-        --__size;
-
-        return;
-    }
-    else
-    {
-        MyListItem<Type> * tempNodePtr = __front;
-
-        __front = __front->next();
-        
-        delete tempNodePtr;
-
-        --__size;
-    }
-}
-
-template <typename Type>
-void MyForwardList<Type>::deleteEnd(void)
-{
-    if (__front == nullptr) { return; }
-    else if (__front == __end) 
-    {
-        delete __front;
-        __front = __end = nullptr;
-        --__size;
-
-        return;
-    }
-    else
-    {
-        MyListItem<Type> * tempNodePtr = __front;
-
-        while (tempNodePtr->next() != __end)
-        {
-            tempNodePtr = tempNodePtr->next();
-        }
-
-        delete __end;
-        __end = tempNodePtr;
-        __end->setNext(nullptr);
-        --__size;
-    }
-}
-
-template <typename Type>
-MyForwardList<Type>::~MyForwardList()
-{
-    ListIter tempIter = begin();
-
-    while (tempIter != end())
-    {
-        Item tempItemPtr = tempIter.itemPointer; 
-        ++tempIter;
-        delete tempItemPtr;
-    }
-}
 
 #endif // _MY_FORWARD_LIST_H
