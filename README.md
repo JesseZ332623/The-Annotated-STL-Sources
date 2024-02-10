@@ -1,4 +1,4 @@
-# 侯捷《STL 源码分析》学习笔记，目前已经学习至：3-2 迭代器是一种 Smart Pointe
+# 侯捷《STL 源码分析》学习笔记，目前已经学习至：3-2 迭代器是一种 Smart Pointer
 
 Author: [JesseZ332623](https://github.com/JesseZ332623)
 
