@@ -1,4 +1,5 @@
 #include "./include/My_Forward_List.h"
+#include "./My_Forward_List.cpp"
 
 template <typename InputIterator, typename Type>
 InputIterator find(InputIterator first, InputIterator last, const Type & value)
@@ -21,7 +22,7 @@ int main(int argc, char const *argv[])
     MyForwardList<int> newList;
 
 #if true
-    for (int index = 0; index < 5; ++index)
+    for (int index = 0; index < 3; ++index)
     { 
         newList.insertFront(index); 
         newList.insertEnd(index + 2);
@@ -33,10 +34,14 @@ int main(int argc, char const *argv[])
     newList.deleteEnd();
 
     std::cout << newList << '\n';
+    
+    newList.insert(-18, newList.begin() + newList.size()) << '\n';
 
-    auto iter = find(newList.begin(), newList.end(), 0);
+    std::cout << newList << '\n';
 
-    std::cout << iter->getValue();
+    newList.erase(newList.begin() + newList.size());
+
+    std::cout << newList << '\n';
 
     return EXIT_SUCCESS;
 }
