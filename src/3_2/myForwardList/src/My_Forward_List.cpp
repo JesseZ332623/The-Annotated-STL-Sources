@@ -15,7 +15,7 @@ void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputItera
 template <typename Type>
 MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexcept
 {
-    if (__initList.size() == 0) { *this = std::move(MyForwardList()); }
+    if (__initList.size() == 0) { *this = std::move(MyForwardList()); return; }
 
     *this = std::move(MyForwardList());
     try
