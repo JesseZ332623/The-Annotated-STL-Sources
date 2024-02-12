@@ -34,6 +34,19 @@ int main(int argc, char const *argv[])
     MyForwardList<std::vector<int>> vectorList;
     std::vector<int> testVector;
 
+    /*测试初始化列表构建和循环头插尾插*/
+    MyForwardList<int> newListA;
+    MyForwardList<int> newListB = {1, 2, 3, 4, 5, 34534, 2456, 2345, 245, 135, 6};
+
+    puts("Test MyForwardList<int>::insertFront() and insertEnd() ");
+    for (int insertTime = 0; insertTime < 5; ++insertTime)
+    {
+        newListA.insertFront(std::rand() % 100 + 1);
+        newListA.insertEnd(std::rand() % 100 + 1);
+    }
+    std::cout << newListA << '\n';
+    std::cout << newListB << '\n';
+
     puts("Test MyForwardList<std::vector<int>>::insert() ");
     for (int insertTime = 0; insertTime < 5; ++insertTime)
     {
