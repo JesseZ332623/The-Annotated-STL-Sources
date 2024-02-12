@@ -1,6 +1,36 @@
 #include "./include/My_Forward_List.h"
 
 template <typename Type>
+template <typename InputIterator>
+void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputIterator __end)
+{
+#if true 
+    for (InputIterator iter = __begin; iter != __end; ++iter)
+    {
+        this->insertEnd(*iter);
+    }
+#endif
+}
+
+template <typename Type>
+MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexcept
+{
+    if (__initList.size() == 0) { *this = std::move(MyForwardList()); }
+
+    *this = std::move(MyForwardList());
+    try
+    {
+        rangeInitializerList(__initList.begin(), __initList.end());
+    }
+    catch (const std::bad_alloc & __failedAlloc)     // 捕获
+    {
+        std::cerr << __failedAlloc.what() << '\n';   // 输出异常原因
+        this->~MyForwardList();                     // 调用析构函数清理
+        std::current_exception();                   // 保存异常
+    }  
+}
+
+template <typename Type>
 MyForwardList<Type>::MyForwardList(const MyForwardList<Type> &__forwardList) noexcept : nodeNumber(__forwardList.nodeNumber)
 {
     /*处理自赋值的情况*/
@@ -96,7 +126,7 @@ void MyForwardList<Type>::insertEnd(const Type __value)
 }
 
 template <typename Type>
-bool MyForwardList<Type>::deleteFront(void)
+void MyForwardList<Type>::deleteFront(void)
 {
     /*若检查到是空链表，直接抛 bad_alloc 异常*/
     if (__front == nullptr) { throw std::length_error("Empty Forward List!\n"); }
@@ -122,12 +152,10 @@ bool MyForwardList<Type>::deleteFront(void)
 
     /*无论链表处在何种情况，进行删除操作后，节点数都 - 1*/
     --nodeNumber;
-
-    return true;
 }
 
 template <typename Type>
-bool MyForwardList<Type>::deleteEnd(void)
+void MyForwardList<Type>::deleteEnd(void)
 {
     /*若检查到是空链表，直接抛 bad_alloc 异常*/
     if (__front == nullptr) { throw std::length_error("Empty Forward List!\n"); }
@@ -157,7 +185,6 @@ bool MyForwardList<Type>::deleteEnd(void)
 
     /*无论链表处在何种情况，进行删除操作后，节点数都 - 1*/
     --nodeNumber;
-    return true;
 }
 
 template <typename Type>
@@ -257,16 +284,62 @@ bool MyForwardList<Type>::erase(const ListIter __targetIter)
         }
 
         /*当遍历到末尾都没发现目标迭代器*/
-        if (beforeIter == end())
-        {
-            return false;
-        }
+        if (beforeIter == end()) { return false; }
 
         deleteBetween(beforeIter, __targetIter);
     }
 
     --nodeNumber;
     return true;
+}
+
+template <typename Type> 
+void MyForwardList<Type>::sort()
+{
+    MyForwardList<Type> sortedList;
+
+    ListIter currentIter = begin();
+
+    while (currentIter != end())
+    {
+        ListIter nextIter = currentIter;
+        ++nextIter;
+
+        ListIter sortedListIter = sortedList.begin();
+        while (sortedListIter != sortedList.end() && sortedListIter->getValue() < currentIter->getValue()) { ++sortedListIter; }
+
+        if (sortedListIter == sortedList.begin()) { sortedList.insertFront(currentIter->getValue()); }
+        else { sortedList.insert(currentIter->getValue(), sortedListIter); }
+
+        currentIter = nextIter;
+    }
+
+    *this = std::move(sortedList);
+}
+
+template <typename Type> 
+template <typename Function>
+void MyForwardList<Type>::sort(Function __sortRule)
+{
+    MyForwardList<Type> sortedList;
+
+    ListIter currentIter = begin();
+
+    while (currentIter != end())
+    {
+        ListIter nextIter = currentIter;
+        ++nextIter;
+
+        ListIter sortedListIter = sortedList.begin();
+        while (sortedListIter != sortedList.end() && __sortRule()) { ++sortedListIter; }
+
+        if (sortedListIter == sortedList.begin()) { sortedList.insertFront(currentIter->getValue()); }
+        else { sortedList.insert(currentIter->getValue(), sortedListIter); }
+
+        currentIter = nextIter;
+    }
+
+    *this = std::move(sortedList);
 }
 
 template <typename Type>
