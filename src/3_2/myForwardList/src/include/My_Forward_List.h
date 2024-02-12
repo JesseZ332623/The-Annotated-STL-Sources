@@ -3,8 +3,6 @@
 
 #include "./List_Item.h"
 #include "./List_Iterator.h"
-#include <iostream>
-#include <algorithm>
 
 /**
  * @brief 一个自制的单项链表模板类
@@ -32,19 +30,68 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
 
         SizeType nodeNumber;        // 链表节点数
 
-        void insertBetween(Type __value, ListIter __beforeIter, ListIter __targetIter);
+        /**
+         * @brief 从单向链表中指定位置插入节点的具体执行函数
+         * 
+         * @param __beforeIter  目标节点迭代器的前一个迭代器
+         * @param __targetIter  目标迭代器
+         * @param __value       要插入的值，在内部会被构造为 MyListItem<Type>
+         * 
+         * @return non-return
+        */
+        void insertBetween(ListIter __beforeIter, ListIter __targetIter, Type __value);
 
+        /**
+         * @brief 从单向链表中指定位置删除节点的具体执行函数
+         * 
+         * @param __beforeIter  目标节点迭代器的前一个迭代器
+         * @param __targetIter  目标迭代器
+         * 
+         * @return non-return
+        */
         void deleteBetween(ListIter __beforeIter, ListIter __targetIter);
 
     public:
         /*默认构建函数，用于初始化链表和它的迭代器*/
-        MyForwardList() : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
+        MyForwardList() noexcept : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
 
-        void insertFront(const Type __value);     // 从头部插入
-        void insertEnd(const Type __value);       // 从尾部插入
+        /*拷贝构建函数，传入另一个 MyForwardList<Type> 类对象，对其进行深拷贝*/
+        MyForwardList(const MyForwardList & __forwardList) noexcept;
 
-        bool deleteFront(void);             // 从头部删除
-        bool deleteEnd(void);               // 从头部删除
+        /*移动构造函数，转移另一个 MyForwardList<Type> 类对象链表的所有权*/
+        MyForwardList(MyForwardList && __forwardList) noexcept;
+
+        /**
+         * @brief 从链表头部插入
+         * 
+         * @param __value 要插入的值，会在内部被构建为一个节点（MyListItem<Type>）
+         * 
+         * @return non-return
+        */
+        void insertFront(const Type __value);
+
+        /**
+         * @brief 从链表尾部插入
+         * 
+         * @param __value 要插入的值，会在内部被构建为一个节点（MyListItem<Type>）
+         * 
+         * @return non-return
+        */
+        void insertEnd(const Type __value);
+
+        /**
+         * @brief 从链表头部删除节点
+         * 
+         * @return 是否删除成功，若对空链表执行该操作会抛异常
+        */
+        bool deleteFront(void);
+
+        /**
+         * @brief 从链表尾部删除节点
+         * 
+         * @return 是否删除成功，若对空链表执行该操作会抛异常
+        */
+        bool deleteEnd(void);
 
         /**
          * @brief 往 __targetIter 所指向节点的前一个节点插入新节点
@@ -71,6 +118,24 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         std::size_t size() const { return nodeNumber; }         // 返回当前链表节点数
 
         /**
+         * @brief 拷贝构造运算符
+         * 
+         * @param __forwardList MyForwardList<Type> 类对象的左值引用
+         * 
+         * @return MyForwardList<Type> 类对象的左值引用
+        */
+        MyForwardList & operator=(const MyForwardList & __forwardList);
+
+        /**
+         * @brief 移动构造运算符
+         * 
+         *  @param __forwardList MyForwardList<Type> 类对象的右值引用
+         * 
+         * @return MyForwardList<Type> 类对象的右值引用
+        */
+        MyForwardList & operator=(MyForwardList && __forwardList);
+        
+        /**
          * @brief 类友元函数，用于输出整张链表的数据到文件或标准输出。
          * 
          * @param __os          std::ostream 类的引用
@@ -80,6 +145,9 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         */
         friend std::ostream &operator<< <>(std::ostream & __os, const MyForwardList<Type> & __forwardList);
 
+        /**
+         * @brief 析构函数，通过循环逐个释放链表的节点
+        */
         ~MyForwardList();
 };
 
