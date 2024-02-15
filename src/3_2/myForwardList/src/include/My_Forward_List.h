@@ -5,6 +5,7 @@
 #include "./List_Iterator.h"
 
 #include <initializer_list>
+#include <exception>
 
 /**
  * @brief 一个自制的单项链表模板类
@@ -53,6 +54,17 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         */
         void deleteBetween(ListIter __beforeIter, ListIter __targetIter);
 
+#if false       // 暂时做不到
+        /**
+         * @brief 处理形参包中除第一个初始化列表的外的列表
+         * 
+         * @param __initLists n 个初始化参数列表
+         * 
+         * @return non-return
+        */
+        void initInitLists(std::initializer_list<Type> ... __initLists);
+#endif
+
         /**
          * @brief 加载初始化列表的数据到链表中
          * 
@@ -68,8 +80,8 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         /*默认构建函数，用于初始化链表和它的迭代器*/
         MyForwardList() noexcept : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
 
-        /*参数构造函数，可以通过初始化列表 {1, 2, 3} 来初始化这张单向链表*/
-        MyForwardList(std::initializer_list<Type> __initList) noexcept; 
+        /*参数构造函数，可以通过初始化列表，如：{1, 2, 3} 来初始化这张单向链表*/
+        MyForwardList(std::initializer_list<Type> __firstInitList) noexcept;
 
         /*拷贝构建函数，传入另一个 MyForwardList<Type> 类对象，对其进行深拷贝*/
         MyForwardList(const MyForwardList & __forwardList) noexcept;
@@ -164,11 +176,20 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         /**
          * @brief 移动构造运算符
          * 
-         *  @param __forwardList MyForwardList<Type> 类对象的右值引用
+         * @param __forwardList MyForwardList<Type> 类对象的右值引用
          * 
          * @return MyForwardList<Type> 类对象的右值引用
         */
         MyForwardList & operator=(MyForwardList && __forwardList);
+
+        /**
+         * @brief 初始化列表拷贝构造运算符 语法形如：Class object = {1, 2, 3};
+         * 
+         * @param __initList 初始化列表的拷贝
+         * 
+         * @return MyForwardList<Type> 类对象的右值引用
+        */
+        MyForwardList & operator=(std::initializer_list<Type> __initList);
         
         /**
          * @brief 类友元函数，用于输出整张链表的数据到文件或标准输出。

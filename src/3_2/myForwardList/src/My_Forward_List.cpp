@@ -4,23 +4,22 @@ template <typename Type>
 template <typename InputIterator>
 void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputIterator __end)
 {
-#if true 
     for (InputIterator iter = __begin; iter != __end; ++iter)
     {
         this->insertEnd(*iter);
     }
-#endif
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexcept
+MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __firstInitList) noexcept
 {
-    if (__initList.size() == 0) { *this = std::move(MyForwardList()); return; }
+    if (__firstInitList.size() == 0) { *this = std::move(MyForwardList<Type>()); return; }
 
     *this = std::move(MyForwardList());
+
     try
     {
-        rangeInitializerList(__initList.begin(), __initList.end());
+        rangeInitializerList(__firstInitList.begin(), __firstInitList.end());
     }
     catch (const std::bad_alloc & __failedAlloc)     // 捕获
     {
@@ -390,8 +389,30 @@ MyForwardList<Type> & MyForwardList<Type>::operator=(MyForwardList<Type> && __fo
 }
 
 template <typename Type>
+MyForwardList<Type> & MyForwardList<Type>::operator=(std::initializer_list<Type> __initList)
+{
+    if (__initList.size() == 0) { return std::move(MyForwardList<Type>()); }
+
+    *this = std::move(MyForwardList<Type>());
+
+    try
+    {
+        rangeInitializerList(__initList.begin(), __initList.end());
+    }
+    catch (const std::bad_alloc & failedAlloc)
+    {
+        std::cerr << failedAlloc.what() << '\n';
+        this->~MyForwardList();
+        std::current_exception();
+    }
+    return *this;
+}
+
+template <typename Type>
 std::ostream &operator<<(std::ostream &__os, const MyForwardList<Type> &__forwardList)
 {
+    if (__forwardList.size() == 0) { return __os; }
+
     __os << "Node Count = " << __forwardList.size() << '\n';
 
     std::for_each(__forwardList.begin(), __forwardList.end(),
