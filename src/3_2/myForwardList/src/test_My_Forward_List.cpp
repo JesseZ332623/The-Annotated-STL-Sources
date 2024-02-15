@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
     std::vector<int> testVector;
 
     /*测试初始化列表构建和循环头插尾插*/
-    MyForwardList<int> newListA;
+    MyForwardList<int> newListA{};
     MyForwardList<int> newListB = {1, 2, 3, 4, 5, 34534, 2456, 2345, 245, 135, 6};
 
     puts("Test MyForwardList<int>::insertFront() and insertEnd() ");
