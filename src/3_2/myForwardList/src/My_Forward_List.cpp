@@ -13,9 +13,9 @@ void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputItera
 template <typename Type>
 MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __firstInitList) noexcept
 {
-    if (__firstInitList.size() == 0) { *this = std::move(MyForwardList<Type>()); return; }
+    if (__firstInitList.size() == 0) { *this = MyForwardList<Type>(); return; }
 
-    *this = std::move(MyForwardList());
+    *this = MyForwardList<Type>();
 
     try
     {
@@ -27,6 +27,26 @@ MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __firstInitList) 
         this->~MyForwardList();                     // 调用析构函数清理
         std::current_exception();                   // 保存异常
     }  
+}
+
+template <typename Type>
+MyForwardList<Type>::MyForwardList(SizeType __nodeNumber) noexcept
+{
+    *this = MyForwardList<Type>();
+
+    for (SizeType remainingNodes = __nodeNumber; remainingNodes > 0; --remainingNodes)
+    {
+        try
+        {
+            this->insertFront(0);
+        }
+        catch (const std::bad_alloc & __failedAlloc)     // 捕获
+        {
+            std::cerr << __failedAlloc.what() << '\n';   // 输出异常原因
+            this->~MyForwardList();                     // 调用析构函数清理
+            std::current_exception();                   // 保存异常
+        }
+    }
 }
 
 template <typename Type>
@@ -295,25 +315,41 @@ bool MyForwardList<Type>::erase(const ListIter __targetIter)
 template <typename Type> 
 void MyForwardList<Type>::sort()
 {
+    if (nodeNumber <= 1) { return; }
+  
     MyForwardList<Type> sortedList;
-
-    ListIter currentIter = begin();
-
-    while (currentIter != end())
+    
+    try 
     {
-        ListIter nextIter = currentIter;
-        ++nextIter;
+        ListIter currentIter = begin();
 
-        ListIter sortedListIter = sortedList.begin();
-        while (sortedListIter != sortedList.end() && sortedListIter->getValue() < currentIter->getValue()) { ++sortedListIter; }
+        while (currentIter != end()) 
+        {  
+            ListIter nextIter = currentIter; 
+            ++nextIter;
 
-        if (sortedListIter == sortedList.begin()) { sortedList.insertFront(currentIter->getValue()); }
-        else { sortedList.insert(currentIter->getValue(), sortedListIter); }
+            Type nodeValue = currentIter->getValue();
 
-        currentIter = nextIter;
+            ListIter sortedListIter = sortedList.begin();
+                
+            if (sortedListIter != sortedList.end()) { 
+                while (sortedListIter != sortedList.end() && sortedListIter->getValue() < nodeValue) { ++sortedListIter; }  
+            }
+
+            if (sortedList.empty() || sortedListIter == sortedList.end()) { sortedList.insertFront(nodeValue); }
+            else { sortedList.insert(nodeValue, sortedListIter); }
+                
+            currentIter = nextIter; 
+        }
+    }
+    catch (std::out_of_range& e) 
+    {
+        std::cerr << e.what() << '\n';
+        sortedList.~MyForwardList();
+        std::current_exception();
     }
 
-    *this = std::move(sortedList);
+    *this = std::move(sortedList); 
 }
 
 template <typename Type> 
@@ -413,7 +449,7 @@ std::ostream &operator<<(std::ostream &__os, const MyForwardList<Type> &__forwar
 {
     if (__forwardList.size() == 0) { return __os; }
 
-    __os << "Node Count = " << __forwardList.size() << '\n';
+    __os << "List Node Count = " << __forwardList.size() << '\n';
 
     std::for_each(__forwardList.begin(), __forwardList.end(),
                   [&__os](const MyListItem<Type> &__listItem) { __os << __listItem.getValue() << '\t'; }

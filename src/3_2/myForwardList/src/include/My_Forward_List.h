@@ -83,6 +83,9 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         /*参数构造函数，可以通过初始化列表，如：{1, 2, 3} 来初始化这张单向链表*/
         MyForwardList(std::initializer_list<Type> __firstInitList) noexcept;
 
+        /*参数构造函数，可以指定创建 __nodeNumber 个空节点（节点值为 0 或者空类）*/
+        explicit MyForwardList(SizeType __nodeNumber) noexcept;
+
         /*拷贝构建函数，传入另一个 MyForwardList<Type> 类对象，对其进行深拷贝*/
         MyForwardList(const MyForwardList & __forwardList) noexcept;
 
@@ -144,6 +147,8 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         ListIter end(void) const { return ListIter(__end->next()); }            // 返回尾节点后面一个节点的迭代器
 
         SizeType size(void) const { return nodeNumber; }                        // 返回当前链表节点数
+
+        bool empty(void) const { return (nodeNumber == 0); }
 
         /**
         *  @brief 对这张单向链表进行排序（使用插入排序），默认情况为升序，
