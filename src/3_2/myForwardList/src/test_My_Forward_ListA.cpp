@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <forward_list>
+
 template <typename InputIterator, typename Type>
 InputIterator find(InputIterator first, InputIterator last, const Type &value)
 {
@@ -84,7 +86,19 @@ int main(int argc, char const *argv[])
 
     puts("Test MyForwardList<std::vector<int>>::operator=(MyForwardList && __forwardList)");
     vectorList_C = std::move(vectorList);                                    // 移动构造运算符，移动后 vectorList 失效
-    showVectorListContent(vectorList_C);                                     
+    showVectorListContent(vectorList_C);        
+
+    MyForwardList<std::vector<int>> beSwapList = {{1, 2, 3}, {5, 6, 7}, {8, 8, 8}};
+    MyForwardList<std::vector<int>> beSwapListB = {{2, 2, 2}};
+
+    showVectorListContent(beSwapList);
+    showVectorListContent(beSwapListB);
+
+    beSwapListB.swap(beSwapList);                                       // 使用 swap
+
+    showVectorListContent(beSwapList);
+    showVectorListContent(beSwapListB);
+    
 #endif
 
     return EXIT_SUCCESS;
