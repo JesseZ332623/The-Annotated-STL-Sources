@@ -66,7 +66,7 @@ class ListIterator
          * 
          * @return 返回自增后的迭代器本身的引用
         */
-        ListIterator & operator+(int64_t __val) 
+        ListIterator operator+(int64_t __val)
         { 
             if (__val < 0)      // 当偏移量小于 0 时，直接抛无效参数异常
             { 
