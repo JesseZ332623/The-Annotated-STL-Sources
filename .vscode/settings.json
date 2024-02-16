@@ -53,7 +53,8 @@
         "climits": "cpp",
         "set": "cpp",
         "ios": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "forward_list": "cpp"
     },
     "files.autoSave": "onFocusChange",
     "C_Cpp.errorSquiggles": "enabled"
