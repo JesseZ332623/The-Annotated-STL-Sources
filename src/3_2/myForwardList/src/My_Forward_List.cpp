@@ -313,6 +313,22 @@ bool MyForwardList<Type>::erase(const ListIter __targetIter)
 }
 
 template <typename Type> 
+void MyForwardList<Type>::swap(MyForwardList<Type> & __list)
+{
+    ItemPointer tempFrontPointer = this->__front;
+    ItemPointer tempEndPointer = this->__end;
+    SizeType tempNodeNumber = this->nodeNumber;
+
+    this->__front = __list.__front;
+    this->__end = __list.__end;
+    this->nodeNumber = __list.nodeNumber;
+
+    __list.__front = tempFrontPointer;
+    __list.__end = tempEndPointer;
+    __list.nodeNumber = tempNodeNumber;
+}
+
+template <typename Type> 
 void MyForwardList<Type>::sort()
 {
     if (nodeNumber <= 1) { return; }

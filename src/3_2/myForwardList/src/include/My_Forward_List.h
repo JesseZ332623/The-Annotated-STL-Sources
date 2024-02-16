@@ -54,17 +54,6 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         */
         void deleteBetween(ListIter __beforeIter, ListIter __targetIter);
 
-#if false       // 暂时做不到
-        /**
-         * @brief 处理形参包中除第一个初始化列表的外的列表
-         * 
-         * @param __initLists n 个初始化参数列表
-         * 
-         * @return non-return
-        */
-        void initInitLists(std::initializer_list<Type> ... __initLists);
-#endif
-
         /**
          * @brief 加载初始化列表的数据到链表中
          * 
@@ -148,7 +137,16 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
 
         SizeType size(void) const { return nodeNumber; }                        // 返回当前链表节点数
 
-        bool empty(void) const { return (nodeNumber == 0); }
+        bool empty(void) const { return (nodeNumber == 0); }                    // 检查是否为空链表
+
+        /**
+         * @brief 交换两个不同的链表
+         * 
+         * @param __list 另一个链表
+         * 
+         * @return non-return
+        */
+        void swap(MyForwardList<Type> & __list);
 
         /**
         *  @brief 对这张单向链表进行排序（使用插入排序），默认情况为升序，
