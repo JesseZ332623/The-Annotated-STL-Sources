@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 
 #if true /* 测试  void MyForwardList<Type>::sort(void)*/
     MyForwardList<int> beSortedList = {65, 325345, 14};
-    beSortedList.sort();
+    //beSortedList.sort();
 
     std::cout << beSortedList;
 
