@@ -18,12 +18,19 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
     public:
         /*将某个 MyListItem<Type> 类 起个别名为 Item，代表一个链表节点*/
         using Item = MyListItem<Type>;
+        using ConstItem = const MyListItem<Type>;
+
+        /*将某个 MyListItem<Type> 类的引用 起个别名为 Item，代表一个链表节点的引用*/
+        using ItemReference = MyListItem<Type> &;
+        using ConstItemReference = const MyListItem<Type> &;
 
         /*将指向某个 MyListItem<Type> 类（链表节点）的指针起别名为 ItemPointer */
         using ItemPointer = MyListItem<Type> *;
+        using ConstItemPointer = const MyListItem<Type> *;
 
         /*将 MyListItem<Type> 类型的链表迭代器起别名为 ListIter*/
         using ListIter = ListIterator<MyListItem<Type>>;
+        using ConstListIter = const ListIterator<MyListItem<Type>>;
 
         /*给 std::size_t 起个别名，这个类型用于统计链表节点数*/
         using SizeType = std::size_t;
@@ -70,7 +77,10 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         MyForwardList() noexcept : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
 
         /*参数构造函数，可以通过初始化列表，如：{1, 2, 3} 来初始化这张单向链表*/
-        MyForwardList(std::initializer_list<Type> __firstInitList) noexcept;
+        MyForwardList(std::initializer_list<Type> __initList) noexcept;
+
+        /*参数构造函数，将 std::vector<Type> 中的数据拷贝到表中*/
+        MyForwardList(std::vector<Type> & __vector) noexcept;
 
         /*参数构造函数，可以指定创建 __nodeNumber 个空节点（节点值为 0 或者空类）*/
         explicit MyForwardList(SizeType __nodeNumber) noexcept;
@@ -168,6 +178,24 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         void sort(Function __sortRule);
 
         /**
+         * @brief 根据传入的值在单向链表内查询
+         * 
+         * @param __value   要查询的目标值
+         * 
+         * @return 返回目标节点的迭代器，若没有查询到就返回 end() 迭代器
+        */
+        ListIter find(const Type & __value);
+
+        /**
+         * @brief 根据传入的查询规则在单向链表内查询
+         * 
+         * @param __findRule   查询规则，可以是函数指针，函数对象 或 仿函数
+         * 
+         * @return 返回目标节点的迭代器，若没有查询到就返回 end() 迭代器
+        */
+        template <typename FindRule>
+        ListIter find_if(FindRule __findRule);
+        /**
          * @brief 拷贝构造运算符
          * 
          * @param __forwardList MyForwardList<Type> 类对象的左值引用
@@ -193,6 +221,24 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
          * @return MyForwardList<Type> 类对象的右值引用
         */
         MyForwardList & operator=(std::initializer_list<Type> __initList);
+
+        /**
+         * @brief  通过型如：object[index] 的语法来访问链表节点
+         * 
+         * @param  迭代器偏移量，值不得小于 0
+         * 
+         * @return 目标节点的引用
+        */
+        ItemReference operator[](long int __index);
+
+        /**
+         * @brief  通过型如：object[index] 的语法来访问链表节点
+         * 
+         * @param  迭代器偏移量，值不得小于 0
+         * 
+         * @return 目标节点的常量引用
+        */
+        ConstItemReference operator[](long int __index) const;
         
         /**
          * @brief 类友元函数，用于输出整张链表的数据到文件或标准输出。
@@ -200,7 +246,7 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
          * @param __os          std::ostream 类的引用
          * @param __forwardList 单项链表类的引用
          * 
-         * @return std::ostream 类的引用
+         * @return std::ostream 类的引用，用于链式调用
         */
         friend std::ostream &operator<< <>(std::ostream & __os, const MyForwardList<Type> & __forwardList);
 

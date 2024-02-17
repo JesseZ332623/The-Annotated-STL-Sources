@@ -11,22 +11,46 @@ void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputItera
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __firstInitList) noexcept
+MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexcept
 {
-    if (__firstInitList.size() == 0) { *this = MyForwardList<Type>(); return; }
+    if (__initList.size() == 0) { *this = MyForwardList<Type>(); return; }
 
     *this = MyForwardList<Type>();
 
     try
     {
-        rangeInitializerList(__firstInitList.begin(), __firstInitList.end());
+        rangeInitializerList(__initList.begin(), __initList.end());
     }
-    catch (const std::bad_alloc & __failedAlloc)     // 捕获
+    catch (const std::bad_alloc & __failedAlloc)        // 捕获
     {
-        std::cerr << __failedAlloc.what() << '\n';   // 输出异常原因
-        this->~MyForwardList();                     // 调用析构函数清理
-        std::current_exception();                   // 保存异常
+        std::cerr << __failedAlloc.what() << '\n';      // 输出异常原因
+        this->~MyForwardList();                         // 调用析构函数清理
+        std::current_exception();                       // 保存异常
     }  
+}
+
+template <typename Type>
+MyForwardList<Type>::MyForwardList(std::vector<Type> & __vector) noexcept
+{
+    SizeType vectorSize = __vector.size();
+
+    if (vectorSize == 0) { *this = MyForwardList<Type>(); return; }
+
+    *this = MyForwardList<Type>();
+    
+    for (int index = 0; index < vectorSize; ++index)
+    {
+        try
+        {
+            this->insertEnd(__vector[index]);
+        }
+        catch (const std::bad_alloc & __failedAlloc)        // 捕获
+        {
+            std::cerr << __failedAlloc.what() << '\n';      // 输出异常原因
+            this->~MyForwardList();                         // 调用析构函数清理
+            std::current_exception();                       // 保存异常
+        }  
+    }
 }
 
 template <typename Type>
@@ -40,12 +64,12 @@ MyForwardList<Type>::MyForwardList(SizeType __nodeNumber) noexcept
         {
             this->insertFront(0);
         }
-        catch (const std::bad_alloc & __failedAlloc)     // 捕获
+        catch (const std::bad_alloc & __failedAlloc)        // 捕获
         {
-            std::cerr << __failedAlloc.what() << '\n';   // 输出异常原因
-            this->~MyForwardList();                     // 调用析构函数清理
-            std::current_exception();                   // 保存异常
-        }
+            std::cerr << __failedAlloc.what() << '\n';      // 输出异常原因
+            this->~MyForwardList();                         // 调用析构函数清理
+            std::current_exception();                       // 保存异常
+        }  
     }
 }
 
@@ -315,6 +339,9 @@ bool MyForwardList<Type>::erase(const ListIter __targetIter)
 template <typename Type> 
 void MyForwardList<Type>::swap(MyForwardList<Type> & __list)
 {
+    if (__list.empty()) { return; }
+
+    /*没什么好说的，最粗暴的 swap*/
     ItemPointer tempFrontPointer = this->__front;
     ItemPointer tempEndPointer = this->__end;
     SizeType tempNodeNumber = this->nodeNumber;
@@ -329,43 +356,32 @@ void MyForwardList<Type>::swap(MyForwardList<Type> & __list)
 }
 
 template <typename Type> 
-void MyForwardList<Type>::sort()
+void MyForwardList<Type>::sort(void)
 {
-    if (nodeNumber <= 1) { return; }
-  
-    MyForwardList<Type> sortedList;
-    
-    try 
+    if (this->empty()) { return; }
+
+    SizeType listSize = this->size();
+
+    try
     {
-        ListIter currentIter = begin();
+        std::vector<Type> tempVector(listSize);
 
-        while (currentIter != end()) 
-        {  
-            ListIter nextIter = currentIter; 
-            ++nextIter;
-
-            Type nodeValue = currentIter->getValue();
-
-            ListIter sortedListIter = sortedList.begin();
-                
-            if (sortedListIter != sortedList.end()) { 
-                while (sortedListIter != sortedList.end() && sortedListIter->getValue() < nodeValue) { ++sortedListIter; }  
-            }
-
-            if (sortedList.empty() || sortedListIter == sortedList.end()) { sortedList.insertFront(nodeValue); }
-            else { sortedList.insert(nodeValue, sortedListIter); }
-                
-            currentIter = nextIter; 
+        for (int index = 0; index < listSize; ++index) 
+        { 
+            tempVector.insert(tempVector.begin() + index, this[index]->getValue());  
         }
-    }
-    catch (std::out_of_range& e) 
-    {
-        std::cerr << e.what() << '\n';
-        sortedList.~MyForwardList();
-        std::current_exception();
-    }
 
-    *this = std::move(sortedList); 
+        std::sort(tempVector.begin(), tempVector.end(), 
+                [](const Type & elementA, const Type & elementB) -> bool { return elementA > elementB; });
+
+        *this = std::move(MyForwardList<Type>(tempVector));
+    }
+    catch (const std::bad_alloc & __failedAlloc)        // 捕获
+    {
+        std::cerr << __failedAlloc.what() << '\n';      // 输出异常原因
+        this->~MyForwardList();                         // 调用析构函数清理
+        std::current_exception();                       // 保存异常
+    }  
 }
 
 template <typename Type> 
@@ -391,6 +407,33 @@ void MyForwardList<Type>::sort(Function __sortRule)
     }
 
     *this = std::move(sortedList);
+}
+
+template <typename Type>
+MyForwardList<Type>::ListIter MyForwardList<Type>::find(const Type & __value)
+{
+    MyForwardList<Type>::ListIter tempIter = this->begin();
+
+    for (; tempIter != this->end(); ++tempIter)
+    {
+        if (tempIter->getValue() == __value) { return tempIter; }
+    }
+
+    return tempIter;
+}
+
+template <typename Type>
+template <typename FindRule>
+MyForwardList<Type>::ListIter MyForwardList<Type>::find_if(FindRule __findRule)
+{
+    MyForwardList<Type>::ListIter tempIter = this->begin();
+
+    for (; tempIter != this->end(); ++tempIter)
+    {
+        if (__findRule(tempIter->getValue())) { return tempIter; }
+    }
+
+    return tempIter;
 }
 
 template <typename Type>
@@ -458,6 +501,22 @@ MyForwardList<Type> & MyForwardList<Type>::operator=(std::initializer_list<Type>
         std::current_exception();
     }
     return *this;
+}
+
+template <typename Type>
+MyForwardList<Type>::ItemReference MyForwardList<Type>::operator[](long int __index)
+{
+    if (__index < 0 || __index > this->size()) { throw std::out_of_range("Invalid Index!"); }
+
+    return *(this->begin() + __index);
+}
+
+template <typename Type>
+MyForwardList<Type>::ConstItemReference MyForwardList<Type>::operator[](long int __index) const
+{
+    if (__index < 0 || __index > this->size()) { throw std::out_of_range("Invalid Index!"); }
+
+    return *(this->begin() + __index);
 }
 
 template <typename Type>
