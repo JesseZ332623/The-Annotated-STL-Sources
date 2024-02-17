@@ -26,12 +26,19 @@ class MyListItem
         */
         MyListItem(const Type __value, MyListItem<Type> * __next) noexcept : value(__value), nextItem(__next) {}
 
-        /**
-         * @brief 返回该节点的值，为了保护节点值，故采用值传递
+         /**
+         * @brief   返回该节点的引用
          * 
-         * @return 节点值
+         * @return  节点值的引用
         */
-        Type getValue() const { return value; }
+        Type & getValue() { return value; }
+
+        /**
+         * @brief   返回该节点的常量引用
+         * 
+         * @return  节点值的引用
+        */  
+        const Type & getValue() const { return value; }
         
         /**
          * @brief 返回指向下一个节点的指针
@@ -43,7 +50,7 @@ class MyListItem
         /**
          * @brief 设置下一个节点的指针
          * 
-         * @param __nextItemPtr 指向下一个节点的指针
+         * @param __nextItemPtr 要给该节点设置的指向下一个节点的指针
          * 
          * @return non-return
         */
@@ -77,15 +84,24 @@ class MyListItem<std::vector<Type>>
 
         /**
          * @brief   获取 typeVec 中元素节点的个数
+         * 
+         * @return  typeVec 中元素节点的个数
         */
         sizeType valSize() const { return value.size(); }
 
         /**
-         * @brief 返回该节点的值，为了保护节点值，故采用值传递
+         * @brief   返回该节点的引用
          * 
-         * @return 节点值（指定为 typeVec）
+         * @return  节点值的引用（指定为 std::vector<Type>）
         */
-        typeVec getValue() const { return value; }
+        typeVec & getValue() { return value; }
+
+        /**
+         * @brief   返回该节点的常量引用
+         * 
+         * @return  节点值的引用（指定为 std::vector<Type>）
+        */  
+        const typeVec & getValue() const { return value; }
 
         /**
          * @brief 返回指向下一个节点的指针
@@ -111,7 +127,7 @@ class MyListItem<std::vector<Type>>
          * 
          * @param 返回 std::ostream 用于链式调用
         */
-        friend std::ostream & operator<<(std::ostream & __os, MyListItem<typeVec> & __vecItem)
+        friend std::ostream & operator<<(std::ostream & __os, const MyListItem<typeVec> & __vecItem)
         {
             //__os << "Vector Size = " << __vecItem.valSize() << '\n';
             for (auto __element : __vecItem.getValue()) { __os << __element << ' '; }
