@@ -83,7 +83,7 @@ class ListIterator
         */
         bool operator==(const ListIterator & __iter) const { return (itemPointer == __iter.itemPointer); }
 
-         /**
+        /**
          * @brief 重载 != 运算符，用于判断两个迭代器是否不相等
         */
         bool operator!=(const ListIterator & __iter) const { return (itemPointer != __iter.itemPointer); }
