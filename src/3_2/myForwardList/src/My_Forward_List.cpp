@@ -11,7 +11,7 @@ void MyForwardList<Type>::rangeInitializerList(InputIterator __begin, InputItera
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexcept
+MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList)
 {
     if (__initList.size() == 0) { *this = MyForwardList<Type>(); return; }
 
@@ -30,7 +30,7 @@ MyForwardList<Type>::MyForwardList(std::initializer_list<Type> __initList) noexc
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(std::vector<Type> & __vector) noexcept
+MyForwardList<Type>::MyForwardList(std::vector<Type> & __vector)
 {
     SizeType vectorSize = __vector.size();
 
@@ -54,7 +54,7 @@ MyForwardList<Type>::MyForwardList(std::vector<Type> & __vector) noexcept
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(SizeType __nodeNumber) noexcept
+MyForwardList<Type>::MyForwardList(SizeType __nodeNumber)
 {
     *this = MyForwardList<Type>();
 
@@ -74,7 +74,7 @@ MyForwardList<Type>::MyForwardList(SizeType __nodeNumber) noexcept
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(const MyForwardList<Type> &__forwardList) noexcept : nodeNumber(__forwardList.nodeNumber)
+MyForwardList<Type>::MyForwardList(const MyForwardList<Type> &__forwardList) : nodeNumber(__forwardList.nodeNumber)
 {
     /*处理自赋值的情况*/
     if (this == &__forwardList) { return; }
@@ -123,8 +123,8 @@ MyForwardList<Type>::MyForwardList(const MyForwardList<Type> &__forwardList) noe
 }
 
 template <typename Type>
-MyForwardList<Type>::MyForwardList(MyForwardList<Type> && __forwardList) noexcept : 
-nodeNumber(__forwardList.nodeNumber), __end(__forwardList.__end), __front(__forwardList.__front)
+MyForwardList<Type>::MyForwardList(MyForwardList<Type> && __forwardList) : nodeNumber(__forwardList.nodeNumber), 
+__end(__forwardList.__end), __front(__forwardList.__front)
 {
     __forwardList.nodeNumber = 0;
     __forwardList.__end = __forwardList.__front = nullptr;
@@ -398,7 +398,7 @@ void MyForwardList<Type>::sort(Function __sortRule)
         ++nextIter;
 
         ListIter sortedListIter = sortedList.begin();
-        while (sortedListIter != sortedList.end() && __sortRule()) { ++sortedListIter; }
+        while (sortedListIter != sortedList.end() && __sortRule(*sortedListIter)) { ++sortedListIter; }
 
         if (sortedListIter == sortedList.begin()) { sortedList.insertFront(currentIter->getValue()); }
         else { sortedList.insert(currentIter->getValue(), sortedListIter); }

@@ -77,19 +77,19 @@ class MyForwardList : public ListIterator<MyListItem<Type>>
         MyForwardList() noexcept : ListIter(__front), __end(nullptr), __front(nullptr), nodeNumber(0) {}
 
         /*参数构造函数，可以通过初始化列表，如：{1, 2, 3} 来初始化这张单向链表*/
-        MyForwardList(std::initializer_list<Type> __initList) noexcept;
+        MyForwardList(std::initializer_list<Type> __initList);
 
         /*参数构造函数，将 std::vector<Type> 中的数据拷贝到表中*/
-        MyForwardList(std::vector<Type> & __vector) noexcept;
+        MyForwardList(std::vector<Type> & __vector);
 
         /*参数构造函数，可以指定创建 __nodeNumber 个空节点（节点值为 0 或者空类）*/
-        explicit MyForwardList(SizeType __nodeNumber) noexcept;
+        explicit MyForwardList(SizeType __nodeNumber) ;
 
         /*拷贝构建函数，传入另一个 MyForwardList<Type> 类对象，对其进行深拷贝*/
-        MyForwardList(const MyForwardList & __forwardList) noexcept;
+        MyForwardList(const MyForwardList & __forwardList);
 
         /*移动构造函数，转移另一个 MyForwardList<Type> 类对象链表的所有权*/
-        MyForwardList(MyForwardList && __forwardList) noexcept;
+        MyForwardList(MyForwardList && __forwardList);
 
         /**
          * @brief 从链表头部插入
