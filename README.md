@@ -1,5 +1,7 @@
 # 侯捷《STL 源码分析》学习笔记，目前已经学习至：3-2 迭代器是一种 Smart Pointer
 
+![cover](https://i0.hdslb.com/bfs/archive/83d95f897ae4d9e52f25d4076bd7daec3946d9d6.jpg@600w_600h_1c.png)
+
 ## 学习到 该章节的时候手一热搓了个单项链表容器的实现，详见：`./src/3_2/myForwardList/`，目前完成的功能如下
 
 - 默认构造函数
