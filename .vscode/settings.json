@@ -54,7 +54,13 @@
         "set": "cpp",
         "ios": "cpp",
         "queue": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "charconv": "cpp",
+        "optional": "cpp",
+        "format": "cpp",
+        "span": "cpp",
+        "text_encoding": "cpp",
+        "variant": "cpp"
     },
     "files.autoSave": "onFocusChange",
     "C_Cpp.errorSquiggles": "enabled"
