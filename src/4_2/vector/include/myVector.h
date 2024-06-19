@@ -1,9 +1,10 @@
 #ifndef _MY_VECTOR_H_
 #define _MY_VECTOR_H_
 
-//#include <initializer_list>
+#include <initializer_list>
 #include <memory>
-#include <new>
+#include <iterator>
+#include <exception>
 
 #include "./simpleAlloc.h"
 
@@ -11,16 +12,21 @@ template <typename Type, typename Alloc = std::allocator<Type>>
 class My_Vector
 {
     public:
-        using valueType  = Type;
-        using pointer    = valueType *;
-        using iterator   = valueType *;
-        using constIterator = const valueType *;
-        using reference  = valueType &;
-        using sizeType   = std::size_t;
-        using differenceType = std::ptrdiff_t;
+        using valueType            = Type;
+        using pointer              = valueType *;
+        using iterator             = valueType *;                           // 正向迭代器
+        using constIterator        = const valueType *;                     // 正向只读迭代器
+        using reverseIterator      = std::reverse_iterator<iterator>;       // 反向迭代器    
+        using constReverseIterator = std::reverse_iterator<constIterator>;  // 反向只读迭代器
+        using reference            = valueType &;
+        using constReference       = const valueType &;
+        using sizeType             = std::size_t;
+        using differenceType       = std::ptrdiff_t;
 
     protected:
-
+        /**
+         * 
+        */
         using dataAllocator = Simple_Alloc<valueType, Alloc>;
 
         iterator start;         // 指向数组之首的迭代器
@@ -28,7 +34,7 @@ class My_Vector
         iterator endOfStorage;  // 指向目前数组可用空间之尾的迭代器
 
         /**
-         * @brief 实现数组的扩容以及新值的插入操作。
+         * @brief 实现数组的扩容以及新值的插入操作（在 insert() 上也可用）。
          * 
          * @param __pos 要插入的位置
          * @param __n   要插入的值
@@ -116,11 +122,18 @@ class My_Vector
             }
         }
 
+        /**
+         * @brief 辅助函数，调用分配器，销毁整个 `vector` 的数据。
+        */
         void deallocate()
         {
             if (this->start) { dataAllocator::deallocate(start, endOfStorage - start); }
         }
 
+        /**
+         * @brief 辅助函数，为 `__n` 个 `Type` 类型的值分配内存并统一构建初值 `__value`，
+         *        返回操作完成后的数据首地址。
+        */
         iterator allocate_and_fill(sizeType __n, const Type & __value)
         {
             iterator result = dataAllocator::allocate(__n);
@@ -129,26 +142,96 @@ class My_Vector
             return result;
         }
         
+        /**
+         * @brief 辅助函数，通常被构造函数调用，为 `__n` 个 `Type` 类型的值分配内存并统一构建初值 `__value`，
+         *        并设置 vector 的头尾指针到这片新构建的内存上。
+        */
         void fillInitialize(sizeType __n, const Type & __value)
         {
-            start        = allocate_and_fill(__n, __value);
-            finish       = start + __n;
-            endOfStorage = finish; 
+            this->start        = allocate_and_fill(__n, __value);
+            this->finish       = start + __n;
+            this->endOfStorage = finish; 
         }
 
     public:
-        iterator begin()                { return this->start; }
-        iterator end()                  { return this->finish; }
-        constIterator begin() const     { return this->start; }
-        constIterator end()   const     { return this->finish; }
-        
+        iterator begin() noexcept               { return this->start; }
+        iterator end()   noexcept               { return this->finish; }
+        constIterator begin() const noexcept    { return this->start; }
+        constIterator end()   const noexcept    { return this->finish; }
+        constIterator cbegin() const noexcept   { return this->start; }
+        constIterator cend()   const noexcept   { return this->finish; }
+        reverseIterator rbegin() noexcept       { return reverseIterator(this->end()); }
+        reverseIterator rend()   noexcept       { return reverseIterator(this->begin()); }
+#if true
+        constReverseIterator rcbegin() const noexcept { return constReverseIterator(this->cend()); }
+        constReverseIterator rcend()   const noexcept { return constReverseIterator(this->cbegin()); }
+#endif
+
         sizeType size()     const       { return sizeType(this->end() - this->begin()); }
         sizeType capacity() const       { return sizeType(endOfStorage - this->begin()); }
 
+        reference front() { return *begin(); }
+        reference back()  { return *(end() - 1); }
+
+        constReference front() const { return (*cbegin()); }
+        constReference back()  const  { return *(cend() - 1); }
+
         bool empty() const { return (this->begin() == this->end()); }
 
+        reference      operator[](sizeType __n)       { return *(begin() + __n); }
+        constReference operator[](sizeType __n) const { return *(begin() + __n); }
+        My_Vector &    operator= (const My_Vector<Type> & __vec)
+        {
+            if (this != &__vec) { return *this; }
 
-        reference operator[](sizeType __n) { return *(begin() + __n); }
+            this->start  = dataAllocator::allocate(__vec.capacity());
+            this->finish = std::uninitialized_copy(__vec.begin(), __vec.end(), this->begin());
+
+            this->endOfStorage = this->begin() + __vec.capacity();
+
+            return *this;
+        }
+
+        My_Vector &    operator= (My_Vector<Type> && __vec)
+        {
+            if (this != &__vec) { return *this; }
+
+            this->start         = __vec.start;
+            this->finish        = __vec.finish;
+            this->endOfStorage  = __vec.endOfStorage;
+
+            __vec.start         = nullptr;
+            __vec.finish        = nullptr;
+            __vec.endOfStorage  = nullptr;
+
+            return *this;
+        }
+
+        reference at(sizeType __n)
+        {
+            if (__n >= this->size())
+            {
+                throw std::out_of_range(
+                    "invalid argument __n = " + std::to_string(__n)  +   \
+                    " current size = " + std::to_string(this->size()) + ".\n"
+                );
+            }
+
+            return (*this)[__n];
+        }
+
+        constReference at(sizeType __n) const
+        {
+            if (__n >= this->size())
+            {
+                throw std::out_of_range(
+                    "invalid argument __n = " + std::to_string(__n)  +   \
+                    " current size = " + std::to_string(this->size()) + ".\n"
+                );
+            }
+
+            return (*this)[__n];
+        }
 
         My_Vector() : start(nullptr), finish(nullptr), endOfStorage(nullptr) {}
         My_Vector(sizeType __n, const Type & __value)       { this->fillInitialize(__n, __value); }
@@ -156,8 +239,41 @@ class My_Vector
         My_Vector(long int __n, const Type & __value)       { this->fillInitialize(__n, __value); }
         explicit My_Vector(sizeType __n)                    { this->fillInitialize(__n, Type()); }
 
-        reference front() { return (*begin()); }
-        reference back()  { return *(end() - 1); }
+        /**
+         * @brief 从初始化参数列表拷贝数据到 vector
+        */
+        My_Vector(const std::initializer_list<Type> & __initList)
+        {
+            this->start  = dataAllocator::allocate(__initList.size());
+            this->finish = std::uninitialized_copy(__initList.begin(), __initList.end(), this->begin());
+
+            this->endOfStorage = this->finish;
+        }
+
+        /**
+         * @brief 拷贝构造函数
+        */
+        explicit My_Vector(const My_Vector<Type> & __vec)
+        {
+            this->start  = dataAllocator::allocate(__vec.capacity());
+            this->finish = std::uninitialized_copy(__vec.begin(), __vec.end(), this->begin());
+
+            this->endOfStorage = this->begin() + __vec.capacity();
+        }
+
+        /**
+         * @brief 移动构造函数
+        */
+        My_Vector(My_Vector && __vec)
+        {
+            this->start         = __vec.start;
+            this->finish        = __vec.finish;
+            this->endOfStorage  = __vec.endOfStorage;
+
+            __vec.start         = nullptr;
+            __vec.finish        = nullptr;
+            __vec.endOfStorage  = nullptr;
+        }
 
         /**
          * @brief 往 vector 末尾添加元素 
@@ -177,7 +293,7 @@ class My_Vector
         */
         void pop_back()
         {
-            std::destroy(this->end() - 1, this->end());
+            std::_Destroy(this->end() - 1);
             --this->finish;
         }
 
@@ -212,6 +328,8 @@ class My_Vector
 
             return __pos;
         }
+
+        void clear() { this->erase(this->start, this->finish); }
 
         /**
          * @brief 从  __pos 开始，插入 __n 个元素，每一个元素的初值都为 __x
@@ -265,11 +383,22 @@ class My_Vector
                     */
                     const sizeType allocateLength = oldSize + std::max(oldSize, __n);
 
+                    /**
+                     * 给新数组分配内存并设置新数组的头尾指针
+                    */
                     iterator newStart  = dataAllocator::allocate(allocateLength);
                     iterator newFinish = newStart;
 
                     try
                     {
+                        /**
+                         * 整个拷贝过程分 3 步
+                         * 1. 从旧数组拷贝插入点前的数据到新数组
+                         * 2. 拷贝要插入的 __n 个值到新数组
+                         * 3. 最后从旧数组拷贝插入点之后的数据到新数组
+                         * 
+                         * 期间如果出现任何异常，都需要停止拷贝，销毁新数组并抛出异常。
+                        */
                         newFinish = std::uninitialized_copy(this->start, __pos, newStart);
                         newFinish = std::uninitialized_fill_n(newFinish, __n, __x);
                         newFinish = std::uninitialized_copy(__pos, this->finish, newFinish);
@@ -281,6 +410,9 @@ class My_Vector
                         throw;
                     }
 
+                    /**
+                     * 最后销毁旧数组，并把设置指针到新数组
+                    */
                     std::destroy(this->start, this->finish);
                     dataAllocator::deallocate(this->start, oldSize);
 
@@ -288,6 +420,143 @@ class My_Vector
                     this->finish = newFinish;
                     this->endOfStorage = newStart + allocateLength;
                 }
+            }
+        }
+        /**
+         * 修改 vector 内部数组的大小。
+         * 
+        */
+        void resize(sizeType __newSize)
+        {
+            /**
+             * 若传入的值为 0，直接 clear() 打发了。
+             */
+            if (__newSize == 0) { this->clear(); }
+
+            /**
+             * 增加数组尺寸
+            */
+            if (__newSize > this->size())
+            {
+                /**
+                 * 增加的量并没有超过 capacity() 的返回值，
+                 * 无需扩容操作，仅调整 finish 指针的位置即可。
+                */
+                if ((this->size() + (__newSize - this->size())) < this->capacity())
+                {
+                    sizeType appendSize = __newSize - this->size();
+                    this->finish = std::fill_n(this->end(), appendSize, 0);
+                }
+                /**
+                 * 增加的量超过了 capacity() 的返回值，
+                 * 就需要扩容操作，并调整  finish 和 endOfStorage 指针的位置。
+                */
+                else
+                {
+                    /**
+                     * 计算两个数据：
+                     * 1. 仅仅需要追加初值的元素数
+                     * 2. 需要分配且构造初值的元素数
+                    */
+                    sizeType appendSize   = this->capacity() - this->size();
+                    sizeType allocateSize = __newSize - this->capacity();
+
+                    // 先填充数组可用空间
+                    this->finish = std::fill_n(this->end(), appendSize, 0);
+                    
+                    // 剩下的部分可以通过循环并使用 insertAux() 函数进行插入和扩容
+                    for (sizeType index = 0; index < allocateSize; ++index)
+                    {
+                        this->insertAux(this->end(), 0);
+                    }
+                }
+            }
+            /**
+             * 缩小数组尺寸，只需要抹掉 [this->start + __newSize, this->finish) 范围内的数据，
+             * 并调整 finish 指针即可到 this->start + __newSize 即可。
+            */
+            else 
+            {
+                this->erase(this->begin() + __newSize, this->end());
+            }
+        }
+
+        void resize(sizeType __newSize, const valueType & __x)
+        {
+            /**
+             * 若传入的值为 0，直接 clear() 打发了。
+             */
+            if (__newSize == 0) { this->clear(); }
+
+            /**
+             * 增加数组尺寸
+            */
+            if (__newSize > this->size())
+            {
+                /**
+                 * 增加的量并没有超过 capacity() 的返回值，
+                 * 无需扩容操作，仅调整 finish 指针的位置即可。
+                */
+                if ((this->size() + (__newSize - this->size())) < this->capacity())
+                {
+                    sizeType appendSize = __newSize - this->size();
+                    this->finish = std::fill_n(this->end(), appendSize, __x);
+                }
+                /**
+                 * 增加的量超过了 capacity() 的返回值，
+                 * 就需要扩容操作，并调整  finish 和 endOfStorage 指针的位置。
+                */
+                else
+                {
+                    /**
+                     * 计算两个数据：
+                     * 1. 仅仅需要追加初值的元素数
+                     * 2. 需要分配且构造初值的元素数
+                    */
+                    sizeType appendSize   = this->capacity() - this->size();
+                    sizeType allocateSize = __newSize - this->capacity();
+
+                    // 先填充数组可用空间
+                    this->finish = std::fill_n(this->end(), appendSize, __x);
+                    
+                    // 剩下的部分可以通过循环并使用 insertAux() 函数进行插入和扩容
+                    for (sizeType index = 0; index < allocateSize; ++index)
+                    {
+                        this->insertAux(this->end(), __x);
+                    }
+                }
+            }
+            /**
+             * 缩小数组尺寸，只需要抹掉 [this->start + __newSize, this->finish) 范围内的数据，
+             * 并调整 finish 指针即可到 this->start + __newSize 即可。
+            */
+            else 
+            {
+                this->erase(this->begin() + __newSize, this->end());
+            }
+        }
+
+        /**
+         * @brief 预分配容器的容量
+         * 
+         * @param __newSize 请求的容量大小
+        */
+        void reserve(sizeType __newSize)
+        {
+            /**
+             * 若请求的新大小小于或等于当前容量，
+             * 则不会做任何操作直接返回即可。
+            */
+            if (__newSize <= this->capacity()) { return; }
+
+            /**
+             * 若请求的大小大于当前容量，则需要扩容该数组。
+            */
+            sizeType allocateSize = __newSize - this->capacity();
+
+            for (sizeType index = 0; index < allocateSize; ++index)
+            {
+                this->insertAux(this->end(), 0);
             }
         }
         
