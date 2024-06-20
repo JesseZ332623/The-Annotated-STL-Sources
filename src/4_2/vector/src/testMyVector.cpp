@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <vector>
+
 template <typename Type>
 void showVector(const My_Vector<Type> & __vec, const char * __outputMsg);
 
@@ -84,6 +86,16 @@ int main(int argc, char const *argv[])
     vec_5.reserve(77);
 
     showVector(vec_5, "vec_5 after reserve(sizeType __newSize):\n");
+
+    int array[] = {7, 6, 5, 4, 3, 2, 1};
+    vec_5 = My_Vector<int>(array, array + 7);
+
+    showVector(
+                vec_5, 
+                "vec_5 After "
+                "My_Vector(const valueType * __first, const valueType * __last) and "
+                "My_Vector(My_Vector && __vec):\n"
+            );
 #endif
 
     DONE
