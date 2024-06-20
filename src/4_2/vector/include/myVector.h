@@ -182,7 +182,9 @@ class My_Vector
         constReference operator[](sizeType __n) const { return *(begin() + __n); }
         My_Vector &    operator= (const My_Vector<Type> & __vec)
         {
-            if (this != &__vec) { return *this; }
+            if (this == &__vec) { return *this; }
+
+            this->~My_Vector();
 
             this->start  = dataAllocator::allocate(__vec.capacity());
             this->finish = std::uninitialized_copy(__vec.begin(), __vec.end(), this->begin());
@@ -192,9 +194,11 @@ class My_Vector
             return *this;
         }
 
-        My_Vector &    operator= (My_Vector<Type> && __vec)
+        My_Vector & operator= (My_Vector<Type> && __vec)
         {
-            if (this != &__vec) { return *this; }
+            if (this == &__vec) { return *this; }
+
+            this->~My_Vector();
 
             this->start         = __vec.start;
             this->finish        = __vec.finish;
@@ -242,10 +246,21 @@ class My_Vector
         /**
          * @brief 从初始化参数列表拷贝数据到 vector
         */
-        My_Vector(const std::initializer_list<Type> & __initList)
+        My_Vector(const std::initializer_list<valueType> & __initList)
         {
             this->start  = dataAllocator::allocate(__initList.size());
             this->finish = std::uninitialized_copy(__initList.begin(), __initList.end(), this->begin());
+
+            this->endOfStorage = this->finish;
+        }
+
+        /**
+         * @brief 从 C 风格数组拷贝数据到 vector 
+        */
+        My_Vector(const valueType * __first, const valueType * __last)
+        {
+            this->start  = dataAllocator::allocate(sizeType(__last - __first));
+            this->finish = std::uninitialized_copy(__first, __last, this->begin());
 
             this->endOfStorage = this->finish;
         }
