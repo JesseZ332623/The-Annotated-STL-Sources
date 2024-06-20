@@ -35,10 +35,16 @@
 
 ## 学习到第四章 序列式容器的 vector，且已经搓完了 vector
 
-- 详见 `./src/4_2/vector/`
+- 详见 [一个基本的 vector 容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/vector/include/myVector.h)
+
+## 2024.06.20
+
+## 仔细学习了 C++ STL 的内存操作函数
+
+- 详见 [补充：C++ 的内存操作函数](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/%E8%A1%A5%E5%85%85%EF%BC%9AC%2B%2B%20%E7%9A%84%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0.md)
 
 Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
-Latest Update: 2024.06.18
+Latest Update: 2024.06.20
