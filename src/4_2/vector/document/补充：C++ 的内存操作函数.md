@@ -116,4 +116,4 @@ catch (...)
     dataAllocator::deallocate(newStart, allocateLength);
     throw;
 }
-``
+```
