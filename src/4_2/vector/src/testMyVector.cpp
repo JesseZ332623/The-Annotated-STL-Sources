@@ -96,6 +96,12 @@ int main(int argc, char const *argv[])
                 "My_Vector(const valueType * __first, const valueType * __last) and "
                 "My_Vector(My_Vector && __vec):\n"
             );
+
+    My_Vector<int> vec_6 = {1, 2, 3};
+
+    vec_6.insert(vec_6.end(), 18, 123);
+
+    showVector(vec_6, "vec_6 After insert():\n");
 #endif
 
     DONE
