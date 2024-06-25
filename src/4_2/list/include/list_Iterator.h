@@ -69,7 +69,7 @@ struct ListIterator
      * @brief 比较运算符重载，
      *        用于比较两个迭代器所保存的节点地址是否相等。
     */
-    bool operator==(const self & __x) const { return (this->node = __x.node); }
+    bool operator==(const self & __x) const { return (this->node == __x.node); }
 
     /**
      * @brief 比较运算符重载，
@@ -107,7 +107,7 @@ struct ListIterator
      * @brief - 这种设计在需要先使用当前迭代器值然后再移动迭代器的情况下非常有用，
      *          例如在循环中同时遍历和修改容器内容时。
     */
-    self & operator++(int)
+    self operator++(int)
     {
         self tempIter = (*this);
         ++(*this);
@@ -127,9 +127,9 @@ struct ListIterator
     }
 
     /**
-     * @brief 和 `self & operator++(int)` 性质相似。
+     * @brief 和 `self operator++(int)` 性质相似。
     */
-    self & operator--(int)
+    self operator--(int)
     {
         self tempIter = (*this);
         --(*this);
