@@ -13,17 +13,20 @@
 #include "../../simple_allocator/simpleAlloc.h"
 
 #include <memory>
+#include <type_traits>
+#include <initializer_list>
 
 /**
  * @brief 按照 STL 标准实现的双向链表
  * 
- * @tparam Type  双向链表节点类型
+ * @tparam Type  双向链表节点数据类型
  * @tparam Alloc 容器使用的分配器类型，默认为 `std::allocator<ListNode<Type>>`
 */
 template <typename Type, typename Alloc = std::allocator<ListNode<Type>>>
 class MyList
 {
     protected:
+        using valueType      = Type;
         using listNode       = ListNode<Type>;                              // 链表节点类型
         using nodeAllocator  = Simple_Alloc<listNode, Alloc>;               // 链表节点分配器类型
 
@@ -84,7 +87,7 @@ class MyList
         }
 
         /**
-         * @brief 初始化一张空链表。
+         * @brief 辅助函数，初始化一张空链表。
          * 
          * @brief - 分配一个空节点，
          *          不构建值且令节点内头尾指针都指向自己
@@ -96,8 +99,114 @@ class MyList
             this->nodePointer->next = this->nodePointer;
             this->nodePointer->prev = this->nodePointer;
         }
+
+        /**
+         * @brief 辅助函数，把 `[__first, __last)` 内的所有元素移动到 `__pos` 之前。
+         * 
+         * @brief - 该方法详细的操作示意见：`list\\document\\transferOperator.dio`
+        */
+        void transfer(iterator __pos, iterator __first, iterator __last)
+        {   
+            // 至少确保 [__first, __last) 的范围必须在 __pos 之后。
+            if (__pos != __last)
+            {
+                (*(linkType((*__last.node).prev))).next  = __pos.node;     // (1)
+                (*(linkType((*__first.node).prev))).next = __last.node;    // (2)
+                (*(linkType((*__pos.node).prev))).next   = __first.node;   // (3)
+                linkType tmp = linkType((*__pos.node).prev);               // (4)
+                (*__pos.node).prev   = (*__last.node).prev;                // (5)
+                (*__last.node).prev  = (*__first.node).prev;               // (6)
+                (*__first.node).prev = tmp;                                // (7)
+            }
+        }
+
+        /**
+         * @brief 辅助函数，将链表的 `__n` 个节点值填充为 `__value`。
+        */
+        void fillInitialize(sizeType __n, const valueType & __value)
+        {
+            for (; __n; --__n) { this->push_back(__value); }
+        }
+
+        /**
+         * @brief 辅助函数，
+         *        将链表的 `__n` 个节点值调用节点数据类型的默认构造函数 `valueType()` 进行填充。
+        */
+        void defaultInitialize(sizeType __n)
+        {
+            for (; __n; --__n) { this->push_back(valueType()); }
+        }
+
     public:
+
+        /**
+         * @brief 默认构造函数。
+         * 
+         * @brief - 初始化节点计数并构建空链表。 
+        */
         MyList() : nodeCount(0ULL) { this->emptyInitialize(); }
+
+        /**
+         * @brief 创造 `__n` 个链表节点，
+         *        每一个节点都调用节点数据的默认构造函数进行构建。
+        */
+        explicit MyList(sizeType __n) : nodeCount(0ULL)
+        {
+            this->emptyInitialize();
+            this->defaultInitialize(__n);
+        }
+
+        /**
+         * @brief 创造 `__n` 个链表节点，
+         *        每一个节点数据都设为 `__value`。
+        */
+        MyList(sizeType __n, const valueType & __value) : nodeCount(0ULL)
+        {
+            this->emptyInitialize();
+            this->fillInitialize(__n, __value);
+        }
+
+        /**
+         * @brief 从初始化列表中获取数据并构造链表。
+        */
+        explicit MyList(std::initializer_list<Type> __initList) : nodeCount(0ULL)
+        {
+            this->emptyInitialize();
+            
+            for (const Type & n : __initList)
+            {
+                this->push_back(n);
+            }
+        }
+
+        /**
+         * @brief 从 [__first, __last) 迭代器范围内获取数据并构建链表。
+         * 
+         * @tparam InputIterator 待拷贝容器迭代器类型
+         * @tparam std::enable_if_t<!std::is_integral<InputIterator>::value> 
+         *         用于对模板参数进行限制，当 InputIterator 是整数类型时，不实例化该构造函数。
+        */
+        template <
+                    typename InputIterator, 
+                    typename = std::enable_if_t<!std::is_integral<InputIterator>::value>
+            >
+        MyList(InputIterator __first, InputIterator __last) : nodeCount(0ULL)
+        {
+            this->emptyInitialize();
+
+            InputIterator tempIter = __first;
+
+            while (__first != __last)
+            {
+                this->push_back(*__first);
+                ++tempIter;
+                __first = tempIter;
+            }
+        }
+
+        MyList(MyList &&) = default;
+
+        ~MyList() = default;
 
         /**
          * @brief 获取链表第一个元素的迭代器。 
@@ -120,6 +229,12 @@ class MyList
          * @brief 获取链表的节点数。
         */
         sizeType size() const { return this->nodeCount; }
+
+        /**
+         * @brief 设置链表节点计数，
+         *        这在 merge() splice() 等会大幅改变链表节点数的时候会用到。
+        */
+        void setSize(sizeType __newSize) { this->nodeCount = __newSize; }
         
         /**
          * @brief 获取链表第一个节点值的引用。 
@@ -139,7 +254,7 @@ class MyList
          * 
          * @return 插入完成后新节点的迭代器
         */
-        iterator insert(iterator __pos, const Type & __data)
+        iterator insert(iterator __pos, const valueType & __data)
         {
             linkType tempNode = this->createNode(__data);
 
@@ -161,6 +276,11 @@ class MyList
         */
         void push_back(const Type & __data)  { this->insert(this->end(), __data); }
         
+        /**
+         * @brief 从链表尾部插入节点（针对右值参数类型进行优化）
+        */
+        void push_back(Type && __data)  { this->insert(this->end(), std::move(__data)); }
+
         /**
          * @brief 从链表头部插入节点
          * 
@@ -235,6 +355,64 @@ class MyList
          * @brief - 如：`{1，2，2，3，4，1}` -----> `{1，2，3，4，1}`
         */
         void unique();
+        
+        /**
+         * @brief 将整张链表 `__x` 拼接到 `__pos` 迭代器之前
+         * 
+         * @brief - 注意：链表 `__x` 必须不同于 `(*this)`
+        */
+        void splice(iterator __pos, MyList & __x) 
+        {
+            if (!__x.empty()) 
+            { 
+                this->transfer(__pos, __x.begin(), __x.end());
+
+                this->setSize(this->size() + __x.size());
+                __x.setSize(0ULL);
+            }
+        }
+
+        /**
+         * @brief 将迭代器 `iter` 所指元素接合于 `__pos` 之前，
+         *        __pos 和 iter 可以指向同一个链表的节点
+        */
+        void splice(iterator __pos, MyList & __x, iterator iter)
+        {
+            iterator tempIter = iter;
+            ++tempIter;
+            
+            /**
+             * 若 iter 后面一个节点就是 __pos，
+             * 那就没有执行 transfer() 的必要
+            */
+            if (__pos == iter || __pos == tempIter) { return; }
+
+            this->transfer(__pos, iter, tempIter);
+
+            if (&__x != this) { __x.setSize(__x.size() - 1); ++this->nodeCount; }
+
+        }
+        
+        /**
+         * @brief 将迭代器 `[__first, __last)` 内的所有元素接合到 `__pos` 所指位置之前。
+         * 
+         *  @brief - 注意：`[__first, __last)` 和 `__pos` 所指的节点都可以在同一个链表内，
+         *           但是 `__pos` 不能在 `[__first, __last)` 范围内
+        */
+        void splice(iterator __pos, MyList & __x, iterator __first, iterator __last)
+        {
+            if (__first != __last)  // 区间内不可以只有一个或没有节点
+            {   
+                if (&__x != this) 
+                {  
+                    sizeType spliceNodeCount = std::distance(__first, __last);
+                    __x.setSize(__x.size() - spliceNodeCount);
+                    this->setSize(this->size() + spliceNodeCount);
+                }
+
+                this->transfer(__pos, __first, __last);
+            }
+        }
 };
 
 template <typename Type, typename Alloc>
@@ -286,6 +464,7 @@ void MyList<Type, Alloc>::remove(const Type & __value)
 
         first = tempIter;   // 更新迭代器
     }
+
 }
 
 template <typename Type, typename Alloc>
