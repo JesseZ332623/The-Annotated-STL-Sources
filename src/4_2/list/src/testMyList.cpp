@@ -2,53 +2,51 @@
 
 #include <MyLib/myLogerDef.h>
 #include <algorithm>
+#include <list>
 
 template <typename Type>
-void showList(const MyList<Type> & __myList, const char __note);
+void showList(const MyList<Type> & __myList, std::string __msg, const char __note);
 
 int main(int argc, char const *argv[])
 {
     system("cls");
 
-    MyList<std::string> stringList;
+    int array[] = {5, 45, 567, 5, 134, 67};
 
-    stringList.push_back("123123123");
-    stringList.push_back("This is a test string.");
-    stringList.push_back("This is a test string.");
-    stringList.push_back("Try one's best.");
-    stringList.push_back("This is a worse world.");
-    stringList.push_back("Why are you billy me??");
-    stringList.push_back("Do you like van you see~");
-    stringList.push_back("Oh my fucking god!");
+    MyList<int> list_1(array, array + 6);
+    MyList<int> list_2(5, 0x7FFFFFFF);
+    
+    showList(list_1, "list_1 = ", ' ');
+    showList(list_2, "list_2 = ", ' ');
+    
+    list_1.splice(list_1.end(), list_2, list_2.begin(), list_2.end());
 
-    showList(stringList, '\n');
-
-    stringList.unique();
-
-    showList(stringList, '\n');
+    showList(list_1, "list_1 = ", ' ');
+    showList(list_2, "list_2 = ", ' ');
 
     return EXIT_SUCCESS;
 }
 
 template <typename Type>
-void showList(const MyList<Type> & __myList, const char __note)
+void showList(const MyList<Type> & __myList, std::string __msg, const char __note)
 {
     using namespace MyLib::MyLoger;
-
-    printSplitLine(45, '-');
 
     NOTIFY_LOG("List size = [" + std::to_string(__myList.size()) + "]\n");
 
     auto tempIter = __myList.begin();
+
+    if (!__msg.empty()) { CORRECT_LOG(__msg + "{"); }
+
+    if (__myList.empty()) { CORRECT_LOG("}\n\n"); return; }
 
     for (const Type & n : __myList) 
     { 
         ++tempIter;
         CORRECT_LOG(n);
 
-        if (tempIter != __myList.end()) { std::cout.put('\n'); }
+        if (tempIter != __myList.end()) { std::cout.put(__note); }
     }
 
-    std::cout.put('\n'); 
-    printSplitLine(45, '-');
+    CORRECT_LOG("}\n\n");
 }
