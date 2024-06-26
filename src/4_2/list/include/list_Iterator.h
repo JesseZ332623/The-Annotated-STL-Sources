@@ -38,21 +38,24 @@ struct ListIterator
         - `std::bidirectional_iterator_tag` 是一个预定义的类型标签，表明这个迭代器属于双向迭代器类别。
            这是为了满足 STL 迭代器分类的要求，使得算法可以根据迭代器的类型来确定可以调用哪些操作。
     */
-    using iteratorCategory = std::bidirectional_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
 
-    using typeValue         = Type;
-    using pointer           = Type *;
-    using reference         = Ref;
-    using linkType          = ListNode<Type> *;     // 指向了 `ListNode<Type>` 节点的指针类型
-    using sizeType          = std::size_t;
-    using differenceType    = std::ptrdiff_t;
+    using value_type         = Type;
+    using pointer            = Type *;
+    using reference          = Ref;
+    using linkType           = ListNode<Type> *;     // 指向了 `ListNode<Type>` 节点的指针类型
+    using sizeType           = std::size_t;
+    using difference_type    = std::ptrdiff_t;
+
+    
+    using iterator_traits   = std::iterator_traits<linkType>;
 
     linkType node;          // 指向了一个 `ListNode<Type>` 节点的指针
 
     /**
      * @brief 默认构造函数。 
     */
-    ListIterator() {}
+    ListIterator() : node(nullptr) {}
 
     /**
      * @brief 参数构造函数，
