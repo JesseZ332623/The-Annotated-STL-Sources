@@ -17,7 +17,7 @@
 #include <initializer_list>
 
 /**
- * @brief 按照 STL 标准实现的双向链表
+ * @brief 按照 STL 标准实现的双向链表（使用 `Bidrectional Iterators`（双向迭代器））
  * 
  * @tparam Type  双向链表节点数据类型
  * @tparam Alloc 容器使用的分配器类型，默认为 `std::allocator<ListNode<Type>>`
@@ -27,13 +27,13 @@ class MyList
 {
     protected:
         using valueType      = Type;
-        using listNode       = ListNode<Type>;                              // 链表节点类型
-        using nodeAllocator  = Simple_Alloc<listNode, Alloc>;               // 链表节点分配器类型
+        using listNode       = ListNode<Type>;                                      // 链表节点类型
+        using nodeAllocator  = Simple_Alloc<listNode, Alloc>;                       // 链表节点分配器类型
 
-        using iterator       = ListIterator<Type, Type &, Type *>;               // 双向链表迭代器
-        using constIterator  = const ListIterator<Type, Type &, Type *>;         // 双向链表只读迭代器
+        using iterator       = ListIterator<Type, Type &, Type *>;                  // 双向链表迭代器
+        using constIterator  = const ListIterator<Type, Type &, Type *>;            // 双向链表只读迭代器
 
-        using reference = Type &;                                                // 表节点数据的引用
+        using reference = Type &;                                                   // 表节点数据的引用
 
         using sizeType          = std::size_t;
         using differenceType    = std::ptrdiff_t;
@@ -355,9 +355,26 @@ class MyList
          * @brief - 如：`{1，2，2，3，4，1}` -----> `{1，2，3，4，1}`
         */
         void unique();
+
+        /**
+         * @brief 将 __x 合并到 (*this) 身上。
+         * 
+         * @brief - 注意：两张链表必须经过递增排序。
+        */
+        void merge(MyList & __x);
+
+        /**
+         * @brief 倒置整张链表。
+        */
+        void reverse();
+
+        /**
+         * @brief 排序整张链表 
+        */
+        void sort();
         
         /**
-         * @brief 将整张链表 `__x` 拼接到 `__pos` 迭代器之前
+         * @brief 将整张链表 `__x` 接合到 `__pos` 迭代器之前
          * 
          * @brief - 注意：链表 `__x` 必须不同于 `(*this)`
         */
@@ -396,7 +413,7 @@ class MyList
         /**
          * @brief 将迭代器 `[__first, __last)` 内的所有元素接合到 `__pos` 所指位置之前。
          * 
-         *  @brief - 注意：`[__first, __last)` 和 `__pos` 所指的节点都可以在同一个链表内，
+         * @brief - 注意：`[__first, __last)` 和 `__pos` 所指的节点都可以在同一个链表内，
          *           但是 `__pos` 不能在 `[__first, __last)` 范围内
         */
         void splice(iterator __pos, MyList & __x, iterator __first, iterator __last)
@@ -412,6 +429,24 @@ class MyList
 
                 this->transfer(__pos, __first, __last);
             }
+        }
+
+        /**
+         * @brief 交换两张链表 
+         * 
+         * @brief - 实现很粗暴，
+         *          交换两张链表的链表指针和链表节点计数即可。
+        */
+        void swap(MyList & __x) 
+        {
+            linkType tempNodePtr = this->nodePointer;
+            sizeType tempSize    = this->size();
+
+            this->nodePointer = __x.nodePointer;
+            __x.nodePointer = tempNodePtr;
+
+            this->setSize(__x.size());
+            __x.setSize(tempSize);
         }
 };
 
@@ -464,7 +499,6 @@ void MyList<Type, Alloc>::remove(const Type & __value)
 
         first = tempIter;   // 更新迭代器
     }
-
 }
 
 template <typename Type, typename Alloc>
@@ -507,6 +541,86 @@ void MyList<Type, Alloc>::unique()
 
         next = first;
     }
+}
+
+template <typename Type, typename Alloc>
+void MyList<Type, Alloc>::merge(MyList<Type, Alloc> & __x)
+{
+    iterator thisFirst = this->begin();
+    iterator thisEnd   = this->end();
+    iterator xFirst    = __x.begin();
+    iterator xEnd      = __x.end();
+
+    this->setSize(this->size() + __x.size());
+    __x.setSize(0);
+
+    while (thisFirst != thisEnd && xFirst != xEnd)
+    {
+        if (*xFirst < *thisFirst)
+        {
+            iterator next = xFirst;
+            this->transfer(thisFirst, xFirst, ++next);
+            xFirst = next;
+        }
+        else { ++thisFirst; }
+    }
+
+    if (xFirst != xEnd) { this->transfer(thisEnd, xFirst, xEnd); }
+}
+
+template <typename Type, typename Alloc>
+void MyList<Type, Alloc>::reverse()
+{
+    /**
+     * 若表中只有一个或没有元素，那么就什么也不做。
+     * 书中的 size() 实现每次调用都使用 std::distance() 遍历迭代器，复杂度 O(n)，
+     * 归功于在每一个成员算法下计算节点计数，此处 size() 实现只是返回节点计数，复杂度 O(1)。
+    */
+    if (this->size() == 0 || this->size() == 1) { return; }
+
+    iterator first = this->begin(); ++first;
+
+    while (first != this->end())
+    {
+        iterator old = first; ++first;
+
+        this->transfer(this->begin(), old, first);
+    }
+}
+
+template <typename Type, typename Alloc>
+void MyList<Type, Alloc>::sort()
+{
+    if (this->size() == 0 || this->size() == 1) { return; }
+
+    /**
+     * 一些新的中介数据区。
+    */
+    MyList<Type, Alloc> carry;
+    MyList<Type, Alloc> counter[64];
+    int fill = 0;
+
+    while (!this->empty())
+    {
+        carry.splice(carry.begin(), *this, this->begin());
+        int i = 0;
+
+        while (i < fill && !counter[i].empty())
+        {
+            counter[i].merge(carry);
+            carry.swap(counter[i++]);
+        }
+
+        carry.swap(counter[i]);
+        if (i == fill) ++fill;
+    }
+
+    for (int i = 1; i < fill; ++i) 
+    {  
+        counter[i].merge(counter[i - 1]);
+    }
+
+    this->swap(counter[fill - 1]);
 }
 
 #endif // __LIST_H_
