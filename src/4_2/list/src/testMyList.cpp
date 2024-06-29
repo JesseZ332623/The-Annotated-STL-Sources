@@ -1,36 +1,41 @@
 #include "../include/list.h"
 
 #include <MyLib/myLogerDef.h>
+#include <MyLib/simpleContainerOperator.h>
 #include <algorithm>
-#include <list>
+
+//#include <list>
 
 template <typename Type>
-void showList(const MyList<Type> & __myList, std::string __msg, const char __note);
+void showList(const MyList<Type> & __myList, const std::string __msg, const char __note);
 
 int main(int argc, char const *argv[])
 {
     system("cls");
 
-    int array[] = {5, 45, 567, 5, 134, 67};
+    using namespace MyLib::SimpleContainerOperator;
 
-    MyList<int> list_1(array, array + 6);
-    MyList<int> list_2(5, 0x7FFFFFFF);
+    int array[] = {5, 478456, 2356, 4, 546234, 32, 1021, 1101};
+    int array_2[] = {1, 8, 9, 12};
+
+    MyList<int> list_1(array, array + 8);
+    MyList<int> list_2(array_2, array_2 + 4);
     
     showList(list_1, "list_1 = ", ' ');
     showList(list_2, "list_2 = ", ' ');
-    
-    list_1.splice(list_1.end(), list_2, list_2.begin(), list_2.end());
+
+    list_1.sort();
 
     showList(list_1, "list_1 = ", ' ');
-    showList(list_2, "list_2 = ", ' ');
 
     return EXIT_SUCCESS;
 }
 
 template <typename Type>
-void showList(const MyList<Type> & __myList, std::string __msg, const char __note)
+void showList(const MyList<Type> & __myList, const std::string __msg, const char __note)
 {
     using namespace MyLib::MyLoger;
+    using namespace MyLib::MyDelay;
 
     NOTIFY_LOG("List size = [" + std::to_string(__myList.size()) + "]\n");
 
@@ -44,6 +49,7 @@ void showList(const MyList<Type> & __myList, std::string __msg, const char __not
     { 
         ++tempIter;
         CORRECT_LOG(n);
+        delay(45);
 
         if (tempIter != __myList.end()) { std::cout.put(__note); }
     }
