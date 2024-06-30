@@ -24,7 +24,7 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 ## 2024.06.25
 
-## 学习序列式容器之 list，正在实现 list
+## 学习序列式容器之 list，已经搓完了 list
 
 - 详见 [STL 双向链表的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/4_2/list)
 
