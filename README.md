@@ -32,7 +32,7 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 ## 学习序列容器之 deque（双端队列），目前正在实现双端队列的迭代器
 
-- 详见 [STL 双端队列的迭代器实现](111)
+- 详见 [STL 双端队列的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/list/include/list_Iterator.h)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
