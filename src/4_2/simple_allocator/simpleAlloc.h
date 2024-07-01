@@ -10,7 +10,7 @@ public:
     static Type *allocate(std::size_t __n)
     {
         Alloc allocInstance;
-        return (!__n) ? nullptr : allocInstance.allocate(__n * sizeof(Type));
+        return (!__n) ? nullptr : (Type *)allocInstance.allocate(__n * sizeof(Type));
     }
 
     static Type *allocate(void)
