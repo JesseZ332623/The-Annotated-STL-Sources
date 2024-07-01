@@ -60,22 +60,28 @@ struct Deque_Iterator
 
     map_pointer node;   // 指向中控 map 的指针
 
+    Deque_Iterator() = default;
+
     /**
      * @brief 计算应该分配多少缓冲区大小。
     */
-    static std::size_t setBufferSize(void) { return __dequeBufferSize(Buffer_Size, sizeof(Type)); }
+    static std::size_t getBufferSize(void) { return __dequeBufferSize(Buffer_Size, sizeof(Type)); }
 
+    /**
+     * @brief 设置新节点，传入一个节点值 `__newNode`，
+     *        可以随意切换到 map 中的任意节点
+    */
     void setNode(map_pointer __newNode) 
     { 
         this->node  = __newNode;
         this->first = *__newNode;
-        this->last  = this->first + difference_type(this->setBufferSize());
+        this->last  = this->first + difference_type(this->getBufferSize());
     }
 
     /**
      * @brief 取当前缓冲区现行元素的值。
     */
-    reference operator*()  const { return *this->current; }
+    reference operator*() const { return *this->current; }
 
     /**
      * @brief 取当前缓冲区现行元素的地址。
@@ -90,14 +96,156 @@ struct Deque_Iterator
      * 
      * @brief - 迭代器 a 和 b 的距离 = 两个节点的差值 * 缓冲区大小 + 
      *                                迭代器 a 在缓冲区内的相对位置 + 迭代器 b 在缓冲区内的相对位置
-     * 
     */
     difference_type operator-(const self & __x) const
     {
         if (this == &__x) { return difference_type(0LL); }
 
-        return difference_type(this->setBufferSize()) * (this->node - __x.node - 1) + 
+        return difference_type(this->getBufferSize()) * (this->node - __x.node - 1) + 
                (this->current - this->first) + (__x.last - __x.current);
+    }
+
+    /**
+     * @brief 参考 `More Effective C++`，
+     *        条款 6: 区分自增运算符和自减运算符的前后缀形式。（此为后缀自增，拿到下一个元素的地址）
+    */
+    self & operator++()
+    {
+        ++this->current;
+
+        if (this->current == this->last)    // 若达到当前缓冲区末尾
+        {
+            this->setNode(this->node + 1);  // 切换到下一个节点
+            this->current = this->first;    // 指向下一个节点所指的缓冲区的第一个元素
+        }
+
+        return (*this);
+    }
+
+    /**
+     * @brief 前缀自增
+    */
+    self operator++(int)
+    {
+        self tempIter = *this;
+        ++(*this);
+
+        return tempIter;
+    }
+
+    /**
+     * @brief 前缀自减，拿到前一个元素的地址。
+    */
+    self & operator--()
+    {
+        if (this->current == this->first) // 若达到当前缓冲区开头
+        {
+            /**
+             * 切换到上一个节点最后一个元素的下一个位置。
+            */
+            this->setNode(this->node - 1);  
+            this->current = this->last;      
+        }
+        --this->current;    // 切换至前一个元素
+
+        return (*this);
+    }
+
+    /**
+     * @brief 前缀自减。
+    */
+    self operator--(int)
+    {
+        self tempIter = *this;
+        --(*this);
+
+        return tempIter;
+    }
+
+    /**
+     * @brief 重载 += 运算符，实现 “随机存取” ，
+     *        迭代器可以向前或向后跳跃 n 个元素的距离。
+    */
+    self & operator+=(difference_type __n)
+    {
+        /**
+         * `(this->current - this->first)` 拿到当前缓冲区中剩余的字节数，
+         * 加上 `__n` 得到偏移量 `offset`。
+        */
+        difference_type offset = __n + (this->current - this->first);
+
+        /**
+         * 偏移量在当前缓冲内 (0 < offset < getBufferSize())，直接偏移指针即可。
+        */
+        if (offset >= 0 && offset < difference_type(this->getBufferSize()))
+        {
+            this->current += __n;
+        }
+        else    // 偏移量 offset 超过了当前缓冲区，需要对节点 node 进行切换。
+        {
+            /**
+             * 判断 offset 是否大于 0，来处理节点向前向后偏移的情况。
+             * 
+             * 1. 向前偏移，取 offset / bufferSize 的商（向上取整），作为向前偏移的节点数。
+             * 
+             * 2. 向后偏移，取 -(-offset - 1) / bufferSize 的商（避免向下取整的偏差），作为向后偏移的节点数。
+            */
+            difference_type nodeOffset = (offset > 0) ? offset / difference_type(this->getBufferSize())
+                                                      : -difference_type((-offset - 1) / this->getBufferSize()) - 1;
+
+            this->setNode(this->node + nodeOffset);
+
+            this->current = this->first + (offset - nodeOffset * difference_type(this->getBufferSize()));
+        }
+
+        return (*this);
+    }
+
+    /**
+     * @brief 参考 `More Effective C++` 条款 22: 
+     *        `Consider using op= instead of stand-alone op`
+     * 
+     * @brief - 这句话鼓励程序员在设计类时优先考虑复合赋值运算符（如 operator+=, operator-=, operator*=, operator/= 等）的实现，
+     *        而不是仅实现独立的二元运算符（如 operator+, operator-, operator*, operator/）
+    */
+    self operator+(difference_type __n) const
+    {
+        self temp = (*this);
+        return temp += __n;
+    }
+
+    /**
+     * @brief 用 operator+=() 来实现 operator-=()
+    */
+    self & operator-=(difference_type __n) { return (*this += -__n); }
+
+    self operator-(difference_type __n) const 
+    {
+        self temp = (*this);
+        return temp -= __n;
+    }
+
+    /**
+     * @brief 实现随机存取，迭代器可以直接跳跃 __n 个距离。
+    */
+    reference operator[](difference_type __n) const { return *(*this + __n); }
+
+    /**
+     * @brief 比较两个迭代器所指的现行元素的指针是否相等。
+    */
+    bool operator==(const self & __x) const { return (this->current == __x.current); }
+
+    /**
+     * @brief 比较两个迭代器所指的现行元素的指针是否不相等。
+    */
+    bool operator!=(const self & __x) const { return !(*this == __x); }
+
+    /**
+     * @brief 比较 (*this) 迭代器所指的现行元素的指针是否小于 __x 迭代器所指的现行元素的指针。
+    */
+    bool operator<(const self & __x) const 
+    {  
+        return (this->node == __x.node) ? (this->current < __x.current) : (this->node < __x.node);
     }
 };
 
