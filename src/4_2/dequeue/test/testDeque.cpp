@@ -1,12 +1,14 @@
 #include "../include/deque.h"
 
-#include <deque>
-
 #include <MyLib/myLogerDef.h>
 
 int main(int argc, char const *argv[])
 {
-    Deque_Iterator<int, int &, int *, 0> iter;
+    using namespace MyLib::MyLoger;
+
+    My_Deque<int> deque_1(64, 0);
+
+    
 
     return EXIT_SUCCESS;
 }
