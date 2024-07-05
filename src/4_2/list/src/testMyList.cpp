@@ -3,6 +3,7 @@
 #include <MyLib/myLogerDef.h>
 #include <MyLib/simpleContainerOperator.h>
 #include <algorithm>
+#include <random>
 
 //#include <list>
 
@@ -14,19 +15,33 @@ int main(int argc, char const *argv[])
     system("cls");
 
     using namespace MyLib::SimpleContainerOperator;
+    using namespace MyLib::MyLoger;
 
-    int array[] = {5, 478456, 2356, 4, 546234, 32, 1021, 1101};
-    int array_2[] = {1, 8, 9, 12};
-
-    MyList<int> list_1(array, array + 8);
-    MyList<int> list_2(array_2, array_2 + 4);
+    std::random_device  randDeveice;
+    std::mt19937        randomEngine(randDeveice());
+    std::uniform_int_distribution<> distribution(0, 170000);
     
-    showList(list_1, "list_1 = ", ' ');
-    showList(list_2, "list_2 = ", ' ');
+    MyList<int> testList_1(15);
+    MyList<std::string> testList_2(15, "Hello");
 
-    list_1.sort();
+    for (auto beginIt = testList_1.begin(); beginIt != testList_1.end(); ++beginIt)
+    {
+        *beginIt = distribution(randomEngine);
+    }  
 
-    showList(list_1, "list_1 = ", ' ');
+    showList(testList_1, "testLst_1: ", ' ');
+    showList(testList_2, "testLst_2: ", ' ');
+
+
+    auto tList2Iter = testList_2.begin();
+    std::advance(tList2Iter, 5);
+
+    testList_2.insert(tList2Iter, "123");
+
+    showList(testList_1, "testLst_1: ", ' ');
+    showList(testList_2, "testLst_2: ", ' ');
+
+    DONE
 
     return EXIT_SUCCESS;
 }
@@ -48,7 +63,7 @@ void showList(const MyList<Type> & __myList, const std::string __msg, const char
     for (const Type & n : __myList) 
     { 
         ++tempIter;
-        CORRECT_LOG(n);
+        NOTIFY_LOG(n);
         delay(45);
 
         if (tempIter != __myList.end()) { std::cout.put(__note); }
