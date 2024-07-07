@@ -6,7 +6,7 @@
 
 ## 学习到 该章节的时候手一热搓了个单项链表容器的实现
 
-详见：[一个单向链表（forward-list）的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/3_2/myForwardList)
+详见：[一个单向链表（forward-list）的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/3_2/myForwardList/src/include/My_Forward_List.h)
 
 ## 2024.06.18
 
@@ -26,7 +26,7 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 ## 学习序列式容器之 list（双端链表），已经搓完了 list
 
-- 详见 [STL 双向链表的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/4_2/list)
+- 详见 [STL 双向链表的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/4_2/list/include/list.h)
 
 ## 2024.06.30
 
