@@ -38,7 +38,7 @@ template <
             typename Category, typename Type, typename Distance = std::ptrdiff_t,
             typename Pointer = Type *, typename Reference = Type &
         >
-class iterator
+struct iterator
 {
     typedef Category        iterator_category;
     typedef Type            value_type;
@@ -54,7 +54,7 @@ class iterator
  * @tparam 迭代器的类型
 */
 template <typename Iterator>
-class iterator_traits
+struct iterator_traits
 {
     typedef typename Iterator::iterator_category            iterator_category;
     typedef typename Iterator::value_type                   value_type;
@@ -70,7 +70,7 @@ class iterator_traits
  * @tparam Type 迭代器所指数据的类型
 */
 template <typename Type>
-class iterator_traits<Type *>
+struct iterator_traits<Type *>
 {
     /**
      * 裸指针可以支持随机访问，
@@ -88,7 +88,7 @@ class iterator_traits<Type *>
  *        等类型`iterator_traits` 偏特化
 */
 template <typename Type>
-class iterator_traits<const Type *>
+struct iterator_traits<const Type *>
 {
     /**
      * 裸指针可以支持随机访问，
@@ -128,7 +128,7 @@ template <typename Iterator>
 inline typename iterator_traits<Iterator>::difference_type *
 distance_type(const Iterator &)
 {
-    return static_cast<typename iterator_traits<Iterator>::difference_type *>();
+    return static_cast<typename iterator_traits<Iterator>::difference_type *>(0);
 }
 
 /**
@@ -140,7 +140,7 @@ template <typename Iterator>
 inline typename iterator_traits<Iterator>::value_type * 
 value_type(const Iterator &)
 {
-    return static_cast<typename iterator_traits<Iterator>::value_type *>();
+    return static_cast<typename iterator_traits<Iterator>::value_type *>(0);
 }
 
 /**
@@ -189,5 +189,41 @@ distance(InputIterator __first, InputIterator __last, input_iterator_tag)
     return __distance(__first, __last, catagory());
 }
 
+/**
+ * @brief 针对只写迭代器，单向迭代器设计的，用于把迭代器向后偏移 __n 个元素的函数。
+*/
+template <typename InputIterator, typename Distance>
+inline void __advance(InputIterator & __iter, Distance __n, input_iterator_tag)
+{
+    while (__n--) { ++__iter; }
+}
+
+/**
+ * @brief 针对双向迭代器设计的，用于把迭代器向后偏移 __n 个元素的函数。
+*/
+template <typename BidirectionalIterator, typename Distance>
+inline void __advance(BidirectionalIterator & __iter, Distance __n, bidirectional_iteratora_tag)
+{
+    if (__n >= 0)
+    {
+        while (__n--) { ++__iter; }
+    }
+    else
+    {
+        while (__n++) { --__iter; }
+    }
+}
+
+template <typename RandomAccessIterator, typename Distance>
+inline void __advance(RandomAccessIterator & __iter, Distance __n, random_access_iterator_tag)
+{
+    __iter += __n;
+}
+
+template <typename InputIterator, typename Distance>
+inline void my_advance(InputIterator & __iter, Distance __n)
+{
+    __advance(__iter, __n, iterator_category(__iter));
+}
 
 #endif // __STL_ITERATOR_H_
