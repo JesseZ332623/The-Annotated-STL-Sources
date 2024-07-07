@@ -60,8 +60,6 @@ struct Deque_Iterator
 
     map_pointer node;   // 指向中控 map 的指针
 
-    Deque_Iterator() = default;
-
     /**
      * @brief 计算应该分配多少缓冲区大小。
     */
@@ -99,7 +97,7 @@ struct Deque_Iterator
     */
     difference_type operator-(const self & __x) const
     {
-        if (this == &__x) { return difference_type(0LL); }
+        //if (this == &__x) { return difference_type(0LL); }
 
         return difference_type(this->getBufferSize()) * (this->node - __x.node - 1) + 
                (this->current - this->first) + (__x.last - __x.current);
@@ -128,7 +126,7 @@ struct Deque_Iterator
     self operator++(int)
     {
         self tempIter = *this;
-        ++(*this);
+        ++*this;
 
         return tempIter;
     }
@@ -146,6 +144,7 @@ struct Deque_Iterator
             this->setNode(this->node - 1);  
             this->current = this->last;      
         }
+
         --this->current;    // 切换至前一个元素
 
         return (*this);
@@ -157,7 +156,7 @@ struct Deque_Iterator
     self operator--(int)
     {
         self tempIter = *this;
-        --(*this);
+        --*this;
 
         return tempIter;
     }
@@ -217,7 +216,7 @@ struct Deque_Iterator
     /**
      * @brief 用 operator+=() 来实现 operator-=()
     */
-    self & operator-=(difference_type __n) { return (*this += -__n); }
+    self & operator-=(difference_type __n) { return *this += -__n; }
 
     self operator-(difference_type __n) const 
     {
