@@ -16,7 +16,7 @@
  *          数组中的每一个元素都是指向了堆上一片连续内存空间（称作缓冲区）的指针。
  * 
  * @brief - SGI STL 的实现允许用户指定缓冲区大小（但是在现代 STL 版本中，这个模板参数被屏蔽），
- *          默认值为 0 意味着使用 512 字节大小的缓冲区。
+ *          默认值为 0 意味着使用 512 个 Type 类型大小的缓冲区。
  * 
  * @tparam Type         双端队列内数据类型
  * @tparam BufferSize   缓冲区大小
@@ -35,6 +35,7 @@ class My_Deque
     
     public:
         typedef Deque_Iterator<Type, Type &, Type *, BufferSize> iterator;
+        typedef const Deque_Iterator<Type, Type &, Type *, BufferSize> const_iterator;
 
     protected:
         typedef pointer *       map_pointer;
@@ -114,6 +115,20 @@ class My_Deque
 
         /**
          * @brief 辅助函数，
+         *        在 `pop_back()` 操作中遇到当前 `finish` 指针所指缓冲区内仅有一个元素的时候，
+         *        调用该函数释放这个缓冲区，并调整 `finish` 指针的位置。
+        */
+        void pop_back_aux(void);
+
+        /**
+         * @brief 辅助函数，
+         *        在 `pop_front()` 操作中遇到当前 `start` 指针所指缓冲区内没有两个或更多元素时，
+         *        调用该函数释放这个缓冲区，并调整 `start` 指针的位置。
+        */
+        void pop_front_aux(void);
+
+        /**
+         * @brief 辅助函数，
          *        在指针数组 map 装满的情况下，重新配置 map。
          * 
          * @param __nodesToAdd 需要插入多少节点
@@ -148,9 +163,9 @@ class My_Deque
         {
             this->fill_initialize(0, 0);
         }
+
         My_Deque(size_type __n, const value_type & __value) : start(), finish(), map(nullptr), map_size(0ULL)
         {
-            //std::cout << "Construct deque, buffer size = " << iterator::getBufferSize() << '\n';
             this->fill_initialize(__n, __value);
         }
 
@@ -184,11 +199,15 @@ class My_Deque
          * @brief 获取 map 的第一个节点的迭代器
         */
         iterator begin() { return this->start; }
+        iterator begin() const { return this->start; }
+        const_iterator cbegin() const { return this->start; }
 
         /**
          * @brief 获取 map 最后一个节点的迭代器
         */
-        iterator end()   { return this->finish; }
+        iterator end() { return this->finish; }
+        iterator end() const { return this->finish; }
+        const_iterator cend() const { return this->finish; }
 
         /**
          * @brief 访问 deque 中第 __n 个元素的值的引用。
@@ -240,25 +259,82 @@ class My_Deque
         */
         bool empty() const { return (this->finish == this->start); }
 
+        /**
+         * @brief 往容器末尾添加元素。
+        */
         void push_back(const value_type & __value)
         {
+            /**
+             * 当 finish 迭代器所指缓冲区还有空位之时，
+             * 直接在当前位置构造并调整 current 指针的位置即可。
+            */
             if (this->finish.current != this->finish.last - 1)
             {
                 std::_Construct(this->finish.current, __value);
                 ++this->finish.current;
             }
             else
-            { this->push_back_aux(__value); }
+            { 
+                /**
+                 * 否则就要调用 push_back_aux() 重新在 
+                 * *(finish.node + 1) 处配置一个新的缓冲区来存放新数据。
+                */
+                this->push_back_aux(__value); 
+            }
         }
 
+        /**
+         * @brief 往容器开头添加元素
+        */
         void push_front(const value_type & __value)
         {
+            /**
+             * 当 start 迭代器所指缓冲区还有空位之时，
+             * 直接在当前位置构造并调整 current 指针的位置即可
+            */
             if (this->start.current != this->start.first)
             {
                 std::_Construct(this->start.current - 1, __value);
                 --this->start.current;
             }
-            else { this->push_front_aux(__value); }
+            else 
+            { 
+                /**
+                 * 否则就要调用 push_back_aux() 重新在 
+                 * *(finish.node + 1) 处配置一个新的缓冲区来存放新数据。
+                */
+                this->push_front_aux(__value); 
+            }
+        }
+
+        /**
+         * @brief 删除容器开头的第一个元素。
+        */
+        void pop_front(void)
+        {
+            if (this->start.current != this->start.last - 1)
+            {
+                std::destroy_at(this->start.current);
+                ++this->start.current;
+            }
+            else { this->pop_front_aux(); }
+        }
+
+        /**
+         * @brief 删除容器末尾的最后一个元素。
+        */
+        void pop_back(void)
+        {
+            if (this->finish.current != this->finish.first)
+            {
+                --finish.current;
+                std::destroy_at(this->finish.current);
+            }
+            else 
+            { 
+                //printf("Call function: push_front_aux()\n");
+                this->pop_back_aux(); 
+            }
         }
 };
 
@@ -437,6 +513,42 @@ void My_Deque<Type, BufferSize, Alloc>::push_back_aux(const value_type & __value
 
         throw;
     }
+}
+
+template <typename Type, std::size_t BufferSize, typename Alloc>
+void My_Deque<Type, BufferSize, Alloc>::pop_back_aux(void)
+{
+    /**
+     * 1. 释放掉迭代器 finish 所指的整个缓冲区。
+     * 
+     * 2. 把 finish 迭代器向前移动一位。
+     * 
+     * 3. 调整 current 指针的位置到当前缓冲区的最后一个元素。
+     * 
+     * 4. 析构掉这个元素，操作完成。
+    */
+    this->deallocate_node(this->finish.first);
+    this->finish.setNode(this->finish.node - 1);
+    this->finish.current = this->finish.last - 1;
+    std::destroy_at(this->finish.current);
+}
+
+template <typename Type, std::size_t BufferSize, typename Alloc>
+void My_Deque<Type, BufferSize, Alloc>::pop_front_aux(void)
+{
+    /**
+     * 1. 析构掉迭代器 start 所指的现行元素。
+     * 
+     * 2. 释放掉迭代器 start 所指的整个缓冲区。
+     * 
+     * 3. 调整 start 迭代器到 map 的下一个缓冲区。
+     * 
+     * 4. 设置迭代器 start 所指的现行元素为当前缓冲区的第一个元素。
+    */
+    std::destroy_at(this->start.current);
+    this->deallocate_node(this->start.first);
+    this->start.setNode(this->start.node + 1);
+    this->start.current = this->start.first;
 }
 
 #endif // __MY_DEQUE_H_
