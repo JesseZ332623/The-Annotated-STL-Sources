@@ -97,7 +97,7 @@ struct Deque_Iterator
     */
     difference_type operator-(const self & __x) const
     {
-        //if (this == &__x) { return difference_type(0LL); }
+        if (this == &__x) { return difference_type(0LL); }
 
         return difference_type(this->getBufferSize()) * (this->node - __x.node - 1) + 
                (this->current - this->first) + (__x.last - __x.current);
