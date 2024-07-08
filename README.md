@@ -28,12 +28,14 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 - 详见 [STL 双向链表的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/4_2/list/include/list.h)
 
-## 2024.06.30
+## 2024.06.30 - 2024.07.08
 
-## 学习序列容器之 deque（双端队列），目前正在实现双端队列的迭代器
+## 学习序列容器之 deque（双端队列），目前正在实现双端队列
 
-- 详见 [STL 双端队列的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/list/include/list_Iterator.h)
+- 详见 [STL 双端队列的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque_iterator.h)
+
+- 以及 [STL 双端队列的容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque.h)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
-Latest Update: 2024.06.30
+Latest Update: 2024.07.08
