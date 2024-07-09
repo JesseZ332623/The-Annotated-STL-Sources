@@ -168,7 +168,7 @@ struct Deque_Iterator
     self & operator+=(difference_type __n)
     {
         /**
-         * `(this->current - this->first)` 拿到当前缓冲区中剩余的字节数，
+         * `(this->current - this->first)` 拿到当前缓冲区中剩余的元素数，
          * 加上 `__n` 得到偏移量 `offset`。
         */
         difference_type offset = __n + (this->current - this->first);
