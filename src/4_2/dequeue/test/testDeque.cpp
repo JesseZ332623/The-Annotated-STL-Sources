@@ -13,8 +13,8 @@ int main(int argc, char const *argv[])
 
     system("cls");
 
-    My_Deque<int> deque_1;
-    std::size_t deque_1_bufferSize = My_Deque<int>::iterator::getBufferSize();
+    My_Deque<int, 8> deque_1;
+    std::size_t deque_1_bufferSize = My_Deque<int, 8>::iterator::getBufferSize();
 
     WARNING_LOG(
                     "My_Deque<int> Buffer size = " + 
@@ -22,21 +22,16 @@ int main(int argc, char const *argv[])
                 );
 
     NOTIFY_LOG("Call push_back() member method 128 times.\n");
-    for (int index = 0; index < 128; ++index)
+    for (int index = 0; index < 12; ++index)
     {
         deque_1.push_back(index);
     }
 
-    showContainerToStream(std::cout, deque_1, deque_1.size() / 2);
+    showContainerToStream(std::cout, deque_1, deque_1.size());
 
-    NOTIFY_LOG("Call pop_back() and pop_front() member method 12 times.\n");
-    for (int index = 0; index < 12; ++index)
-    {
-        deque_1.pop_back();
-        deque_1.pop_front();
-    }
+    deque_1.erase(deque_1.end() - 4);
 
-    showContainerToStream(std::cout, deque_1, deque_1.size() / 2);
+    showContainerToStream(std::cout, deque_1, deque_1.size());
 
     DONE
 
