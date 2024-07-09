@@ -312,6 +312,8 @@ class My_Deque
         */
         void pop_front(void)
         {
+            if (this->empty()) { return; }
+
             if (this->start.current != this->start.last - 1)
             {
                 std::destroy_at(this->start.current);
@@ -325,6 +327,8 @@ class My_Deque
         */
         void pop_back(void)
         {
+            if (this->empty()) { return; }
+            
             if (this->finish.current != this->finish.first)
             {
                 --finish.current;
@@ -335,6 +339,50 @@ class My_Deque
                 //printf("Call function: push_front_aux()\n");
                 this->pop_back_aux(); 
             }
+        }
+
+        /**
+         * @brief 清空整个 deque，但要保留 map 中的第一个节点。
+        */
+        void clear(void);
+
+        /**
+         * @brief 移除迭代器 __pos 所指向的元素。
+         * 
+         * @return 返回移除点 __pos 之后一个元素的迭代器。
+        */
+        iterator erase(iterator __pos)
+        {
+            iterator next = __pos;
+            ++next;
+
+            /**
+             * 计算清除点 __pos 之前的元素数。
+            */
+            difference_type index = __pos - this->start;
+
+            /**
+             * 如果清除点前的元素较少，
+             * 就把清除点之前的所用元素直接向后移动一个元素进行覆盖，然后再移除第一个元素即可。
+             * 
+             * (this->size() >> 1) 等价于 (this->size() / 2)，计算容器内总元素数的一半。
+            */
+            if (index < (this->size() >> 1))
+            {
+                std::copy_backward(this->start, __pos, next);
+                this->pop_front();
+            }
+            /**
+             * 如果清除点后的元素较少，
+             * 就把清除点之后的所用元素直接向前移动一个元素进行覆盖，然后再移除最后一个元素即可。
+            */
+            else
+            {
+                std::copy(next, this->finish, __pos);
+                this->pop_back();
+            }
+
+            return this->start + index;
         }
 };
 
@@ -549,6 +597,35 @@ void My_Deque<Type, BufferSize, Alloc>::pop_front_aux(void)
     this->deallocate_node(this->start.first);
     this->start.setNode(this->start.node + 1);
     this->start.current = this->start.first;
+}
+
+template <typename Type, std::size_t BufferSize, typename Alloc>
+void My_Deque<Type, BufferSize, Alloc>::clear(void)
+{
+    /**
+     * 先析构和释放 map 中除头尾节点外的节点数据。
+    */
+    for (map_pointer node = this->start.node + 1; node < this->finish.node; ++node)
+    {
+        std::destroy_n(*node, iterator::getBufferSize());
+        data_allocator::deallocate(*node, iterator::getBufferSize());
+    }
+
+    /**
+     * 然后再处理头尾两个节点的数据，注意不能释放 *this->finish.node。
+    */
+    if (this->start.node != this->finish.node)
+    {
+        std::destroy_n(*this->finish.node, iterator::getBufferSize());
+        std::destroy_n(*this->start.node, iterator::getBufferSize());
+        data_allocator::deallocate(*this->finish.node, iterator::getBufferSize());
+    }
+    else
+    {
+        std::destroy_n(*this->start.node, iterator::getBufferSize());
+    }
+
+    this->finish = this->start; // 调整首尾迭代器
 }
 
 #endif // __MY_DEQUE_H_
