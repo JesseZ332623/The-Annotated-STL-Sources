@@ -1,6 +1,6 @@
-# 侯捷《STL 源码分析》学习笔记，目前已经学习至：4-2 序列式容器的 list
+# 侯捷《STL 源码分析》学习笔记，目前已经学习至：4-4 序列式容器之 `std::deque`
 
-![cover](https://i0.hdslb.com/bfs/archive/83d95f897ae4d9e52f25d4076bd7daec3946d9d6.jpg@600w_600h_1c.png)
+![book_cover](https://i0.hdslb.com/bfs/archive/83d95f897ae4d9e52f25d4076bd7daec3946d9d6.jpg@600w_600h_1c.png)
 
 ## 2024.02.17
 
@@ -19,8 +19,6 @@
 ## 仔细学习了 C++ STL 的低级别内存操作函数
 
 - 详见 [补充：C++ 的内存操作函数](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/vector/document/%E8%A1%A5%E5%85%85%EF%BC%9AC%2B%2B%20%E7%9A%84%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0.md)
-
-Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 ## 2024.06.25
 
@@ -43,6 +41,8 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 - 以及 [STL deque 辅助函数 insert_aux 的操作示意](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/document/%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0%20insert_aux%20%E7%9A%84%E6%93%8D%E4%BD%9C%E7%A4%BA%E6%84%8F.png)
 
 #### Tips：.dio 文件需要自己在 vscode 下载 draw.io 相关插件方可读取
+
+Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
