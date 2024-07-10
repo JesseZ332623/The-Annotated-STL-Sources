@@ -28,14 +28,18 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 - 详见 [STL 双向链表的实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/tree/master/src/4_2/list/include/list.h)
 
-## 2024.06.30 - 2024.07.08
+## 2024.06.30 - 2024.07.10
 
-## 学习序列容器之 deque（双端队列），目前正在实现双端队列
+## 学习序列容器之 deque（双端队列），目前已经实现双端队列
 
-- 详见 [STL 双端队列的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque_iterator.h)
+- 详见 [STL deque 的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque_iterator.h)
 
-- 以及 [STL 双端队列的容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque.h)
+- [STL deque 的容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque.h)
+
+- [STL deque 的结构图](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/document/deque%20%E7%9A%84%E7%BB%93%E6%9E%84.dio)
+
+- 以及 [STL deque 辅助函数 insert_aux 的操作示意](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/document/%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0%20insert_aux%20%E7%9A%84%E6%93%8D%E4%BD%9C%E7%A4%BA%E6%84%8F.png)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
-Latest Update: 2024.07.08
+Latest Update: 2024.07.10
