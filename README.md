@@ -32,7 +32,9 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 ## 学习序列容器之 deque（双端队列），目前已经实现双端队列
 
-- 详见 [STL deque 的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque_iterator.h)
+### 详见
+
+- [STL deque 的迭代器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque_iterator.h)
 
 - [STL deque 的容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/include/deque.h)
 
