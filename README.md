@@ -42,6 +42,8 @@ Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 - 以及 [STL deque 辅助函数 insert_aux 的操作示意](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/dequeue/document/%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0%20insert_aux%20%E7%9A%84%E6%93%8D%E4%BD%9C%E7%A4%BA%E6%84%8F.png)
 
+#### Tips：.dio 文件需要自己在 vscode 下载 draw.io 相关插件方可读取
+
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
 
 Latest Update: 2024.07.10
