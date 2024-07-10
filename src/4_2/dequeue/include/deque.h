@@ -6,7 +6,6 @@
 
 #include <memory>
 #include <initializer_list>
-#include <iostream>
 
 /**
  * @brief STL 双端队列的实现，
@@ -100,6 +99,13 @@ class My_Deque
         void fill_initialize(size_type __n, const value_type & __value);
 
         /**
+         * @brief 辅助函数，负责产生和安排好 `deque` 的结构，
+         *        并将元素的初值从初始化列表拷贝到容器。
+        */
+        template <typename ForwardIterator>
+        void range_initialize(ForwardIterator __first, ForwardIterator __last);
+
+        /**
          * @brief 辅助函数，
          *        在 `push_back()` 操作遭遇当前缓冲区容量不足的情况时，
          *        需要移动到下一个缓冲区甚至重新分配一个 `map`，再将值构建到缓冲区中。
@@ -129,6 +135,12 @@ class My_Deque
 
         /**
          * @brief 辅助函数，
+         *        处理 `insert()` 函数指向非头尾插入的情况。
+        */
+        iterator insert_aux(iterator __pos, const value_type & __value);
+
+        /**
+         * @brief 辅助函数，
          *        在指针数组 map 装满的情况下，重新配置 map。
          * 
          * @param __nodesToAdd 需要插入多少节点
@@ -137,7 +149,7 @@ class My_Deque
         void reallocate_map(size_type __nodesToAdd, bool __addAtFront);
 
         /**
-         * @brief 从 map 的头部添加节点。
+         * @brief 辅助函数，从 map 的尾部添加节点。
         */
         void reserve_map_at_back(size_type __nodesToAdd = 1)
         {
@@ -148,48 +160,51 @@ class My_Deque
         }   
 
         /**
-         * @brief 从 map 的尾部添加节点。
+         * @brief 辅助函数，从 map 的头部添加节点。
         */
         void reserve_map_at_front(size_type __nodesToAdd = 1)
         {
-            if (__nodesToAdd> this->start.node - this->map)
+            if (__nodesToAdd > this->start.node - this->map)
             {
                 this->reallocate_map(__nodesToAdd, true);
             }
         }
     
     public:
-        My_Deque()
-        {
-            this->fill_initialize(0, 0);
-        }
+        /**
+         * @brief 默认构造函数，在 map 中间处分配 1 个缓冲区，
+         *        并使用容器类型的默认构造函数来填充缓冲区的值。
+        */
+        My_Deque() : start(), finish(), map(nullptr), map_size(0ULL) { this->fill_initialize(0, Type()); }
 
-        My_Deque(size_type __n, const value_type & __value) : start(), finish(), map(nullptr), map_size(0ULL)
+        /**
+         * @brief 构造函数，在 map 中间分配 n 个元素的内存，
+         *        并全部构造值为 __value。
+        */
+        My_Deque(size_type __n, const value_type & __value) : My_Deque()
         {
             this->fill_initialize(__n, __value);
         }
 
+        /**
+         * @brief 构造函数，在 map 中间分配 __initList.size() 个元素的内存，
+         *        并把初始化列表内的数据构造进容器。
+        */
+        My_Deque(const std::initializer_list<value_type> __initList) : My_Deque()
+        {
+            this->range_initialize(__initList.begin(), __initList.end());
+        }
+
+        /**
+         * @brief 析构函数，析构并释放所有缓冲区，
+         *        最后释放 map。
+        */
         ~My_Deque() 
-        {  
-            if (this->map != nullptr)
+        {
+            if (!this->empty())
             {
-                for (map_pointer node = this->start.node + 1; node < this->finish.node; ++node)
-                {
-                    std::destroy(*node, *node + iterator::getBufferSize());
-                    data_allocator::deallocate(*node, iterator::getBufferSize());
-                }
-
-                if (this->start.node != this->finish.node)
-                {
-                    std::destroy(this->start.current, this->start.last);
-                    std::destroy(this->finish.first, this->finish.current);
-                }
-                else
-                {
-                    std::destroy(this->start.current, this->finish.current);
-                }
-
-                this->finish = this->start;
+                this->clear();
+                this->deallocate_node(this->start.first);
 
                 delete[] this->map;
             }
@@ -301,7 +316,7 @@ class My_Deque
             { 
                 /**
                  * 否则就要调用 push_back_aux() 重新在 
-                 * *(finish.node + 1) 处配置一个新的缓冲区来存放新数据。
+                 * *(start.node - 1) 处配置一个新的缓冲区来存放新数据。
                 */
                 this->push_front_aux(__value); 
             }
@@ -384,6 +399,80 @@ class My_Deque
 
             return this->start + index;
         }
+
+        /**
+         * @brief 移除迭代器 [__first，__last) 区间内的所有元素。
+        */
+        iterator erase(iterator __first, iterator __last)
+        {
+            if (__first == this->start && __last == this->finish)
+            {
+                this->clear();
+                return this->finish;
+            }
+            else
+            {
+                difference_type n = __last - __first;                   // 计算要清除的元素数
+                difference_type element_before = __first - this->start; // 计算清除区间前方的元素数
+
+                /**
+                 * 若 清除区间前方的元素数 < (清除区间前方的元素数 + 清除区间后方的元素数 / 2)
+                 * 即代表 清除区间前方的元素数 较少。
+                */
+                if (element_before < (this->size() - n) >> 1)
+                {
+                    std::copy_backward(this->start, __first, __last);
+                    iterator newStart = this->start + n;
+                    std::destroy(this->start, newStart);
+
+                    for (map_pointer cur = this->start.node; cur < newStart.node; ++cur)
+                    {
+                        data_allocator::deallocate(*cur, iterator::getBufferSize());
+                    }
+
+                    this->start = newStart;
+                }
+                else // 若 清除区间后方的元素数 较少
+                {
+                    std::copy(__last, this->finish, __first);
+                    iterator newFinish = this->finish - n;
+                    std::destroy(newFinish, this->finish);
+
+                    for (map_pointer cur = this->finish.node; cur < newFinish.node; ++cur)
+                    {
+                        data_allocator::deallocate(*cur, iterator::getBufferSize());
+                    }
+
+                    this->finish = newFinish;
+                }
+
+                return this->start + element_before;
+            }
+        }
+
+        /**
+         * @brief 往迭代器 __pos 之前插入一个元素 __value。
+         * 
+         * @return 插入完成后 __value 所在位置的迭代器。
+        */
+        iterator insert(iterator __pos, const value_type & __value)
+        {
+            if (this->start == __pos) 
+            {  
+                this->push_front(__value);
+                return this->start;
+            }
+            else if (this->finish == __pos)
+            {
+                this->push_back(__value);
+                iterator tempFinish = this->finish;
+                return (--tempFinish);
+            }
+            else
+            {
+                return this->insert_aux(__pos, __value);
+            }
+        }
 };
 
 template <typename Type, std::size_t BufferSize, typename Alloc>
@@ -462,6 +551,24 @@ void My_Deque<Type, BufferSize, Alloc>::fill_initialize(size_type __n, const val
         std::destroy_n(tempStart, haveConstruct);      // 通通销毁
 
         throw;                                         // 完成后再抛出给调用端。
+    }
+}
+
+template <typename Type, std::size_t BufferSize, typename Alloc>
+template <typename ForwardIterator>
+void My_Deque<Type, BufferSize, Alloc>::range_initialize(ForwardIterator __first, ForwardIterator __last)
+{
+    try
+    {
+        for (; __first != __last; ++__first)
+        {
+            this->push_back(*__first);
+        }
+    }
+    catch (...)
+    {
+        this->clear();
+        throw;
     }
 }
 
@@ -612,20 +719,73 @@ void My_Deque<Type, BufferSize, Alloc>::clear(void)
     }
 
     /**
-     * 然后再处理头尾两个节点的数据，注意不能释放 *this->finish.node。
+     * 然后再处理头尾两个节点的数据，
+     * 注意需要保留迭代器 this->start 所指的缓冲区，不得释放。
     */
     if (this->start.node != this->finish.node)
     {
-        std::destroy_n(*this->finish.node, iterator::getBufferSize());
-        std::destroy_n(*this->start.node, iterator::getBufferSize());
-        data_allocator::deallocate(*this->finish.node, iterator::getBufferSize());
+        std::destroy(this->start.current, this->start.last);
+        std::destroy(this->finish.first, this->finish.current);
+        data_allocator::deallocate(this->finish.first, iterator::getBufferSize());
     }
-    else
+    else    // 处理只有一个迭代器的结果
     {
-        std::destroy_n(*this->start.node, iterator::getBufferSize());
+        std::destroy(this->start.current, this->finish.current);      
     }
 
     this->finish = this->start; // 调整首尾迭代器
+}
+
+template <typename Type, std::size_t BufferSize, typename Alloc>
+typename My_Deque<Type, BufferSize, Alloc>::iterator 
+My_Deque<Type, BufferSize, Alloc>::insert_aux(iterator __pos, const value_type & __value)
+{
+    difference_type index = __pos - this->start;    // 计算插入点 __pos 之前的元素数。
+    value_type valueCopy = __value;
+
+    if (index < (this->size() >> 1))    // 若插入点之前的元素较少
+    {
+        /**
+         * 调用 push_front 将当前容器内第一个元素的值插入，
+         * 这通常会触发 push_front_aux() 甚至 reserve_map_at_front() 操作，往前面增加缓冲区。
+        */
+        this->push_front(this->front());
+
+        /**
+         * 创建两个迭代器 front_1 和 front_2，用于标记。
+        */
+        iterator front_1 = this->start; ++front_1;
+        iterator front_2 = front_1; ++front_2;
+
+        // 重新定位插入点。
+        __pos = this->start + index;
+        iterator pos_1 = __pos; ++pos_1;
+
+        std::copy(front_2, pos_1, front_1);
+    }
+    else
+    {
+        /**
+         * 调用 push_back 将当前容器内第一个元素的值插入，
+         * 这通常会触发 push_back_aux() 
+         * 甚至 reserve_map_at_back() 操作，往后面增加缓冲区。
+        */
+        this->push_back(this->back());
+
+        /**
+         * 创建两个迭代器 back_1 和 back_2，用于标记。
+        */
+        iterator back_1 = this->finish; --back_1;
+        iterator back_2 = back_1;       --back_2;
+
+        __pos = start + index;
+        
+        //执行反向拷贝操作。
+        std::copy_backward(__pos, back_2, back_1);
+    }
+
+    *__pos = valueCopy;
+    return __pos;
 }
 
 #endif // __MY_DEQUE_H_
