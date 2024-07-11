@@ -51,16 +51,16 @@ class My_Deque
         */
         typedef Simple_Alloc<pointer, Alloc>      map_allocator;
 
-        iterator start;        // map 的第一个节点的迭代器
-        iterator finish;       // map 的最后一个节点的迭代器
+        iterator start{};        // map 的第一个节点的迭代器
+        iterator finish{};       // map 的最后一个节点的迭代器
 
         /**
          * map 是一个 `Type **` 类型的指针数组，
          * 数组中的每一个元素都是指向了堆上一片连续内存空间（称作缓冲区）的指针。
         */
-        map_pointer map;
+        map_pointer map{nullptr};
 
-        size_type   map_size;  // map 数组内可以容纳多少指针。
+        size_type   map_size{0ULL};  // map 数组内可以容纳多少指针。
 
         enum { MININUM_NODES = 8 };
 
@@ -201,7 +201,7 @@ class My_Deque
          * @brief 默认构造函数，在 map 中间处分配 1 个缓冲区，
          *        并使用容器类型的默认构造函数来填充缓冲区的值。
         */
-        My_Deque() : start(), finish(), map(nullptr), map_size(0ULL) { this->fill_initialize(0, Type()); }
+        My_Deque() { this->fill_initialize(0, Type()); }
 
         /**
          * @brief 构造函数，在 map 中间分配 n 个元素的内存，
@@ -228,7 +228,28 @@ class My_Deque
 
         My_Deque(My_Deque && __deque) : My_Deque()
         {
-            if (this != &__deque) { this->swap(*this, __deque); }
+            this->swap(*this, __deque);
+        }
+
+        My_Deque & operator=(const My_Deque & __deque)
+        {
+            if (this != &__deque)
+            {
+                this->fill_initialize(0, Type());
+                this->range_initialize(__deque.begin(), __deque.end());
+            }
+
+            return *this;
+        }
+
+        My_Deque & operator=(My_Deque && __deque)
+        {
+            if (this != &__deque)
+            {
+                this->swap(*this, __deque);
+            }
+
+            return *this;
         }
 
         /**
