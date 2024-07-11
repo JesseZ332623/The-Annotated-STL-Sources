@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
     std::mt19937_64 randEngine(defaultRandDevice());
     std::uniform_int_distribution dist(0, 114514);
 
-    My_Deque<int, DEQUE_BUFFER_SIZE> deque_1 = {};
+    My_Deque<int, DEQUE_BUFFER_SIZE> deque_1 = {1, 2, 3, 0x7FFFFFFF};
     std::size_t deque_1_bufferSize = My_Deque<int, DEQUE_BUFFER_SIZE>::iterator::getBufferSize();
 
     WARNING_LOG(
@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
 
     SHOW_DEQUE(deque_1);
 
-#if true
+#if false
     for (int index = 0; index < 100000000; ++index) 
     { 
         deque_1.push_front(dist(randEngine));
@@ -81,10 +81,10 @@ int main(int argc, char const *argv[])
                 "\ndeque_1[5] = " + std::to_string(deque_1[5]) + "\n\n"
             );
 
-    My_Deque<int, DEQUE_BUFFER_SIZE> deque_2(deque_1);
+    My_Deque<int, DEQUE_BUFFER_SIZE> deque_2; deque_2 = deque_1;
     SHOW_DEQUE(deque_2);
 
-    My_Deque<int, DEQUE_BUFFER_SIZE> deque_3(std::move(deque_2));
+    My_Deque<int, DEQUE_BUFFER_SIZE> deque_3; deque_3 = std::move(deque_2);
     SHOW_DEQUE(deque_2);
     SHOW_DEQUE(deque_3);
 #endif
