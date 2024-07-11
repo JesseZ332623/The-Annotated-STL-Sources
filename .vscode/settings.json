@@ -61,7 +61,8 @@
         "span": "cpp",
         "text_encoding": "cpp",
         "variant": "cpp",
-        "T.C": "cpp"
+        "T.C": "cpp",
+        "map": "cpp"
     },
     "files.autoSave": "onFocusChange",
     "C_Cpp.errorSquiggles": "enabled"
