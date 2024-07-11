@@ -27,6 +27,8 @@ int main(int argc, char const *argv[])
     std::uniform_int_distribution dist(0, 114514);
 
     My_Deque<int, DEQUE_BUFFER_SIZE> deque_1 = {1, 2, 3, 0x7FFFFFFF};
+    My_Deque<int, DEQUE_BUFFER_SIZE> deque_2;
+    My_Deque<int, DEQUE_BUFFER_SIZE> deque_3;
     std::size_t deque_1_bufferSize = My_Deque<int, DEQUE_BUFFER_SIZE>::iterator::getBufferSize();
 
     WARNING_LOG(
@@ -36,20 +38,21 @@ int main(int argc, char const *argv[])
 
     SHOW_DEQUE(deque_1);
 
-#if false
+#if true
     for (int index = 0; index < 100000000; ++index) 
     { 
         deque_1.push_front(dist(randEngine));
         deque_1.push_back(dist(randEngine)); 
-        //deque_1.insert(deque_1.begin() + 5, dist(randEngine));
+        deque_1.insert(deque_1.begin() + 5, dist(randEngine));
         deque_1.push_front(dist(randEngine));
         deque_1.push_back(dist(randEngine)); 
         //deque_1.erase(deque_1.begin(), deque_1.begin() + 2);
-       
+    #if true
         if (index % 1000000 == 0 && index >= 1000000) 
         {
             GET_DEQUE_SIZE(deque_1, "deque_1");
         }
+    #endif
     }
 #endif
 
@@ -81,14 +84,18 @@ int main(int argc, char const *argv[])
                 "\ndeque_1[5] = " + std::to_string(deque_1[5]) + "\n\n"
             );
 
-    My_Deque<int, DEQUE_BUFFER_SIZE> deque_2; deque_2 = deque_1;
+    deque_2 = deque_1;
     SHOW_DEQUE(deque_2);
 
-    My_Deque<int, DEQUE_BUFFER_SIZE> deque_3; deque_3 = std::move(deque_2);
+    deque_3 = std::move(deque_2);
     SHOW_DEQUE(deque_2);
     SHOW_DEQUE(deque_3);
 #endif
 
+    //deque_2 = deque_1;
+
+    //deque_3 = std::move(deque_2);
+    
     DONE
     return EXIT_SUCCESS;
 }
