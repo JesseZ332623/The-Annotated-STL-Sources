@@ -5,6 +5,7 @@
 #include "./deque_iterator.h"
 
 #include <memory>
+#include <exception>
 #include <initializer_list>
 
 /**
@@ -25,16 +26,17 @@ template <typename Type, std::size_t BufferSize = 0, typename Alloc = std::alloc
 class My_Deque
 {
     public:
-        typedef Type             value_type;
-        typedef value_type *     pointer;
-        typedef value_type &     reference;
+        typedef Type                    value_type;
+        typedef value_type *            pointer;
+        typedef value_type &            reference;
+        typedef const value_type &      const_reference;
 
-        typedef std::size_t     size_type;
-        typedef std::ptrdiff_t  difference_type;
+        typedef std::size_t             size_type;
+        typedef std::ptrdiff_t          difference_type;
     
     public:
-        typedef Deque_Iterator<Type, Type &, Type *, BufferSize> iterator;
-        typedef const Deque_Iterator<Type, Type &, Type *, BufferSize> const_iterator;
+        typedef Deque_Iterator<Type, Type &, Type *, BufferSize>        iterator;
+        typedef const Deque_Iterator<Type, Type &, Type *, BufferSize>  const_iterator;
 
     protected:
         typedef pointer *       map_pointer;
@@ -153,7 +155,7 @@ class My_Deque
         */
         void reserve_map_at_back(size_type __nodesToAdd = 1)
         {
-            if (__nodesToAdd > this->map_size - (finish.node - this->map))
+            if (__nodesToAdd + 1 > this->map_size - (this->finish.node - this->map))
             {
                 this->reallocate_map(__nodesToAdd, false);
             }
@@ -168,6 +170,30 @@ class My_Deque
             {
                 this->reallocate_map(__nodesToAdd, true);
             }
+        }
+
+        /**
+         * @brief 辅助函数，供 at() 进行边界检查。
+        */
+        void range_check(size_type __n) const
+        {
+            if (__n >= this->size())
+            {
+                std::__throw_out_of_range_fmt(__N("deque::_M_range_check: __n "
+				       "(which is %zu)>= this->size() "
+				       "(which is %zu)"),
+				   __n, this->size());
+            }
+        }
+
+        static void swap(My_Deque & __a, My_Deque & __b) noexcept
+        {
+            using std::swap;
+
+            swap(__a.start, __b.start);
+            swap(__a.finish, __b.finish);
+            swap(__a.map, __b.map);
+            swap(__a.map_size, __b.map_size);
         }
     
     public:
@@ -193,6 +219,16 @@ class My_Deque
         My_Deque(const std::initializer_list<value_type> __initList) : My_Deque()
         {
             this->range_initialize(__initList.begin(), __initList.end());
+        }
+
+        My_Deque(const My_Deque & __deque) : My_Deque()
+        {
+            this->range_initialize(__deque.begin(), __deque.end());
+        }
+
+        My_Deque(My_Deque && __deque) : My_Deque()
+        {
+            if (this != &__deque) { this->swap(*this, __deque); }
         }
 
         /**
@@ -227,12 +263,40 @@ class My_Deque
         /**
          * @brief 访问 deque 中第 __n 个元素的值的引用。
         */
-        reference operator[](size_type __n) { 
-
+        reference operator[](size_type __n) 
+        { 
             /**
              * 调用 reference operator[](difference_type __n);
             */
             return this->start[difference_type(__n)];
+        }
+
+        /**
+         * @brief 访问 deque 中第 __n 个元素的值的只读引用。
+        */
+        const_reference operator[](size_type __n) const
+        {
+            return this->start[difference_type(__n)];
+        }
+
+        /**
+         * @brief 访问 deque 中第 
+         *        __n 个元素的值的引用，但进行边界检查。
+        */
+        reference at(size_type __n)
+        {
+            this->range_check(__n);
+            return (*this)[__n];
+        }
+
+        /**
+         * @brief 访问 deque 中第 
+         *        __n 个元素的值的只读引用，但进行边界检查。
+        */
+        const_reference at(size_type __n) const
+        {
+            this->range_check(__n);
+            return (*this)[__n];
         }
 
         /**
@@ -359,7 +423,7 @@ class My_Deque
         /**
          * @brief 清空整个 deque，但要保留 map 中的第一个节点。
         */
-        void clear(void);
+        void clear(void) __attribute__((optimize("O0")));
 
         /**
          * @brief 移除迭代器 __pos 所指向的元素。
@@ -585,7 +649,7 @@ void My_Deque<Type, BufferSize, Alloc>::reallocate_map(size_type __nodesToAdd, b
         newNStart = this->map + (this->map_size - newNodesCount) / 2 +
                     (__addAtFront ? __nodesToAdd : 0);
 
-        if (newNStart < start.node)
+        if (newNStart < this->start.node)
         {
             std::copy(this->start.node, this->finish.node + 1, newNStart);
         }
@@ -606,8 +670,8 @@ void My_Deque<Type, BufferSize, Alloc>::reallocate_map(size_type __nodesToAdd, b
 
         delete[] this->map;
 
-        map = newMap;
-        map_size = newMapSize;
+        this->map = newMap;
+        this->map_size = newMapSize;
     }
 
     this->start.setNode(newNStart);
@@ -714,7 +778,7 @@ void My_Deque<Type, BufferSize, Alloc>::clear(void)
     */
     for (map_pointer node = this->start.node + 1; node < this->finish.node; ++node)
     {
-        std::destroy_n(*node, iterator::getBufferSize());
+        std::destroy(*node, *node + iterator::getBufferSize());
         data_allocator::deallocate(*node, iterator::getBufferSize());
     }
 
