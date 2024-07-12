@@ -42,6 +42,12 @@
 
 #### Tips：.dio 文件需要自己在 vscode 下载 draw.io 相关插件方可读取
 
+## 2024.07.12
+
+## 有了 deque 或 list，实现一个 stack 就非常容易了
+
+- [基于 deque 或 list 的 stack 适配器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/stack/include/stack.h)
+
 Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
