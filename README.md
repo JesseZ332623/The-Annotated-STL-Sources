@@ -48,6 +48,10 @@
 
 - [基于 deque 或 list 的 stack 适配器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/stack/include/stack.h)
 
+## 顺便把 `std::array` 也写了一遍
+
+- [STL array 的容器实现](https://github.com/JesseZ332623/The-Annotated-STL-Sources/blob/master/src/4_2/array/include/array.h)
+
 Author: [JesseZ332623](https://github.com/JesseZ332623)
 
 LICENCE: [MIT LICENCE](https://opensource.org/license/mit/)
