@@ -327,11 +327,244 @@ operator<=>(const array<Type, Size> & __a, const array<Type, Size> & __b)
     }
 }
 
+/**
+ * @brief 对两个数组进行交换，
+ *        函数会检查 __a.swap(__b) 操作是否支持不抛异常的交换操作，然后决定这个全局算法抛不抛异常。
+ * 
+ * @return constexpr std::enable_if_t<array_traits<Type,Size>::Is_Swappable::value> 
+ */
 template <typename Type, std::size_t Size>
 constexpr inline std::enable_if_t<array_traits<Type,Size>::Is_Swappable::value> 
 swap(array<Type, Size> & __a, array<Type, Size> & __b) noexcept(noexcept(__a.swap(__b)))
 {
     __a.swap(__b);
+}
+
+/**
+ * @brief 这个全局的 get() 算法看似冗余，其实和 C++ 17 版本出现的结构化绑定息息相关。
+ *        可以使用如下代码：
+ *              
+ *              std::array<int, 4> arr = {1, 2, 3};
+ *              auto [first, second, third] = arr;
+ * 
+ *       隐式的调用 get() 算法 将数组 arr 的元素分别绑定到 [first, second, third] 中去。
+ * 
+ * @tparam Index 要访问的数组索引
+ * @tparam Type  数组的元素类型
+ * @tparam Size  数组长度
+ * 
+ * @param __array  数组
+ * 
+ * @return constexpr Type& 数组元素的引用
+*/
+template <std::size_t Index, typename Type, std::size_t Size>
+constexpr Type & get(array<Type, Size> & __array) noexcept
+{
+    /**
+     * 静态断言的处理逻辑会有点反直觉，只有不符合 Index < Size 这个条件的
+     * 情况下才会触发断言。
+    */
+    static_assert(Index < Size, "array index is within bounds");
+
+    return __array.elements[Index];
+}
+
+template <std::size_t Index, typename Type, std::size_t Size>
+constexpr const Type & get(const array<Type, Size> & __array) noexcept
+{
+    static_assert(Index < Size, "array index is within bounds");
+
+    return __array.elements[Index];
+}
+
+template <std::size_t Index, typename Type, std::size_t Size>
+constexpr Type && get(array<Type, Size> && __array) noexcept
+{
+    static_assert(Index < Size, "array index is within bounds");
+
+    return std::move(get<Index>(__array));
+}
+
+template <std::size_t Index, typename Type, std::size_t Size>
+constexpr const Type && get(const array<Type, Size> && __array) noexcept
+{
+    static_assert(Index < Size, "array index is within bounds");
+
+    return std::move(get<Index>(__array));
+}
+
+/**
+ * @brief 按引用传入一个 C 风格数组，来构造一个 STL array，里面有几个要点：
+ *        
+ * @brief - `std::remove_cv_t<Type>` 这用于去除 Type 类型的 const 和 volatile 关键字，
+ *          确保构造的数组是非 const 和 volatile 的。
+ * 
+ * @brief - `Type (&__array)[Size]` 是 C++ 按引用传递数组的方式，
+ *           `__array` 首先是一个引用，它绑定了一个拥有 `Size` 个元素的 `Type` 类型数组。
+ *         
+ * @brief - `std::is_nothrow_constructible_v<Type, Type &>` 这确保从 Type 类型是可以由 Type &
+ *          构造，且不抛异常的，函数通过它的返回值来确定抛不抛异常。后缀 _v 意味着它会在编译期就完成判断。
+ *
+ * @return 返回构造好的数组（按拷贝传递） 
+ */
+template <typename Type, std::size_t Size>
+constexpr array<std::remove_cv_t<Type>, Size>
+toArray(Type (&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, Type &>)
+{
+    static_assert(!std::is_array_v<Type>);                  // 首先确保 Type 不算一个数组类型
+    static_assert(std::is_constructible_v<Type, Type &>);   // 确保 Type 类型是可以由 Type & 类型构造出来的
+
+    if constexpr (std::is_constructible_v<Type, Type &>) {
+        /**
+         * 检测 Type 是不是平凡的类型
+        */
+        if constexpr (std::is_trivial_v<Type>) {
+            /**
+             * 如果是的话，直接声明一个新的 STL array，
+             * 进行拷贝操作后直接返回就行。
+            */
+            array<std::remove_cv_t<Type>, Size> tempArray;
+            /**
+             * 确保函数是在编译期内被执行的且数组长度不能为 0
+            */
+            if (!std::__is_constant_evaluated() && Size != 0)
+            {
+                /**
+                 * 直接调用底层内存拷贝函数 __builtin_memcpy() 类似于 std::memcpy() 但比它更快
+                 * 从 C 风格数组 拷贝 到 STL array 中。
+                */
+                __builtin_memcpy((void *)tempArray.data(), (void *)__array, sizeof(__array));
+            }
+            else    // 如果函数是在运行期运行的
+            {
+                for (std::size_t index = 0; index < Size; ++index)  // 老老实实的用循环拷贝吧
+                {
+                    tempArray[index] = __array[index];
+                }
+            }
+            return tempArray;
+        }
+        else {
+            /**
+             * 该 Lamba 表达式会比较复杂具体分下面几步：
+             * `<std::size_t ... Index>` 和 `std::index_sequence<Index ...>` 
+             * 会创建一个 (0 ~ Index - 1) 的序列，并使用形参包打包。
+             * 
+             * 然后表达式内创建一个 STL 数组，使用初始化参数列表构建的同时使用折叠表达式展开形参包，如下所示：
+             * 
+             *      array<std::remove_cv_t<Type>, Size>{{__array[0], __array[1], ....., __array[Size - 1]}};
+             * 
+             * 构建完成后返回。
+             * 
+             * 最后直接调用该 Lamba 表达式，使用 std::make_index_sequence<Size>{} 实例化一个序列。
+            */
+            return [&__array]<std::size_t ... Index>(std::index_sequence<Index ...>)
+            {
+                return array<std::remove_cv_t<Type>, Size>{{__array[Index]...}};
+            }(std::make_index_sequence<Size>{});
+        }
+    }
+    else {
+        /**
+         * __builtin_unreachable() 是 GCC 和 Clang 等编译器提供的一种内置函数，
+         * 用于告诉编译器某个代码路径在逻辑上是不可能达到的。
+         * 执行这个函数，编译器可能会做出非常激进的优化，直接删除函数后面的所有代码。
+        */
+        __builtin_unreachable();
+    }
+}
+
+/**
+ * @brief 按引用传入一个 C 风格数组，来构造一个 STL array，里面有几个要点：
+ *        
+ * @brief - `std::remove_cv_t<Type>` 这用于去除 Type 类型的 const 和 volatile 关键字，
+ *          确保构造的数组是非 const 和 volatile 的。
+ * 
+ * @brief - `Type (&__array)[Size]` 是 C++ 按引用传递数组的方式，
+ *           `__array` 首先是一个引用，它绑定了一个拥有 `Size` 个元素的 `Type` 类型数组。
+ *         
+ * @brief - `std::is_nothrow_constructible_v<Type, Type &>` 这确保从 Type 类型是可以由 Type &
+ *          构造，且不抛异常的，函数通过它的返回值来确定抛不抛异常。后缀 _v 意味着它会在编译期就完成判断。
+ *
+ * @return 返回构造好的数组（按拷贝传递） 
+ */
+template <typename Type, std::size_t Size>
+constexpr array<std::remove_cv_t<Type>, Size>
+toArray(Type (&&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, Type &>)
+{
+    static_assert(!std::is_array_v<Type>);                  // 首先确保 Type 不算一个数组类型
+    static_assert(std::is_constructible_v<Type, Type &>);   // 确保 Type 类型是可以由 Type & 类型构造出来的
+
+    if constexpr (std::is_constructible_v<Type, Type &>)    // 检测 Type 类型是可以由 Type & 类型构造出来的，编译期完成判断
+    {
+        /**
+         * 检测 Type 是不是平凡的类型，编译期完成判断
+        */
+        if constexpr (std::is_trivial_v<Type>)
+        {
+            /**
+             * 如果是的话，直接声明一个新的 STL array，
+             * 进行拷贝操作后直接返回就行。
+            */
+            array<std::remove_cv_t<Type>, Size> tempArray;
+            /**
+             * 确保函数是在编译期内被执行的且数组长度不能为 0
+            */
+            if (!std::__is_constant_evaluated() && Size != 0)
+            {
+                /**
+                 * 直接调用底层内存拷贝函数 __builtin_memcpy() 类似于 std::memcpy() 但比它更快
+                 * 从 C 风格数组 拷贝 到 STL array 中。
+                */
+                __builtin_memcpy((void *)tempArray.data(), (void *)__array, sizeof(__array));
+            }
+            else    // 如果函数是在运行期运行的
+            {
+                for (std::size_t index = 0; index < Size; ++index)  // 老老实实的用循环拷贝吧
+                {
+                    tempArray[index] = __array[index];
+                }
+            }
+            return tempArray;
+        }
+        else    
+        {
+            /**
+             * 这个 Lamba 表达式会比较复杂具体分下面几步：
+             * `<std::size_t ... Index>` 和 `std::index_sequence<Index ...>` 
+             * 会创建一个 (0 ~ Index - 1) 的序列，并使用形参包打包。
+             * 
+             * 然后表达式内创建一个 STL 数组，使用初始化参数列表构建的同时使用折叠表达式展开形参包，如下所示：
+             * 
+             *      array<std::remove_cv_t<Type>, Size>
+             *      {   
+             *          {
+             *              std::move(__array[Index]), 
+             *              std::move(__array[Index]),
+             *              ....., 
+             *              __array[Size - 1]
+             *          }
+             *      };
+             * 
+             * 构建完成后返回。
+             * 
+             * 最后直接调用该 Lamba 表达式，使用 std::make_index_sequence<Size>{} 实例化一个序列。
+            */
+            return [&__array]<std::size_t ... Index>(std::index_sequence<Index ...>)
+            {
+                return array<std::remove_cv_t<Type>, Size>{{std::move(__array[Index])...}};
+            }(std::make_index_sequence<Size>{});
+        }
+    }
+    else 
+    {
+        /**
+         * __builtin_unreachable() 是 GCC 和 Clang 等编译器提供的一种内置函数，
+         * 用于告诉编译器某个代码路径在逻辑上是不可能达到的。
+         * 执行这个函数，编译器可能会做出非常激进的优化，直接删除函数后面的所有代码。
+        */
+        __builtin_unreachable();
+    }
 }
 
 #endif // __ARRAY_H_
