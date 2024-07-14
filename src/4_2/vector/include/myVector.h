@@ -14,6 +14,7 @@ class My_Vector
     public:
         using valueType            = Type;
         using pointer              = valueType *;
+        using constPointer         = const valueType *;
         using iterator             = valueType *;                           // 正向迭代器
         using constIterator        = const valueType *;                     // 正向只读迭代器
         using reverseIterator      = std::reverse_iterator<iterator>;       // 反向迭代器    
@@ -25,7 +26,7 @@ class My_Vector
 
     protected:
         /**
-         * 
+         * vector 专属的迭代器，用于分配内存。
         */
         using dataAllocator = Simple_Alloc<valueType, Alloc>;
 
@@ -573,6 +574,16 @@ class My_Vector
             {
                 this->insertAux(this->end(), 0);
             }
+        }
+
+        pointer data(void) noexcept
+        {
+            return static_cast<pointer>(this->start);
+        }
+
+        constPointer data(void) const noexcept
+        {
+            return static_cast<constPointer>(this->start);
         }
         
         ~My_Vector() 
