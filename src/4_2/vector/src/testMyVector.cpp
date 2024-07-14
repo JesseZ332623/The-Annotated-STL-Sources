@@ -104,6 +104,19 @@ int main(int argc, char const *argv[])
     showVector(vec_6, "vec_6 After insert():\n");
 #endif
 
+    My_Vector<int> vec_7 = {1, 2, 3, 4, 5, 6, 7, 0, 1, -1};
+
+    int * arrayPointer = new int[vec_7.size()];
+    std::copy(vec_7.data(), vec_7.data() + vec_7.size(), arrayPointer);
+
+    [](const int * __arr, std::size_t __size) 
+    {
+        for (std::size_t index = 0; index < __size; ++index)
+            NOTIFY_LOG(std::to_string(__arr[index]) + ' ');
+    }(arrayPointer, vec_7.size()); puts("");
+
+    delete[] arrayPointer;
+
     DONE
 
     return EXIT_SUCCESS;
