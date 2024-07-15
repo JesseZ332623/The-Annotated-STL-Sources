@@ -480,8 +480,9 @@ toArray(Type (&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, Ty
  * @brief - `std::remove_cv_t<Type>` 这用于去除 Type 类型的 const 和 volatile 关键字，
  *          确保构造的数组是非 const 和 volatile 的。
  * 
- * @brief - `Type (&__array)[Size]` 是 C++ 按引用传递数组的方式，
- *           `__array` 首先是一个引用，它绑定了一个拥有 `Size` 个元素的 `Type` 类型数组。
+ * @brief - `Type (&&__array)[Size]` 是 C++ 传递右值数组的方式，
+ *           `__array` 首先是一个右值，它绑定了一个拥有 `Size` 个元素的 `Type` 类型数组。
+ *            函数调用示例如下：array<int, 5> stlArray = toArray({1, 2, 3, 4, 5}); 
  *         
  * @brief - `std::is_nothrow_constructible_v<Type, Type &>` 这确保从 Type 类型是可以由 Type &
  *          构造，且不抛异常的，函数通过它的返回值来确定抛不抛异常。后缀 _v 意味着它会在编译期就完成判断。
@@ -503,7 +504,7 @@ toArray(Type (&&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, T
         if constexpr (std::is_trivial_v<Type>)
         {
             /**
-             * 如果是的话，直接声明一个新的 STL array，
+             * 如果是的话（trival type），直接声明一个新的 STL array，
              * 进行拷贝操作后直接返回就行。
             */
             array<std::remove_cv_t<Type>, Size> tempArray;
@@ -527,7 +528,7 @@ toArray(Type (&&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, T
             }
             return tempArray;
         }
-        else    
+        else        // 处理非平凡类型（non-trival type）的操作 
         {
             /**
              * 这个 Lamba 表达式会比较复杂具体分下面几步：
@@ -539,7 +540,8 @@ toArray(Type (&&__array)[Size]) noexcept(std::is_nothrow_constructible_v<Type, T
              *      array<std::remove_cv_t<Type>, Size>
              *      {   
              *          {
-             *              std::move(__array[Index]), 
+             *              // 这里一般是调用 __array[index] 的移动构造函数
+             *              std::move(__array[Index]),  
              *              std::move(__array[Index]),
              *              ....., 
              *              __array[Size - 1]
