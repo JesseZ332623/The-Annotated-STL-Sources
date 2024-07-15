@@ -13,16 +13,13 @@ class testContainer
 
     public:
 
-        //static int callTime;
-
-        testContainer(void) : data(nullptr), size(0ULL) { }
+        testContainer(void) : data(nullptr) { }
 
         testContainer(std::size_t __n, const int __val) : testContainer()
         {
             this->data = new int[__n];
             std::fill_n(this->data, __n, __val);
             this->size = __n;
-            //++this->callTime;
         }
 
         testContainer(const testContainer & __contain) : testContainer()
@@ -30,15 +27,13 @@ class testContainer
             this->data = new int[__contain.size];
             std::copy(__contain.data, __contain.data + __contain.size, this->data);
 
-            this->size = __contain.size;
-            //++this->callTime;   
+            this->size = __contain.size; 
         }
 
         testContainer(testContainer && __contain) : testContainer()
         {
             this->data = __contain.data;
             this->size = __contain.size;
-            //++this->callTime;
 
             __contain.data = nullptr;
             __contain.size = 0ULL;
@@ -49,7 +44,6 @@ class testContainer
         {
             using namespace MyLib::SimpleContainerOperator;
 
-            //std::cout << this->callTime << '\n';
             std::for_each(
                             this->data, this->data + this->size, 
                             [](const int n) { std::cout << n << ' '; }
@@ -80,7 +74,6 @@ int main(int argc, char const *argv[])
     }
 
     nontrivalArray_2[0].show();
-    //showContainerToStream(std::cout, nontrivalArray, 5);
 
     return EXIT_SUCCESS;
 }
