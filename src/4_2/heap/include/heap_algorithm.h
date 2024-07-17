@@ -9,9 +9,25 @@
  * @tparam RandomAccessIterator     随机访问迭代器
  * @param __first   heap 容器的第一个元素 
  * @param __last    heap 容器的最后一个元素
+ * 
+ * @return no-return
 */
 template <typename RandomAccessIterator>
 inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last);
+
+/**
+ * @brief 移除 heap 的元素（移除 heap 的根节点，也就是权值最高的节点）
+ * 
+ * @tparam RandomAccessIterator     随机访问迭代器
+ *
+ * @param __first   heap 容器的第一个元素 
+ * @param __last    heap 容器的最后一个元素
+ * 
+ * @return no-return
+ */
+template <typename RandomAccessIterator>
+inline void pop_heap(RandomAccessIterator __first, RandomAccessIterator __last);
+
 
 template <typename RandomAccessIterator>
 inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
@@ -22,8 +38,34 @@ inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
     __push_heap_aux(__first, __last, distance_type(__first), value_type(__first));
 }
 
+template <typename RandomAccessIterator>
+inline void pop_heap(RandomAccessIterator __first, RandomAccessIterator __last)
+{
+    typedef decltype(*__first)  value_type;
+
+    __pop_heap_aux(__first, __last, value_type(__first));
+}
+
 /**
  * @brief  push_heap() 算法的辅助函数
+ * 
+ * @tparam RandomAccessIterator 
+ * @tparam Type 
+ * 
+ * @return no-return
+*/
+template <typename RandomAccessIterator, typename Type>
+void __push_heap_aux(
+            RandomAccessIterator __first, RandomAccessIterator __last, Type *
+        )
+{
+    typedef decltype(*__first)  value_type;
+
+    __push_heap(__first, Distance((__last - __first) - 1), distance_type(0), Type(*(__last - 1)));
+}
+
+/**
+ * @brief pop_heap 的辅助函数
  * 
  * @tparam RandomAccessIterator 
  * @tparam Distance 
@@ -31,14 +73,20 @@ inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
  * 
  * @param __first 
  * @param __last 
-*/
+ * @param __result 
+ * @param __value 
+ * 
+ * @return no-return
+ */
 template <typename RandomAccessIterator, typename Distance, typename Type>
-void __push_heap_aux(
-            RandomAccessIterator __first, RandomAccessIterator __last, 
-            Distance *, Type *
-        )
+void __pop_heap_aux(
+                    RandomAccessIterator __first, RandomAccessIterator __last, Type *
+                )
 {
-    __push_heap(__first, Distance((__last - __first) - 1), Distance(0), Type(*(__last - 1)));
+
+    typedef std::ptrdiff_t      distance_type;
+
+    __pop_heap(__first, __last - 1, Type(*(__last - 1)), distance_type(__first));
 }
 
 /**
@@ -52,6 +100,8 @@ void __push_heap_aux(
  * @param __holdIndex   插入的洞值，通常是 std::vector<Type>::end();
  * @param __topIndex    树的顶端，通常是 0
  * @param __value       要插入的值
+ * 
+ * @return no-return
 */
 template <typename RandomAccessIterator, typename Distance, typename Type>
 void __push_heap(
@@ -75,6 +125,54 @@ void __push_heap(
     
     // 所有条件达成后，再把要插入的值赋给合适的节点
     *(__first + __holdIndex) = __value;
+}
+
+/**
+ * @brief __pop_heap_aux() 的辅助函数
+ * 
+ * @tparam RandomAccessIterator 
+ * @tparam Type 
+ * @tparam Distance 
+ * 
+ * @param __first 
+ * @param __last 
+ * @param __result 
+ * @param __value 
+ * 
+ * @return no-return
+ */
+template <typename RandomAccessIterator, typename Type, typename Distance>
+void __pop_heap(
+        RandomAccessIterator __first, RandomAccessIterator __last, RandomAccessIterator __result,
+        Type __value, Distance *
+    )
+{
+    *__result = *__first;
+
+    __adjust_heap(__first, Distance(0), Distance(__last - __first), __value);
+}
+
+/**
+ * @brief __pop_heap() 的辅助函数
+ * 
+ * @tparam RandomAccessIterator 
+ * @tparam Distance 
+ * @tparam Type 
+ * @param __first 
+ * @param __holdIndex 
+ * @param __len 
+ * @param __value 
+ * 
+ * @return no-return
+ */
+template <typename RandomAccessIterator, typename Distance, typename Type>
+void __adjust_heap(
+                    RandomAccessIterator __first, 
+                    Distance __holdIndex, Distance __len, 
+                    Type __value
+                )
+{
+
 }
 
 #endif // __HEAP_ALGORITHM_H__
