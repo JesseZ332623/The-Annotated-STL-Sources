@@ -28,6 +28,26 @@ inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
 template <typename RandomAccessIterator>
 inline void pop_heap(RandomAccessIterator __first, RandomAccessIterator __last);
 
+/**
+ * @brief 给整个 Heap 排序，目前只能实现降序的排序
+ * 
+ * @tparam RandomAccessIterator 
+ * @param __first 
+ * @param __last 
+ */
+template <typename RandomAccessIterator>
+inline void sort_heap(RandomAccessIterator __first, RandomAccessIterator __last);
+
+/**
+ * @brief 构建一个 Heap
+ * 
+ * @tparam RandomAccessIterator 
+ * @param __first 
+ * @param __last 
+ */
+template <typename RandomAccessIterator>
+void make_heap(RandomAccessIterator __first, RandomAccessIterator __last);
+
 
 template <typename RandomAccessIterator>
 inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
@@ -46,6 +66,22 @@ inline void pop_heap(RandomAccessIterator __first, RandomAccessIterator __last)
     __pop_heap_aux(__first, __last, value_type(__first));
 }
 
+template <typename RandomAccessIterator>
+inline void sort_heap(RandomAccessIterator __first, RandomAccessIterator __last)
+{
+    while ((__last - __first) > 1) { pop_heap(__first, __last--); }
+}
+
+template <typename RandomAccessIterator>
+void make_heap(RandomAccessIterator __first, RandomAccessIterator __last)
+{
+    typedef std::ptrdiff_t          distance_type;
+    typedef typename std::iterator_traits<RandomAccessIterator>::value_type  value_type;
+
+
+    __make_heap(__first, __last, value_type(__first), distance_type(__first));
+}
+
 /**
  * @brief  push_heap() 算法的辅助函数
  * 
@@ -59,7 +95,8 @@ void __push_heap_aux(
             RandomAccessIterator __first, RandomAccessIterator __last, Type *
         )
 {
-    typedef decltype(*__first)  value_type;
+    typedef typename std::iterator_traits<RandomAccessIterator>::value_type  value_type;
+    typedef std::ptrdiff_t                                          distance_type;
 
     __push_heap(__first, Distance((__last - __first) - 1), distance_type(0), Type(*(__last - 1)));
 }
@@ -172,7 +209,48 @@ void __adjust_heap(
                     Type __value
                 )
 {
+    Distance topIndex = __holdIndex;
+    Distance secondChlild = 2 * __holdIndex + 2;
 
+    while (secondChlild < __len)
+    {
+        if (*(__first + secondChlild) < *(__first + (secondChlild - 1)))
+        {
+            --secondChlild;
+        }
+
+        *(__first + __holdIndex) = *(__first + secondChlild);
+        __holdIndex = secondChlild;
+        secondChlild = 2 * (secondChlild + 1);
+    }
+
+    if (secondChlild = __len)
+    {
+        *(__first + __holdIndex) = *(__first + (secondChlild - 1));
+        __holdIndex = secondChlild - 1;
+    }
+
+    //__push_heap(__first, __holdIndex, topIndex, __value);
 }
+
+template <typename RandomAccessIterator, typename Type, typename Distance>
+void __make_heap(RandomAccessIterator __first, RandomAccessIterator __last, Type *, Distance *)
+{
+    Distance len = __last - __first;
+
+    if (len < 2) { return; }
+
+    Distance parent = (len - 2) / 2;
+
+    while (true)
+    {
+        __adjust_heap(__first, parent, len, Type(*(__first + parent)));
+
+        if (!parent) { return; }
+
+        --parent;
+    }
+}
+
 
 #endif // __HEAP_ALGORITHM_H__
