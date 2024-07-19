@@ -53,7 +53,7 @@ template <typename RandomAccessIterator>
 inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
 {
     typedef std::ptrdiff_t      distance_type;
-    typedef decltype(*__first)  value_type;
+    typedef typename std::iterator_traits<RandomAccessIterator>::value_type  value_type;
 
     __push_heap_aux(__first, __last, distance_type(__first), value_type(__first));
 }
@@ -61,7 +61,7 @@ inline void push_heap(RandomAccessIterator __first, RandomAccessIterator __last)
 template <typename RandomAccessIterator>
 inline void pop_heap(RandomAccessIterator __first, RandomAccessIterator __last)
 {
-    typedef decltype(*__first)  value_type;
+    typedef typename std::iterator_traits<RandomAccessIterator>::value_type  value_type;
 
     __pop_heap_aux(__first, __last, value_type(__first));
 }
