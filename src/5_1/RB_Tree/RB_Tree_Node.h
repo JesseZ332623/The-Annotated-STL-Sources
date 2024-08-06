@@ -27,8 +27,8 @@ struct  RBTree_Node_Base
      * @brief 找到树中值最小的节点，
      *        这很简单，不断寻找左节点，直到底部即可。
      * 
-     * @param node          树中的某一个节点
-     * @return base_ptr     树中值最小的节点
+     * @param  node          树中的某一个节点
+     * @return base_ptr      树中值最小的节点
     */
     static base_ptr min_value(base_ptr node) {
         while (node->left != nullptr) {
@@ -41,8 +41,8 @@ struct  RBTree_Node_Base
      * @brief 找到树中值最大的节点，
      *        这很简单，不断寻找右节点，直到底部即可。
      * 
-     * @param node          树中的某一个节点
-     * @return base_ptr     树中值最大的节点
+     * @param  node          树中的某一个节点
+     * @return base_ptr      树中值最大的节点
     */
     static base_ptr max_value(base_ptr node) {
         while (node->right != nullptr) {
