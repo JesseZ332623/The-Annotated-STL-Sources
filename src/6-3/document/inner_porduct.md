@@ -1,6 +1,6 @@
 # 一般内积
 
-内积（inner product），也称为点积（dot product）或标量积（scalar product），是线性代数中的一个概念，在数学的多个领域都有广泛的应用。它定义了两个向量相乘的一种方式，并产生一个标量（数值）作为结果。
+内积 `inner product`，也称为点积（dot product）或标量积（scalar product），是线性代数中的一个概念，在数学的多个领域都有广泛的应用。它定义了两个向量相乘的一种方式，并产生一个标量（数值）作为结果。
 
 在欧几里得空间（即我们通常所说的实数向量空间）中，内积的标准定义是这样的：对于两个向量 \(\mathbf{u} = (u_1, u_2, \ldots, u_n)\) 和 \(\mathbf{v} = (v_1, v_2, \ldots, v_n)\)，它们的内积记作 \(\langle \mathbf{u}, \mathbf{v} \rangle\) 或者 \(\mathbf{u} \cdot \mathbf{v}\)，定义为：
 \[
