@@ -37,6 +37,9 @@ int main(int argc, char const *argv[])
     NOTIFY_LOG("result  = ");
     showContainerToStream(std::cout, result, 10);
 
+    /**
+     * 和其他算法一样，也可以传入仿函数等，改变计算的规则。
+     */
     std::partial_sum(
         numbers.begin(), numbers.end(), result.begin(),
         std::multiplies<int>() 
