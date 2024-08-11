@@ -1,7 +1,7 @@
 #include <MyLib/myLogerDef.h>
 #include <MyLib/simpleContainerOperator.h>
 
-#include <numeric>      // 一些和数值有关的 STL 算法所在
+//#include <numeric>      // 一些和数值有关的 STL 算法所在
 #include <vector>
 #include <functional>
 
