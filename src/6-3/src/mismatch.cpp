@@ -1,4 +1,5 @@
 #include <MyLib/simpleContainerOperator.h>
+#include <MyLib/myDelay.h>
 
 #include <bits/stl_algobase.h>
 #include <vector>
@@ -58,6 +59,8 @@ void show(const std::vector<int> & __v, const char __tag, std::vector<int>::iter
             std::cout, ORIGINAL,
             n, '\t', &n, '\n'
         );
+
+        MyLib::MyDelay::delay(30);
     }
     printSplitLine(30, '-');
 }
