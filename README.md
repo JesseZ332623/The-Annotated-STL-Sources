@@ -1,4 +1,4 @@
-# 侯捷《STL 源码分析》学习笔记，目前已经学习至：4-4 序列式容器之 `std::deque`
+# 侯捷《STL 源码分析》学习笔记
 
 ![book_cover](https://i0.hdslb.com/bfs/archive/83d95f897ae4d9e52f25d4076bd7daec3946d9d6.jpg@600w_600h_1c.png)
 
