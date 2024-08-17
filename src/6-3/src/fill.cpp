@@ -1,6 +1,7 @@
 #include <MyLib/simpleContainerOperator.h>
 
 #include <list>
+#include <vector>
 #include <bits/stl_algobase.h>
 
 
