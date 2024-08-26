@@ -96,9 +96,9 @@ int main(int argc, char const *argv[])
      *      
      *        {10, 9, 8, 7, 8, 7, 6, 5, 4, 1}
      * 
-     *         显然，这是不符合预期结果的，原因很简单，deque 所用的迭代器是 RandomAccessIterator，
-     *         这样的迭代器传入 copy() 算法中不可以执行非常底层的内存拷贝操作，所以就不会调用 memmove()，
-     *         而是非常忠实的更具传入的区间进行拷贝操作。
+     *        显然，这是不符合预期结果的，原因很简单，deque 所用的迭代器是 RandomAccessIterator，
+     *        这样的迭代器传入 copy() 算法中不可以执行非常底层的内存拷贝操作，所以就不会调用 memmove()，
+     *        而是非常忠实的更具传入的区间进行拷贝操作。
     */
     std::deque<int>::iterator copyStart     = numberDeque.begin();
     std::deque<int>::iterator copyEnd       = numberDeque.begin();
